@@ -13,7 +13,6 @@ public class SourcingLogistics {
 
     private Preferred_Vendor preferred_vendor;
 
-    private Integer lead_time_days;
+    private Integer lead_time;
 
-    private String fulfillment_center;
 }

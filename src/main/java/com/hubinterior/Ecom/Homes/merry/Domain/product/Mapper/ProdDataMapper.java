@@ -9,7 +9,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ProdDataMapper {
 
-    // prod_id is system-generated — ignore on inbound mapping
     @Mapping(target = "prod_id", ignore = true)
     ProdData toEntity(Prod_Data_Req_DTO req);
 

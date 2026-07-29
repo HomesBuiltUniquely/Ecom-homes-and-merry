@@ -13,11 +13,9 @@ public class Inventory {
 
     private String barcode;
 
-    private String current_stock;
+    private int current_stock;
 
-    private String minimum_stock_level;
+    private int minimum_stock_level;
 
-    private String reorder_quantity;
-
-    private boolean track_inventory;
+    private int reorder_quantity;
 }

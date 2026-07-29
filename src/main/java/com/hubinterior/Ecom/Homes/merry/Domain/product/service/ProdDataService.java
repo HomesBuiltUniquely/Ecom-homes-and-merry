@@ -16,7 +16,6 @@ public class ProdDataService {
 
     private final ProdDataMapper mapper;
 
-    // Temporary in-memory store until DB layer is wired up
     private final Map<Long, ProdData> temp_store = new HashMap<>();
     private long id_counter = 1;
 
