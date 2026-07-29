@@ -7,10 +7,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/internal")
@@ -20,10 +19,31 @@ public class InternalController {
     private final InternalService service;
 
     @PostMapping("/createInternal")
-    public ResponseEntity<Internal_Res_DTO> addInternal(
+    public ResponseEntity<Internal_Res_DTO> createInternal(
             @Valid @RequestBody Internal_Req_DTO req) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.addInternal(req));
+    }
 
-        Internal_Res_DTO response = service.addInternal(req);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    @GetMapping("/getAllInternal")
+    public ResponseEntity<List<Internal_Res_DTO>> getAllInternal() {
+        return ResponseEntity.ok(service.getAllInternal());
+    }
+
+    @GetMapping("/getInternal/{internal_id}")
+    public ResponseEntity<Internal_Res_DTO> getInternalById(@PathVariable Integer internal_id) {
+        return ResponseEntity.ok(service.getInternalById(internal_id));
+    }
+
+    @PutMapping("/updateInternal/{internal_id}")
+    public ResponseEntity<Internal_Res_DTO> updateInternal(
+            @PathVariable Integer internal_id,
+            @Valid @RequestBody Internal_Req_DTO req) {
+        return ResponseEntity.ok(service.updateInternal(internal_id, req));
+    }
+
+    @DeleteMapping("/deleteInternal/{internal_id}")
+    public ResponseEntity<String> deleteInternal(@PathVariable Integer internal_id) {
+        service.deleteInternal(internal_id);
+        return ResponseEntity.ok("Internal record with id " + internal_id + " deleted successfully.");
     }
 }

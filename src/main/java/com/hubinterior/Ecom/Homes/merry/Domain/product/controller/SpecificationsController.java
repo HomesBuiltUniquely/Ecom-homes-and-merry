@@ -7,10 +7,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/specifications")
@@ -20,10 +19,31 @@ public class SpecificationsController {
     private final SpecificationsService service;
 
     @PostMapping("/createSpecifications")
-    public ResponseEntity<Specifications_Res_DTO> addSpecifications(
+    public ResponseEntity<Specifications_Res_DTO> createSpecifications(
             @Valid @RequestBody Specifications_Req_DTO req) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.addSpecifications(req));
+    }
 
-        Specifications_Res_DTO response = service.addSpecifications(req);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    @GetMapping("/getAllSpecifications")
+    public ResponseEntity<List<Specifications_Res_DTO>> getAllSpecifications() {
+        return ResponseEntity.ok(service.getAllSpecifications());
+    }
+
+    @GetMapping("/getSpecifications/{spec_id}")
+    public ResponseEntity<Specifications_Res_DTO> getSpecificationsById(@PathVariable Integer spec_id) {
+        return ResponseEntity.ok(service.getSpecificationsById(spec_id));
+    }
+
+    @PutMapping("/updateSpecifications/{spec_id}")
+    public ResponseEntity<Specifications_Res_DTO> updateSpecifications(
+            @PathVariable Integer spec_id,
+            @Valid @RequestBody Specifications_Req_DTO req) {
+        return ResponseEntity.ok(service.updateSpecifications(spec_id, req));
+    }
+
+    @DeleteMapping("/deleteSpecifications/{spec_id}")
+    public ResponseEntity<String> deleteSpecifications(@PathVariable Integer spec_id) {
+        service.deleteSpecifications(spec_id);
+        return ResponseEntity.ok("Specifications with id " + spec_id + " deleted successfully.");
     }
 }
