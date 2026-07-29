@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Prod_data {
+public class ProdData {
 
     private Long prod_id;
 
