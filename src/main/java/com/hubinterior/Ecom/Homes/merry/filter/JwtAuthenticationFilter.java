@@ -1,6 +1,7 @@
 package com.hubinterior.Ecom.Homes.merry.filter;
 
 import com.hubinterior.Ecom.Homes.merry.Common.JwtUtil;
+import com.hubinterior.Ecom.Homes.merry.Domain.user.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,11 +22,11 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil, UserDetailsService userDetailsService) {
         this.jwtUtil = jwtUtil;
-        this.userDetailsService = userDetailsService;
+        this.userDetailsService = (CustomUserDetailsService) userDetailsService;
     }
 
     @Override
