@@ -2,7 +2,7 @@ package com.hubinterior.Ecom.Homes.merry.Domain.user.controller;
 
 import com.hubinterior.Ecom.Homes.merry.Domain.user.dto.UserDataRequest;
 import com.hubinterior.Ecom.Homes.merry.Domain.user.dto.UserDataResponse;
-import com.hubinterior.Ecom.Homes.merry.Domain.user.service.userData;
+import com.hubinterior.Ecom.Homes.merry.Domain.user.service.userDataService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class UserController {
 
-    private final userData data;
+    //service class
+    private final userDataService data;
 
     @PostMapping("/CreateUser")
     public ResponseEntity<UserDataResponse> createUser(

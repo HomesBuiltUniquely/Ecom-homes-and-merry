@@ -36,7 +36,10 @@ public record UserDataRequest(
         @NotNull(message = "Address is required")
         Address address,
 
-        String gstNumber,
+        @NotNull(message = "Password is required")
+        String password,
+
+        String gst_number,
 
         LocalDateTime createdAt
 ) {

@@ -1,9 +1,15 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.user.model;
 
+import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
+@Embeddable
 @Getter
+@NoArgsConstructor
 public class Address {
 
     @NotBlank
@@ -17,18 +23,6 @@ public class Address {
         this.city = city;
         this.description = description;
         this.state = state;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     @Override
