@@ -5,7 +5,7 @@ spring:
   datasource:
     url: "jdbc:mysql://localhost:3306/Homes_Merry"
     username: "root"
-    password: "root@root"
+    password: "root@00"
     driver-class-name: "com.mysql.cj.jdbc.Driver"
 
   jpa:

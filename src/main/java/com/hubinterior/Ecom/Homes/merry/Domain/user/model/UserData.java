@@ -1,5 +1,6 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.user.model;
 
+import com.hubinterior.Ecom.Homes.merry.Domain.user.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,8 +33,9 @@ public class UserData {
     private Long pincode;
     @Column(name = "brand_name")
     private String brand_name;
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private String role;
+    private UserRole role;
     @Embedded
     private Address address;
     @Column(name = "gst_number")
@@ -41,4 +43,3 @@ public class UserData {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 }
-

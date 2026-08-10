@@ -1,5 +1,6 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.user.model;
 
+import com.hubinterior.Ecom.Homes.merry.Domain.user.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="login")
+@Table(name = "login")
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
@@ -18,15 +19,16 @@ public class UserLogin {
     @Column(name = "loginId")
     private Long userLoginId;
 
-    @Column(name="username")
+    @Column(name = "username")
     private String username;
 
-    @Column(name="password")
+    @Column(name = "password")
     private String password;
 
-    @Column(name="role")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private UserRole role;
 
-    @Column(name="logintime")
+    @Column(name = "logintime")
     private LocalDateTime logintime;
 }

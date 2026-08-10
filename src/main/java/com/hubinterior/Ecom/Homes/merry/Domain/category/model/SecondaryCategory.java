@@ -27,6 +27,6 @@ public class SecondaryCategory {
     String SecondaryCategoryDescription;
     @OneToMany(cascade = CascadeType.ALL)
     ArrayList<SecondaryCategory> subCategory= new ArrayList<SecondaryCategory>();
-//    @OneToMany(cascade = CascadeType.ALL)
-//    ArrayList<ProdData> Products= new ArrayList<ProdData >();
+    @OneToMany(cascade = CascadeType.ALL)
+    ArrayList<ProdData> Products= new ArrayList<ProdData >();
 }
