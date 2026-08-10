@@ -72,6 +72,19 @@ public class ProdDataService {
         return mapper.toResponseDto(updatedProduct);
     }
 
+    // ── UPDATE ALL ────────────────────────────────────────────────────────────
+    public List<Prod_Data_Res_DTO> updateAllProducts(List<Prod_Data_Req_DTO> reqs) {
+
+        return reqs.stream()
+                .map(req -> {
+                    if (req.prod_id() == null) {
+                        throw new IllegalArgumentException("prod_id is required for bulk update");
+                    }
+                    return updateProduct(req.prod_id(), req);
+                })
+                .collect(Collectors.toList());
+    }
+
     // ── DELETE ────────────────────────────────────────────────────────────────
     public void deleteProduct(Long prod_id) {
 

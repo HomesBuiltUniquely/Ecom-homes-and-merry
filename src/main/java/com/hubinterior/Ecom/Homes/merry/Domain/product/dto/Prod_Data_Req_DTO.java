@@ -11,46 +11,38 @@ import java.util.List;
 
 public record Prod_Data_Req_DTO(
 
-        @NotBlank(message = "Offering name cannot be empty")
-        String offering_name,
+                // Required only for bulk update; leave null for single-product endpoints
+                Long prod_id,
 
-        @NotNull(message = "Offering type is required")
-        Offering_Type offering_type,
+                @NotBlank(message = "Offering name cannot be empty") String offering_name,
 
-        @NotBlank(message = "SKU ID cannot be empty")
-        String sku_id,
+                @NotNull(message = "Offering type is required") Offering_Type offering_type,
 
-        @NotNull(message = "Category is required")
-        Offering_Category category,
+                @NotBlank(message = "SKU ID cannot be empty") String sku_id,
 
-        String brand,
+                @NotNull(message = "Category is required") Offering_Category category,
 
-        List<String> tags,
+                String brand,
 
-        String short_desc,
+                List<String> tags,
 
-        String long_desc,
+                String short_desc,
 
-        boolean featured_offer,
+                String long_desc,
 
-        @Valid
-        Pricing pricing,
+                boolean featured_offer,
 
-        @Valid
-        Inventory inventory,
+                @Valid Pricing pricing,
 
-        @Valid
-        SourcingLogistics sourcingLogistics,
+                @Valid Inventory inventory,
 
-        @Valid
-        Media media,
+                @Valid SourcingLogistics sourcingLogistics,
 
-        @Valid
-        Specifications specifications,
+                @Valid Media media,
 
-        @Valid
-        SEO seo,
+                @Valid Specifications specifications,
 
-        @Valid
-        Internal internal
-) {}
+                @Valid SEO seo,
+
+                @Valid Internal internal) {
+}

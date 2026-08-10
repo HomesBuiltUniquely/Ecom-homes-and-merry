@@ -58,6 +58,16 @@ public class ProdDataController {
                 .body(service.updateProduct(prod_id, req));
     }
 
+    // ── UPDATE ALL ────────────────────────────────────────────────────────────
+    @PutMapping("/updateAllProducts")
+    public ResponseEntity<List<Prod_Data_Res_DTO>> updateAllProducts(
+            @Valid @RequestBody List<Prod_Data_Req_DTO> reqs) {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.updateAllProducts(reqs));
+    }
+
     // ── DELETE ────────────────────────────────────────────────────────────────
     @DeleteMapping("/deleteProduct/{prod_id}")
     public ResponseEntity<String> deleteProduct(
