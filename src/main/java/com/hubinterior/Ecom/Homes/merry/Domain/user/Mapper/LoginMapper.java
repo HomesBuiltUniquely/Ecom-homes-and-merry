@@ -12,7 +12,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface LoginMapper {
 
-    @Mapping(target = "logintime", expression = "java(java.time.LocalDateTime.now())")
     UserLogin toEntity(LoginRequest req);
 
     AuthResponse toResponseDto(AuthResponse entity);
