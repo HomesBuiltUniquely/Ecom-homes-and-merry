@@ -2,38 +2,42 @@ package com.hubinterior.Ecom.Homes.merry.Domain.product.model;
 
 import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Gst_Rate;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Price_Unit;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Embeddable
 public class Pricing {
 
-    /** Auto-generated pricing record ID */
+    @Column(name = "price_id")
     private Integer price_id;
 
-    /** Cost of goods / procurement price (internal) */
+    @Column(name = "cost_price")
     private Float cost_price;
 
-    /** Customer-facing selling price */
+    @Column(name = "selling_price")
     private Float selling_price;
 
-    /** Discount percentage e.g. 10 = 10% off */
+    @Column(name = "discount")
     private Integer discount;
 
-    /** Applicable GST slab: 0 / 5 / 12 / 18 / 28 */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gst_rate")
     private Gst_Rate gst_rate;
 
-    /** Unit of measure the price applies to e.g. PER_PIECE, PER_SET */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "price_unit")
     private Price_Unit units;
 
-    /**
-     * Computed margin % = ((selling_price - cost_price) / selling_price) * 100
-     * Recalculate before persist.
-     */
+    @Column(name = "margin_percentage")
     private Integer margin_percentage;
 
-    /** Internal pricing notes / rationale */
+    @Column(name = "pricing_desc")
     private String desc;
 }

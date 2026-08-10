@@ -3,7 +3,9 @@ package com.hubinterior.Ecom.Homes.merry.Domain.category.model;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.model.ProdData;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,19 +15,18 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @Entity
 @Table
-@Embeddable
 public class SecondaryCategory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="scatId")
     Long SecondaryCategoryId;
-    @Column(name="scatId")
+    @Column(name="scatName")
     String SecondaryCategoryName;
-    @Column(name="scatId")
+    @Column(name="scatDesc")
     String SecondaryCategoryDescription;
-    @Embedded
+    @OneToMany(cascade = CascadeType.ALL)
     ArrayList<SecondaryCategory> subCategory= new ArrayList<SecondaryCategory>();
-    @Embedded
-    ArrayList<ProdData> Products= new ArrayList<ProdData >();
+//    @OneToMany(cascade = CascadeType.ALL)
+//    ArrayList<ProdData> Products= new ArrayList<ProdData >();
 }

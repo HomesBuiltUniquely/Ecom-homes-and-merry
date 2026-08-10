@@ -12,18 +12,17 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @Entity
 @Table(name="Category")
-@Embeddable
 public class PrimaryCategory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="pcatId")
     Long primaryCategoryId;
     @Column(name="pcatName")
     String primaryCategoryName;
     @Column(name="pcatDesc")
     String primaryCategoryDescription;
-    @Embedded
+    @OneToMany(cascade = CascadeType.ALL)
     ArrayList<SecondaryCategory> subCategory= new ArrayList<SecondaryCategory>();
 
 }
