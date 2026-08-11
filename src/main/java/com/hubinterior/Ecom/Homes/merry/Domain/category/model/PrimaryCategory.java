@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @NoArgsConstructor
@@ -23,6 +24,6 @@ public class PrimaryCategory {
     @Column(name="pcatDesc")
     String primaryCategoryDescription;
     @OneToMany(cascade = CascadeType.ALL)
-    ArrayList<SecondaryCategory> subCategory= new ArrayList<SecondaryCategory>();
+    List<SecondaryCategory> subCategory = new ArrayList<>();
 
 }

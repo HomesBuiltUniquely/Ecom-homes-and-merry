@@ -3,12 +3,11 @@ package com.hubinterior.Ecom.Homes.merry.Domain.category.model;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.model.ProdData;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @NoArgsConstructor
@@ -26,7 +25,7 @@ public class SecondaryCategory {
     @Column(name="scatDesc")
     String SecondaryCategoryDescription;
     @OneToMany(cascade = CascadeType.ALL)
-    ArrayList<SecondaryCategory> subCategory= new ArrayList<SecondaryCategory>();
+    List<SecondaryCategory> subCategory = new ArrayList<>();
     @OneToMany(cascade = CascadeType.ALL)
-    ArrayList<ProdData> Products= new ArrayList<ProdData >();
+    List<ProdData> Products = new ArrayList<>();
 }

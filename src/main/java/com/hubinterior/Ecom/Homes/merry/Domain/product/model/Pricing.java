@@ -17,7 +17,6 @@ public class Pricing {
     private ProdData product;
 
     @Column(name = "price_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer price_id;
 
     @Column(name = "cost_price")

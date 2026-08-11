@@ -12,7 +12,7 @@ public interface LoginMapper {
     UserLogin toEntity(LoginRequest req);
 
     @Mapping(target = "token", source = "token")
-    @Mapping(target = "username", source = "username")
+    @Mapping(target = "username", source = "name")
     AuthResponse toResponseDto(String token, String name);
 
 }
