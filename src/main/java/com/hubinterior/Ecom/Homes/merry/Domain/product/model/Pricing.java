@@ -12,10 +12,6 @@ import lombok.*;
 @Embeddable
 public class Pricing {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prod_id")
-    private ProdData product;
-
     @Column(name = "price_id")
     private Integer price_id;
 

@@ -32,14 +32,15 @@ public record Internal_Req_DTO(
 
     public record System_Hooks_Integration_DTO(
             Erp_Module_Integration_DTO erp_module_integration
-    ) {
-        public record Erp_Module_Integration_DTO(
-                Boolean sales_module,
-                Boolean inventory_sync,
-                Boolean procurement_pipeline,
-                String accounting_code
-        ) {}
-    }
+    ) {}
+
+    // Nested one level only — MapStruct cannot load doubly nested records
+    public record Erp_Module_Integration_DTO(
+            Boolean sales_module,
+            Boolean inventory_sync,
+            Boolean procurement_pipeline,
+            String accounting_code
+    ) {}
 
     public record Audit_Trail_Notes_DTO(
             String desc
