@@ -14,10 +14,10 @@ public class Pricing {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "prod_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private ProdData product;
 
     @Column(name = "price_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer price_id;
 
     @Column(name = "cost_price")

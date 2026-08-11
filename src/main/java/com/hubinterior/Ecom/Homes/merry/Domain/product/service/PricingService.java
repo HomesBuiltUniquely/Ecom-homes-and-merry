@@ -30,7 +30,7 @@ public class PricingService {
         Pricing p = mapper.toEntity(req);
         ProdData data = prodRepo.findById(prod_id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
-        p.setProduct();
+        p.setProduct(data);
         return mapper.toResponseDto(p);
     }
 
