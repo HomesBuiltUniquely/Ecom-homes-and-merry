@@ -4,24 +4,37 @@ import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Offerin
 import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Offering_Type;
 
 import java.util.List;
+import java.util.Map;
 
 public record Prod_Data_Res_DTO(
 
-        Long prod_id,
+                Long prod_id,
 
-        String offering_name,
+                String offering_name,
 
-        Offering_Type offering_type,
+                Offering_Type offering_type,
 
-        String sku_id,
+                String sku_id,
 
-        Offering_Category category,
+                Offering_Category category,
 
-        String brand,
+                String brand,
 
-        List<String> tags,
+                List<String> tags,
 
-        String short_desc,
+                String short_desc,
 
-        boolean featured_offer
-) {}
+                boolean featured_offer) {
+
+        /**
+         * Response for a bulk-update operation.
+         * updated – products that were successfully persisted.
+         * failedIds – prod_id → error message for each item that failed.
+         * Empty map = all succeeded (200 OK).
+         * Non-empty = partial failure (207 Multi-Status).
+         */
+        public record BulkUpdateResult(
+                        List<Prod_Data_Res_DTO> updated,
+                        Map<Long, String> failedIds) {
+        }
+}
