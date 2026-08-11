@@ -2,7 +2,7 @@ package com.hubinterior.Ecom.Homes.merry.Domain.user.service;
 
 import com.hubinterior.Ecom.Homes.merry.Domain.user.model.UserData;
 import com.hubinterior.Ecom.Homes.merry.Domain.user.repository.UserRepo;
-import org.jspecify.annotations.NonNull;
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getEmail())
                 .password(user.getPassword())
-                .roles(user.getRole())
+                .roles(user.getRole().name())
                 .build();
     }
 }

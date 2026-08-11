@@ -13,6 +13,7 @@ public interface UserDatas {
     UserData toEntity(UserDataRequest req);
 
     @Mapping(target = "full_name", expression = "java(entity.getFirst_name() + ' ' + entity.getLast_name())")
+    @Mapping(target = "role", source = "role")
     UserDataResponse toResponseDto(UserData entity);
 
 }
