@@ -2,10 +2,7 @@ package com.hubinterior.Ecom.Homes.merry.Domain.product.model;
 
 import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Gst_Rate;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Price_Unit;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Data
@@ -14,6 +11,11 @@ import lombok.*;
 @AllArgsConstructor
 @Embeddable
 public class Pricing {
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prod_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private ProdData product;
 
     @Column(name = "price_id")
     private Integer price_id;
