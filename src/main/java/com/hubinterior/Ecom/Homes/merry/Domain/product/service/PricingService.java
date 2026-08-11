@@ -29,7 +29,7 @@ public class PricingService {
 //    }
 
     @Transactional
-    public Pricing_Res_DTO addPricing(Pricing_Req_DTO req, Long prod_id) {
+    public Pricing_Res_DTO updatePricing(Pricing_Req_DTO req, Long prod_id) {
         Pricing p = mapper.toEntity(req);
         ProdData data = prodRepo.findById(prod_id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + prod_id));
