@@ -32,7 +32,6 @@ public record Internal_Res_DTO(
             Erp_Module_Integration_DTO erp_module_integration
     ) {}
 
-    // Nested one level only — MapStruct cannot load doubly nested records
     public record Erp_Module_Integration_DTO(
             Boolean sales_module,
             Boolean inventory_sync,
