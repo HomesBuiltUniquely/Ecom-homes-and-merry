@@ -2,6 +2,7 @@ package com.hubinterior.Ecom.Homes.merry.Domain.product.dto;
 
 import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Offering_Category;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Offering_Type;
+import com.hubinterior.Ecom.Homes.merry.Domain.product.model.Pricing;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ public record Prod_Data_Res_DTO(
         String offering_name,
 
         Offering_Type offering_type,
+
+        Pricing_Res_DTO pricing,
 
         String sku_id,
 
