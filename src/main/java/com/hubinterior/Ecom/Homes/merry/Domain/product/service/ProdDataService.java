@@ -20,7 +20,8 @@ public class ProdDataService {
     private final ProdDataMapper mapper;
     private final ProdDataRepository repository;
 
-    // ── CREATE ────────────────────────────────────────────────────────────────
+
+
     @Transactional
     public Prod_Data_Res_DTO addProduct(Prod_Data_Req_DTO req) {
         ProdData newProduct = mapper.toEntity(req);
@@ -28,7 +29,7 @@ public class ProdDataService {
         return mapper.toResponseDto(saved);
     }
 
-    // ── READ ALL ──────────────────────────────────────────────────────────────
+
     public List<Prod_Data_Res_DTO> getAllProducts() {
         return repository.findAll()
                 .stream()
@@ -36,14 +37,14 @@ public class ProdDataService {
                 .collect(Collectors.toList());
     }
 
-    // ── READ BY ID ────────────────────────────────────────────────────────────
+
     public Prod_Data_Res_DTO getProductById(Long prod_id) {
         ProdData product = repository.findById(prod_id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + prod_id));
         return mapper.toResponseDto(product);
     }
 
-    // ── UPDATE ────────────────────────────────────────────────────────────────
+
     @Transactional
     public Prod_Data_Res_DTO updateProduct(Long prod_id, Prod_Data_Req_DTO req) {
         repository.findById(prod_id)
@@ -53,11 +54,12 @@ public class ProdDataService {
         return mapper.toResponseDto(repository.save(updated));
     }
 
-    // ── DELETE ────────────────────────────────────────────────────────────────
+
     @Transactional
     public void deleteProduct(Long prod_id) {
         ProdData product = repository.findById(prod_id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + prod_id));
         repository.delete(product);
     }
+
 }

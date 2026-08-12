@@ -2,6 +2,7 @@ package com.hubinterior.Ecom.Homes.merry.Domain.product.dto;
 
 import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Gst_Rate;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Price_Unit;
+import com.hubinterior.Ecom.Homes.merry.Domain.product.model.ProdData;
 
 public record Pricing_Res_DTO(
 
