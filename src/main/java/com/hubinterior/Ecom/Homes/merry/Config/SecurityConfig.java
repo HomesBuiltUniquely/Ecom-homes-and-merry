@@ -21,7 +21,6 @@ import java.util.ArrayList;
 @EnableWebSecurity
 public class SecurityConfig {
 
-
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
@@ -43,24 +42,27 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
 
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
-                      /*  .requestMatchers("/api/v1/CreateUser").permitAll()
-                        .requestMatchers("/api/auth/login").permitAll()
-                        .requestMatchers("/api/v1/products/createProduct").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
-                        .requestMatchers("/api/v1/CreateCategory").hasRole("ADMIN")
-                        .requestMatchers("/api/v1/products/getAllProducts").permitAll()
-
-                        // ── Pricing (admin only) ──────────────────────────────────────────
-                        .requestMatchers("/api/v1/pricing/createPricing/{prod_id}").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
-                        .anyRequest().authenticated()
-                )*/
+                        /*
+                         * .requestMatchers("/api/v1/CreateUser").permitAll()
+                         * .requestMatchers("/api/auth/login").permitAll()
+                         * .requestMatchers("/api/v1/products/createProduct").hasAnyRole(UserRole.ADMIN.
+                         * name(), UserRole.ENTERPRISE.name())
+                         * .requestMatchers("/api/v1/CreateCategory").hasRole("ADMIN")
+                         * .requestMatchers("/api/v1/products/getAllProducts").permitAll()
+                         * 
+                         * // ── Pricing (admin only) ──────────────────────────────────────────
+                         * .requestMatchers("/api/v1/pricing/createPricing/{prod_id}").hasAnyRole(
+                         * UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                         * .anyRequest().authenticated()
+                         * )
+                         */
                         // ── Auth (public) ─────────────────────────────────────────────────
                         .requestMatchers("/api/auth/login").permitAll()
 
-                         // ── User (public registration) ────────────────────────────────────
+                        // ── User (public registration) ────────────────────────────────────
                         .requestMatchers("/api/v1/CreateUser").permitAll()
 
                         // ── Category (admin only) ─────────────────────────────────────────
@@ -72,13 +74,15 @@ public class SecurityConfig {
 
                         // ── Products — admin writes ───────────────────────────────────────
                         .requestMatchers("/api/v1/products/createProduct")
-                                            .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
-                        .requestMatchers("/api/v1/products/updateProduct/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/products/updateProduct/**")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
                         .requestMatchers("/api/v1/products/updateAllProducts").hasRole("ADMIN")
                         .requestMatchers("/api/v1/products/deleteProduct/**").hasRole("ADMIN")
 
                         // ── Pricing (admin only) ──────────────────────────────────────────
-                        .requestMatchers("/api/v1/pricing/createPricing/{prod_id}").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/pricing/createPricing/{prod_id}")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
 
                         // ── Inventory (admin only) ────────────────────────────────────────
                         .requestMatchers("/api/v1/inventory/**").hasRole("ADMIN")
@@ -88,9 +92,6 @@ public class SecurityConfig {
 
                         // ── SEO (admin only) ──────────────────────────────────────────────
                         .requestMatchers("/api/v1/seo/**").hasRole("ADMIN")
-
-                        // ── Sourcing & Logistics (admin only) ─────────────────────────────
-                        .requestMatchers("/api/v1/sourcing/**").hasRole("ADMIN")
 
                         // ── Specifications (admin only) ───────────────────────────────────
                         .requestMatchers("/api/v1/specifications/**").hasRole("ADMIN")
@@ -104,8 +105,7 @@ public class SecurityConfig {
                         // CUSTOMER/ENTERPRISER-specific restriction. When such endpoints are
                         // added, insert explicit .hasRole("CUSTOMER") / .hasRole("ENTERPRISER")
                         // rules ABOVE this line — do not rely on this fallback for role-gating.
-                        .anyRequest().authenticated()
-                )
+                        .anyRequest().authenticated())
 
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

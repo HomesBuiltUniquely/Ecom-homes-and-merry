@@ -66,9 +66,6 @@ public class ProdData {
     private Inventory inventory;
 
     @Embedded
-    private SourcingLogistics sourcingLogistics;
-
-    @Embedded
     private Media media;
 
     @Embedded

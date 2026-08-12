@@ -2,13 +2,15 @@ package com.hubinterior.Ecom.Homes.merry.Domain.product.dto;
 
 public record Inventory_Res_DTO(
 
-        String sku_Id,
+                String sku_Id,
 
-        String barcode,
+                String barcode,
 
-        int current_stock,
+                int current_stock,
 
-        int minimum_stock_level,
+                int minimum_stock_level,
 
-        int reorder_quantity) {
+                int reorder_quantity,
+
+                SourcingLogistics_Res_DTO sourcing) {
 }

@@ -2,6 +2,7 @@ package com.hubinterior.Ecom.Homes.merry.Domain.product.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
 import lombok.*;
 
 @Getter
@@ -26,4 +27,7 @@ public class Inventory {
 
     @Column(name = "reorder_quantity")
     private int reorder_quantity;
+
+    @Embedded
+    private SourcingLogistics sourcing;
 }
