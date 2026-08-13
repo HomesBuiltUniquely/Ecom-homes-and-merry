@@ -18,32 +18,12 @@ public class SpecificationsController {
 
     private final SpecificationsService service;
 
-    @PostMapping("/createSpecifications")
-    public ResponseEntity<Specifications_Res_DTO> createSpecifications(
-            @Valid @RequestBody Specifications_Req_DTO req) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.addSpecifications(req));
-    }
 
-    @GetMapping("/getAllSpecifications")
-    public ResponseEntity<List<Specifications_Res_DTO>> getAllSpecifications() {
-        return ResponseEntity.ok(service.getAllSpecifications());
-    }
-
-    @GetMapping("/getSpecifications/{spec_id}")
-    public ResponseEntity<Specifications_Res_DTO> getSpecificationsById(@PathVariable Integer spec_id) {
-        return ResponseEntity.ok(service.getSpecificationsById(spec_id));
-    }
-
-    @PutMapping("/updateSpecifications/{spec_id}")
+    @PutMapping("/updateSpecifications/{prod_id}")
     public ResponseEntity<Specifications_Res_DTO> updateSpecifications(
-            @PathVariable Integer spec_id,
+            @PathVariable Long prod_id,
             @Valid @RequestBody Specifications_Req_DTO req) {
-        return ResponseEntity.ok(service.updateSpecifications(spec_id, req));
+        return ResponseEntity.ok(service.updateSpecifications(prod_id, req));
     }
 
-    @DeleteMapping("/deleteSpecifications/{spec_id}")
-    public ResponseEntity<String> deleteSpecifications(@PathVariable Integer spec_id) {
-        service.deleteSpecifications(spec_id);
-        return ResponseEntity.ok("Specifications with id " + spec_id + " deleted successfully.");
-    }
 }

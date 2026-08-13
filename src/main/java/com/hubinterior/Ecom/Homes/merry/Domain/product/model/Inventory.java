@@ -15,9 +15,6 @@ public class Inventory {
     @Column(name = "inventory_sku_id")
     private String sku_Id;
 
-    @Column(name = "barcode")
-    private String barcode;
-
     @Column(name = "current_stock")
     private int current_stock;
 

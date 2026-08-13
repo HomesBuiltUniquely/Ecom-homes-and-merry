@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PricingService {
 
     private final PricingMapper mapper;
-    private final ProdDataMapper prodMapper;
     private final ProdDataRepository prodRepo;
 
 //    private void calculateMargin(Pricing p) {
@@ -32,13 +31,13 @@ public class PricingService {
 //    }
 
     @Transactional
-    public Prod_Data_Res_DTO updatePricing(Pricing_Req_DTO req, Long prod_id) {
-        Pricing p = mapper.toEntity(req);
+    public Pricing_Res_DTO updatePricing(Pricing_Req_DTO req, Long prod_id) {
+        Pricing price = mapper.toEntity(req);
         ProdData data = prodRepo.findById(prod_id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + prod_id));
-        data.setPricing(p);
+        data.setPricing(price);
         prodRepo.save(data);
-        return prodMapper.toResponseDto(data);
+        return mapper.toResponseDto(price);
     }
 
 
