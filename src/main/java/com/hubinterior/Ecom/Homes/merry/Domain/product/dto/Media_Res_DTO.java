@@ -4,8 +4,6 @@ import java.util.List;
 
 public record Media_Res_DTO(
 
-        Integer media_id,
-
         String primary_image,
 
         List<String> gallery_images,

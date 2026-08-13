@@ -19,14 +19,14 @@ public class SpecificationsService {
 
     private final SpecificationsMapper mapper;
 
-    private final Map<Integer, Specifications> temp_store = new HashMap<>();
-    private int id_counter = 1;
+    // Keyed by prod_id
+    private final Map<Long, Specifications> temp_store = new HashMap<>();
 
     // ── CREATE ────────────────────────────────────────────────────────────────
-    public Specifications_Res_DTO addSpecifications(Specifications_Req_DTO req) {
+    public Specifications_Res_DTO addSpecifications(Long prod_id, Specifications_Req_DTO req) {
         Specifications spec = mapper.toEntity(req);
-        temp_store.put(id_counter++, spec);
-        System.out.println("Created: " + spec);
+        temp_store.put(prod_id, spec);
+        System.out.println("Created specifications for prod_id " + prod_id + ": " + spec);
         return mapper.toResponseDto(spec);
     }
 
@@ -37,29 +37,29 @@ public class SpecificationsService {
                 .collect(Collectors.toList());
     }
 
-    // ── READ BY ID ────────────────────────────────────────────────────────────
-    public Specifications_Res_DTO getSpecificationsById(Integer spec_id) {
-        Specifications spec = temp_store.get(spec_id);
+    // ── READ BY PROD ID ───────────────────────────────────────────────────────
+    public Specifications_Res_DTO getSpecificationsById(Long prod_id) {
+        Specifications spec = temp_store.get(prod_id);
         if (spec == null)
-            throw new ResourceNotFoundException("Specifications not found with id: " + spec_id);
+            throw new ResourceNotFoundException("Specifications not found for product id: " + prod_id);
         return mapper.toResponseDto(spec);
     }
 
     // ── UPDATE ────────────────────────────────────────────────────────────────
-    public Specifications_Res_DTO updateSpecifications(Integer spec_id, Specifications_Req_DTO req) {
-        if (!temp_store.containsKey(spec_id))
-            throw new ResourceNotFoundException("Specifications not found with id: " + spec_id);
+    public Specifications_Res_DTO updateSpecifications(Long prod_id, Specifications_Req_DTO req) {
+        if (!temp_store.containsKey(prod_id))
+            throw new ResourceNotFoundException("Specifications not found for product id: " + prod_id);
         Specifications updated = mapper.toEntity(req);
-        temp_store.put(spec_id, updated);
-        System.out.println("Updated: " + updated);
+        temp_store.put(prod_id, updated);
+        System.out.println("Updated specifications for prod_id " + prod_id + ": " + updated);
         return mapper.toResponseDto(updated);
     }
 
     // ── DELETE ────────────────────────────────────────────────────────────────
-    public void deleteSpecifications(Integer spec_id) {
-        if (!temp_store.containsKey(spec_id))
-            throw new ResourceNotFoundException("Specifications not found with id: " + spec_id);
-        temp_store.remove(spec_id);
-        System.out.println("Deleted specifications with id: " + spec_id);
+    public void deleteSpecifications(Long prod_id) {
+        if (!temp_store.containsKey(prod_id))
+            throw new ResourceNotFoundException("Specifications not found for product id: " + prod_id);
+        temp_store.remove(prod_id);
+        System.out.println("Deleted specifications for prod_id: " + prod_id);
     }
 }

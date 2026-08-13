@@ -19,15 +19,14 @@ public class MediaService {
 
     private final MediaMapper mapper;
 
-    private final Map<Integer, Media> temp_store = new HashMap<>();
-    private int id_counter = 1;
+    // Keyed by prod_id
+    private final Map<Long, Media> temp_store = new HashMap<>();
 
     // ── CREATE ────────────────────────────────────────────────────────────────
-    public Media_Res_DTO addMedia(Media_Req_DTO req) {
+    public Media_Res_DTO addMedia(Long prod_id, Media_Req_DTO req) {
         Media m = mapper.toEntity(req);
-        m.setMedia_id(id_counter++);
-        temp_store.put(m.getMedia_id(), m);
-        System.out.println("Created: " + m);
+        temp_store.put(prod_id, m);
+        System.out.println("Created media for prod_id " + prod_id + ": " + m);
         return mapper.toResponseDto(m);
     }
 
@@ -38,30 +37,29 @@ public class MediaService {
                 .collect(Collectors.toList());
     }
 
-    // ── READ BY ID ────────────────────────────────────────────────────────────
-    public Media_Res_DTO getMediaById(Integer media_id) {
-        Media m = temp_store.get(media_id);
+    // ── READ BY PROD ID ───────────────────────────────────────────────────────
+    public Media_Res_DTO getMediaById(Long prod_id) {
+        Media m = temp_store.get(prod_id);
         if (m == null)
-            throw new ResourceNotFoundException("Media not found with id: " + media_id);
+            throw new ResourceNotFoundException("Media not found for product id: " + prod_id);
         return mapper.toResponseDto(m);
     }
 
     // ── UPDATE ────────────────────────────────────────────────────────────────
-    public Media_Res_DTO updateMedia(Integer media_id, Media_Req_DTO req) {
-        if (!temp_store.containsKey(media_id))
-            throw new ResourceNotFoundException("Media not found with id: " + media_id);
+    public Media_Res_DTO updateMedia(Long prod_id, Media_Req_DTO req) {
+        if (!temp_store.containsKey(prod_id))
+            throw new ResourceNotFoundException("Media not found for product id: " + prod_id);
         Media updated = mapper.toEntity(req);
-        updated.setMedia_id(media_id);
-        temp_store.put(media_id, updated);
-        System.out.println("Updated: " + updated);
+        temp_store.put(prod_id, updated);
+        System.out.println("Updated media for prod_id " + prod_id + ": " + updated);
         return mapper.toResponseDto(updated);
     }
 
     // ── DELETE ────────────────────────────────────────────────────────────────
-    public void deleteMedia(Integer media_id) {
-        if (!temp_store.containsKey(media_id))
-            throw new ResourceNotFoundException("Media not found with id: " + media_id);
-        temp_store.remove(media_id);
-        System.out.println("Deleted media with id: " + media_id);
+    public void deleteMedia(Long prod_id) {
+        if (!temp_store.containsKey(prod_id))
+            throw new ResourceNotFoundException("Media not found for product id: " + prod_id);
+        temp_store.remove(prod_id);
+        System.out.println("Deleted media for prod_id: " + prod_id);
     }
 }

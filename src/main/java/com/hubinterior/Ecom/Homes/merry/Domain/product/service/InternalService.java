@@ -19,14 +19,14 @@ public class InternalService {
 
     private final InternalMapper mapper;
 
-    private final Map<Integer, Internal> temp_store = new HashMap<>();
-    private int id_counter = 1;
+    // Keyed by prod_id
+    private final Map<Long, Internal> temp_store = new HashMap<>();
 
     // ── CREATE ────────────────────────────────────────────────────────────────
-    public Internal_Res_DTO addInternal(Internal_Req_DTO req) {
+    public Internal_Res_DTO addInternal(Long prod_id, Internal_Req_DTO req) {
         Internal internal = mapper.toEntity(req);
-        temp_store.put(id_counter++, internal);
-        System.out.println("Created: " + internal);
+        temp_store.put(prod_id, internal);
+        System.out.println("Created internal for prod_id " + prod_id + ": " + internal);
         return mapper.toResponseDto(internal);
     }
 
@@ -37,29 +37,29 @@ public class InternalService {
                 .collect(Collectors.toList());
     }
 
-    // ── READ BY ID ────────────────────────────────────────────────────────────
-    public Internal_Res_DTO getInternalById(Integer internal_id) {
-        Internal internal = temp_store.get(internal_id);
+    // ── READ BY PROD ID ───────────────────────────────────────────────────────
+    public Internal_Res_DTO getInternalById(Long prod_id) {
+        Internal internal = temp_store.get(prod_id);
         if (internal == null)
-            throw new ResourceNotFoundException("Internal record not found with id: " + internal_id);
+            throw new ResourceNotFoundException("Internal record not found for product id: " + prod_id);
         return mapper.toResponseDto(internal);
     }
 
     // ── UPDATE ────────────────────────────────────────────────────────────────
-    public Internal_Res_DTO updateInternal(Integer internal_id, Internal_Req_DTO req) {
-        if (!temp_store.containsKey(internal_id))
-            throw new ResourceNotFoundException("Internal record not found with id: " + internal_id);
+    public Internal_Res_DTO updateInternal(Long prod_id, Internal_Req_DTO req) {
+        if (!temp_store.containsKey(prod_id))
+            throw new ResourceNotFoundException("Internal record not found for product id: " + prod_id);
         Internal updated = mapper.toEntity(req);
-        temp_store.put(internal_id, updated);
-        System.out.println("Updated: " + updated);
+        temp_store.put(prod_id, updated);
+        System.out.println("Updated internal for prod_id " + prod_id + ": " + updated);
         return mapper.toResponseDto(updated);
     }
 
     // ── DELETE ────────────────────────────────────────────────────────────────
-    public void deleteInternal(Integer internal_id) {
-        if (!temp_store.containsKey(internal_id))
-            throw new ResourceNotFoundException("Internal record not found with id: " + internal_id);
-        temp_store.remove(internal_id);
-        System.out.println("Deleted internal record with id: " + internal_id);
+    public void deleteInternal(Long prod_id) {
+        if (!temp_store.containsKey(prod_id))
+            throw new ResourceNotFoundException("Internal record not found for product id: " + prod_id);
+        temp_store.remove(prod_id);
+        System.out.println("Deleted internal record for prod_id: " + prod_id);
     }
 }

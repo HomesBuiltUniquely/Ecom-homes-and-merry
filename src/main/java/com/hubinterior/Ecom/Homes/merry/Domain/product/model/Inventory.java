@@ -1,12 +1,14 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.product.model;
 
+import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Preferred_Vendor;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -29,5 +31,20 @@ public class Inventory {
     private int reorder_quantity;
 
     @Embedded
-    private SourcingLogistics sourcing;
+    private SourcingLogistics sourcingLogistics;
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Embeddable
+    public static class SourcingLogistics {
+
+        @Enumerated(EnumType.STRING)
+        @Column(name = "preferred_vendor")
+        private Preferred_Vendor preferred_vendor;
+
+        @Column(name = "lead_time")
+        private Integer lead_time;
+    }
 }

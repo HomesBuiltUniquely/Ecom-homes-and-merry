@@ -9,8 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface PricingMapper {
 
-    // price_id and margin_percentage are system-generated
-    @Mapping(target = "price_id", ignore = true)
+    // margin_percentage is system-generated
     @Mapping(target = "margin_percentage", ignore = true)
     Pricing toEntity(Pricing_Req_DTO req);
 

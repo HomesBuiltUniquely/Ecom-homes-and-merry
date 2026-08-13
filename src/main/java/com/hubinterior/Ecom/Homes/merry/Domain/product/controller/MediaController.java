@@ -18,10 +18,11 @@ public class MediaController {
 
     private final MediaService service;
 
-    @PostMapping("/createMedia")
+    @PostMapping("/createMedia/{prod_id}")
     public ResponseEntity<Media_Res_DTO> createMedia(
+            @PathVariable Long prod_id,
             @Valid @RequestBody Media_Req_DTO req) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.addMedia(req));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.addMedia(prod_id, req));
     }
 
     @GetMapping("/getAllMedia")
@@ -29,21 +30,21 @@ public class MediaController {
         return ResponseEntity.ok(service.getAllMedia());
     }
 
-    @GetMapping("/getMedia/{media_id}")
-    public ResponseEntity<Media_Res_DTO> getMediaById(@PathVariable Integer media_id) {
-        return ResponseEntity.ok(service.getMediaById(media_id));
+    @GetMapping("/getMedia/{prod_id}")
+    public ResponseEntity<Media_Res_DTO> getMediaById(@PathVariable Long prod_id) {
+        return ResponseEntity.ok(service.getMediaById(prod_id));
     }
 
-    @PutMapping("/updateMedia/{media_id}")
+    @PutMapping("/updateMedia/{prod_id}")
     public ResponseEntity<Media_Res_DTO> updateMedia(
-            @PathVariable Integer media_id,
+            @PathVariable Long prod_id,
             @Valid @RequestBody Media_Req_DTO req) {
-        return ResponseEntity.ok(service.updateMedia(media_id, req));
+        return ResponseEntity.ok(service.updateMedia(prod_id, req));
     }
 
-    @DeleteMapping("/deleteMedia/{media_id}")
-    public ResponseEntity<String> deleteMedia(@PathVariable Integer media_id) {
-        service.deleteMedia(media_id);
-        return ResponseEntity.ok("Media with id " + media_id + " deleted successfully.");
+    @DeleteMapping("/deleteMedia/{prod_id}")
+    public ResponseEntity<String> deleteMedia(@PathVariable Long prod_id) {
+        service.deleteMedia(prod_id);
+        return ResponseEntity.ok("Media for product id " + prod_id + " deleted successfully.");
     }
 }

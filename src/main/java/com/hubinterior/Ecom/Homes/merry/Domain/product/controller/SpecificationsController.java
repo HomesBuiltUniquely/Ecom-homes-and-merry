@@ -18,10 +18,11 @@ public class SpecificationsController {
 
     private final SpecificationsService service;
 
-    @PostMapping("/createSpecifications")
+    @PostMapping("/createSpecifications/{prod_id}")
     public ResponseEntity<Specifications_Res_DTO> createSpecifications(
+            @PathVariable Long prod_id,
             @Valid @RequestBody Specifications_Req_DTO req) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.addSpecifications(req));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.addSpecifications(prod_id, req));
     }
 
     @GetMapping("/getAllSpecifications")
@@ -29,21 +30,21 @@ public class SpecificationsController {
         return ResponseEntity.ok(service.getAllSpecifications());
     }
 
-    @GetMapping("/getSpecifications/{spec_id}")
-    public ResponseEntity<Specifications_Res_DTO> getSpecificationsById(@PathVariable Integer spec_id) {
-        return ResponseEntity.ok(service.getSpecificationsById(spec_id));
+    @GetMapping("/getSpecifications/{prod_id}")
+    public ResponseEntity<Specifications_Res_DTO> getSpecificationsById(@PathVariable Long prod_id) {
+        return ResponseEntity.ok(service.getSpecificationsById(prod_id));
     }
 
-    @PutMapping("/updateSpecifications/{spec_id}")
+    @PutMapping("/updateSpecifications/{prod_id}")
     public ResponseEntity<Specifications_Res_DTO> updateSpecifications(
-            @PathVariable Integer spec_id,
+            @PathVariable Long prod_id,
             @Valid @RequestBody Specifications_Req_DTO req) {
-        return ResponseEntity.ok(service.updateSpecifications(spec_id, req));
+        return ResponseEntity.ok(service.updateSpecifications(prod_id, req));
     }
 
-    @DeleteMapping("/deleteSpecifications/{spec_id}")
-    public ResponseEntity<String> deleteSpecifications(@PathVariable Integer spec_id) {
-        service.deleteSpecifications(spec_id);
-        return ResponseEntity.ok("Specifications with id " + spec_id + " deleted successfully.");
+    @DeleteMapping("/deleteSpecifications/{prod_id}")
+    public ResponseEntity<String> deleteSpecifications(@PathVariable Long prod_id) {
+        service.deleteSpecifications(prod_id);
+        return ResponseEntity.ok("Specifications for product id " + prod_id + " deleted successfully.");
     }
 }
