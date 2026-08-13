@@ -18,33 +18,11 @@ public class SEOController {
 
     private final SEOService service;
 
-    @PostMapping("/createSEO")
-    public ResponseEntity<SEO_Res_DTO> createSEO(
-            @Valid @RequestBody SEO_Req_DTO req) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(service.addSEO(req));
-    }
-
-    @GetMapping("/getAllSEO")
-    public ResponseEntity<List<SEO_Res_DTO>> getAllSEO() {
-        return ResponseEntity.ok(service.getAllSEO());
-    }
-
-    // SEO uses url_slug as its natural key
-    @GetMapping("/getSEO/{url_slug}")
-    public ResponseEntity<SEO_Res_DTO> getSEOBySlug(@PathVariable String url_slug) {
-        return ResponseEntity.ok(service.getSEOBySlug(url_slug));
-    }
-
-    @PutMapping("/updateSEO/{url_slug}")
+    @PutMapping("/updateSEO/{prod_id}")
     public ResponseEntity<SEO_Res_DTO> updateSEO(
-            @PathVariable String url_slug,
+            @PathVariable Long prod_id,
             @Valid @RequestBody SEO_Req_DTO req) {
-        return ResponseEntity.ok(service.updateSEO(url_slug, req));
+        return ResponseEntity.ok(service.updateSEO(prod_id, req));
     }
 
-    @DeleteMapping("/deleteSEO/{url_slug}")
-    public ResponseEntity<String> deleteSEO(@PathVariable String url_slug) {
-        service.deleteSEO(url_slug);
-        return ResponseEntity.ok("SEO record with slug '" + url_slug + "' deleted successfully.");
-    }
 }

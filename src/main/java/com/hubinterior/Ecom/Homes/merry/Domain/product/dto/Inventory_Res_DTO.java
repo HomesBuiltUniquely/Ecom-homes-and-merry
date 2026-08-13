@@ -6,7 +6,7 @@ public record Inventory_Res_DTO(
 
         String sku_Id,
 
-        String barcode,
+
 
         int current_stock,
 
