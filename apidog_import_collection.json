@@ -1,0 +1,1008 @@
+{
+	"info": {
+		"_postman_id": "ecom-homes-and-merry-apidog-collection",
+		"name": "Ecom-homes-and-merry",
+		"description": "Complete API Collection for Ecom-homes-and-merry ready for Apidog Import",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "UserAuthLogin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"Username\": \"bharathd@gmail.com\",\n  \"Password\": \"12345\",\n  \"Role\": \"ADMIN\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					}
+				},
+				{
+					"name": "UserSignUp",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"first_name\": \"Bharath\",\n  \"last_name\": \"D\",\n  \"email\": \"bharathd@gmail.com\",\n  \"pincode\": 560001,\n  \"phone_number\": \"+919876543210\",\n  \"brand_name\": \"Hub Interior Solutions\",\n  \"role\": \"ADMIN\",\n  \"address\": {\n    \"city\": \"Bengaluru\",\n    \"state\": \"Karnataka\",\n    \"description\": \"123 MG Road\"\n  },\n  \"password\": \"12345\",\n  \"gst_number\": \"29ABCDE1234F1Z5\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/CreateUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"CreateUser"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "ProductService_CreateProduct",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"offering_name\": \"Modern Luxury Velvet Sofa\",\n  \"offering_type\": \"PRODUCT\",\n  \"sku_id\": \"SKU-SOFA-001\",\n  \"category\": \"FURNITURE\",\n  \"brand\": \"Hub Homes\",\n  \"tags\": [\"sofa\", \"luxury\", \"living-room\"],\n  \"short_desc\": \"Premium 3-seater velvet sofa\",\n  \"long_desc\": \"Handcrafted luxury velvet sofa built with solid wood frame.\",\n  \"featured_offer\": true,\n  \"pricing\": {\n    \"cost_price\": 25000.0,\n    \"selling_price\": 39999.0,\n    \"discount\": 10,\n    \"gst_rate\": \"GST_18\",\n    \"units\": \"PER_PIECE\",\n    \"desc\": \"Standard inaugural pricing\"\n  },\n  \"inventory\": {\n    \"sku_Id\": \"SKU-SOFA-001\",\n    \"barcode\": \"8901234567890\",\n    \"current_stock\": 50,\n    \"minimum_stock_level\": 5,\n    \"reorder_quantity\": 20,\n    \"sourcingLogistics\": {\n      \"preferred_vendor\": \"VENDOR_A\",\n      \"lead_time\": 7\n    }\n  },\n  \"media\": {\n    \"primary_image\": \"https://cdn.example.com/sofa-main.jpg\",\n    \"gallery_images\": [\"https://cdn.example.com/sofa-angle1.jpg\"],\n    \"video_link\": \"https://youtube.com/watch?v=example\",\n    \"image_360\": \"https://cdn.example.com/sofa-360.view\",\n    \"product_brochure\": \"https://cdn.example.com/sofa-spec.pdf\",\n    \"upload_draw\": \"https://cdn.example.com/sofa-cad.dwg\"\n  },\n  \"specifications\": {\n    \"physical_dimensions\": {\n      \"length\": 210.0,\n      \"width\": 90.0,\n      \"height\": 85.0,\n      \"weight\": 45.0\n    },\n    \"material_finish\": {\n      \"primary_material\": \"FABRIC\",\n      \"secondary_material\": \"SOLID_WOOD\",\n      \"finish_type\": \"SATIN\"\n    },\n    \"technical_properties\": {\n      \"assembly_required\": true,\n      \"load_capacity\": \"UP_TO_200_KG\",\n      \"desc\": \"High resilience foam cushion\"\n    },\n    \"additional_attributes\": [\n      {\n        \"attribute_name\": \"Seating Capacity\",\n        \"value\": \"3 Seater\"\n      }\n    ]\n  },\n  \"seo\": {\n    \"page_title\": \"Modern Luxury Velvet Sofa - Hub Homes\",\n    \"meta_desc\": \"Buy premium 3-seater luxury velvet sofa online.\",\n    \"url_slug\": \"modern-luxury-velvet-sofa\",\n    \"keywords\": [\"velvet sofa\", \"luxury furniture\", \"living room sofa\"]\n  },\n  \"internal\": {\n    \"visibility_status\": {\n      \"publishing_status\": \"PUBLISHED\",\n      \"visibility\": true,\n      \"schedule_launch\": \"2026-08-15T00:00:00\"\n    },\n    \"access_permissions\": {\n      \"allowed_users\": [\"admin@example.com\"],\n      \"restricted_region\": \"NONE\"\n    },\n    \"system_hooks_integration\": {\n      \"erp_module_integration\": {\n        \"sales_module\": true,\n        \"inventory_sync\": true,\n        \"procurement_pipeline\": true,\n        \"accounting_code\": \"ACC-SOFA-001\"\n      }\n    },\n    \"audit_trail_notes\": {\n      \"desc\": \"Initial catalog creation\"\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/products/createProduct",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"createProduct"
+							]
+						}
+					}
+				},
+				{
+					"name": "ProductService_GetAllProducts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/products/getAllProducts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"getAllProducts"
+							]
+						}
+					}
+				},
+				{
+					"name": "ProductService_GetProductById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/products/getProduct/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"getProduct",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "ProductService_UpdateProduct",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"offering_name\": \"Updated Luxury Velvet Sofa\",\n  \"offering_type\": \"PRODUCT\",\n  \"sku_id\": \"SKU-SOFA-001\",\n  \"category\": \"FURNITURE\",\n  \"brand\": \"Hub Homes Premium\",\n  \"tags\": [\"sofa\", \"luxury\", \"updated\"],\n  \"short_desc\": \"Updated short description\",\n  \"long_desc\": \"Updated long description\",\n  \"featured_offer\": true,\n  \"pricing\": {\n    \"cost_price\": 26000.0,\n    \"selling_price\": 41999.0,\n    \"discount\": 15,\n    \"gst_rate\": \"GST_18\",\n    \"units\": \"PER_PIECE\",\n    \"desc\": \"Festive price update\"\n  },\n  \"inventory\": {\n    \"sku_Id\": \"SKU-SOFA-001\",\n    \"barcode\": \"8901234567890\",\n    \"current_stock\": 60,\n    \"minimum_stock_level\": 10,\n    \"reorder_quantity\": 25,\n    \"sourcingLogistics\": {\n      \"preferred_vendor\": \"VENDOR_B\",\n      \"lead_time\": 5\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/products/updateProduct/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"updateProduct",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "ProductService_UpdateAllProducts",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"featured_offer\": true,\n  \"pricing\": {\n    \"discount\": 20,\n    \"desc\": \"PROMO2026 Promo Code Applied\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/products/updateAllProducts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"updateAllProducts"
+							]
+						}
+					}
+				},
+				{
+					"name": "ProductService_DeleteProduct",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/products/deleteProduct/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"deleteProduct",
+								"1"
+							]
+						}
+					}
+				},
+				{
+					"name": "Inventory",
+					"item": [
+						{
+							"name": "InventoryService_CreateInventory",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"sku_Id\": \"SKU-TABLE-002\",\n  \"barcode\": \"8909876543210\",\n  \"current_stock\": 100,\n  \"minimum_stock_level\": 15,\n  \"reorder_quantity\": 30,\n  \"sourcingLogistics\": {\n    \"preferred_vendor\": \"IN_HOUSE\",\n    \"lead_time\": 3\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/inventory/createInventory",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"inventory",
+										"createInventory"
+									]
+								}
+							}
+						},
+						{
+							"name": "InventoryService_GetAllInventory",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/inventory/getAllInventory",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"inventory",
+										"getAllInventory"
+									]
+								}
+							}
+						},
+						{
+							"name": "InventoryService_GetInventoryBySku",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/inventory/getInventory/SKU-TABLE-002",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"inventory",
+										"getInventory",
+										"SKU-TABLE-002"
+									]
+								}
+							}
+						},
+						{
+							"name": "InventoryService_UpdateInventory",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"sku_Id\": \"SKU-TABLE-002\",\n  \"barcode\": \"8909876543210\",\n  \"current_stock\": 120,\n  \"minimum_stock_level\": 20,\n  \"reorder_quantity\": 40,\n  \"sourcingLogistics\": {\n    \"preferred_vendor\": \"VENDOR_C\",\n    \"lead_time\": 4\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/inventory/updateInventory/SKU-TABLE-002",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"inventory",
+										"updateInventory",
+										"SKU-TABLE-002"
+									]
+								}
+							}
+						},
+						{
+							"name": "InventoryService_DeleteInventory",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/inventory/deleteInventory/SKU-TABLE-002",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"inventory",
+										"deleteInventory",
+										"SKU-TABLE-002"
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Pricing",
+					"item": [
+						{
+							"name": "PricingService_UpdatePricing",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"cost_price\": 28000.0,\n  \"selling_price\": 44999.0,\n  \"discount\": 12,\n  \"gst_rate\": \"GST_18\",\n  \"units\": \"PER_PIECE\",\n  \"desc\": \"Revised price tier\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/pricing/updatePricing/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"pricing",
+										"updatePricing",
+										"1"
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Media",
+					"item": [
+						{
+							"name": "MediaService_CreateMedia",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"primary_image\": \"https://cdn.example.com/item1.jpg\",\n  \"gallery_images\": [\"https://cdn.example.com/item1-g1.jpg\"],\n  \"video_link\": \"https://youtube.com/watch?v=item1\",\n  \"image_360\": \"https://cdn.example.com/item1-360.view\",\n  \"product_brochure\": \"https://cdn.example.com/item1-doc.pdf\",\n  \"upload_draw\": \"https://cdn.example.com/item1-draw.dwg\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/media/createMedia/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"media",
+										"createMedia",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "MediaService_GetAllMedia",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/media/getAllMedia",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"media",
+										"getAllMedia"
+									]
+								}
+							}
+						},
+						{
+							"name": "MediaService_GetMediaByProdId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/media/getMedia/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"media",
+										"getMedia",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "MediaService_UpdateMedia",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"primary_image\": \"https://cdn.example.com/item1-updated.jpg\",\n  \"gallery_images\": [\"https://cdn.example.com/item1-g2.jpg\"],\n  \"video_link\": \"https://youtube.com/watch?v=item1-v2\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/media/updateMedia/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"media",
+										"updateMedia",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "MediaService_DeleteMedia",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/media/deleteMedia/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"media",
+										"deleteMedia",
+										"1"
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "SEO",
+					"item": [
+						{
+							"name": "SEOService_CreateSEO",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"page_title\": \"Luxury Dining Table - Hub Homes\",\n  \"meta_desc\": \"Explore top quality wooden dining tables online.\",\n  \"url_slug\": \"luxury-dining-table\",\n  \"keywords\": [\"dining table\", \"wooden table\", \"home furniture\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/seo/createSEO",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"seo",
+										"createSEO"
+									]
+								}
+							}
+						},
+						{
+							"name": "SEOService_GetAllSEO",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/seo/getAllSEO",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"seo",
+										"getAllSEO"
+									]
+								}
+							}
+						},
+						{
+							"name": "SEOService_GetSEOBySlug",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/seo/getSEO/luxury-dining-table",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"seo",
+										"getSEO",
+										"luxury-dining-table"
+									]
+								}
+							}
+						},
+						{
+							"name": "SEOService_UpdateSEO",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"page_title\": \"Updated Luxury Dining Table Title\",\n  \"meta_desc\": \"Updated meta description for luxury dining table.\",\n  \"url_slug\": \"luxury-dining-table\",\n  \"keywords\": [\"dining table\", \"premium furniture\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/seo/updateSEO/luxury-dining-table",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"seo",
+										"updateSEO",
+										"luxury-dining-table"
+									]
+								}
+							}
+						},
+						{
+							"name": "SEOService_DeleteSEO",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/seo/deleteSEO/luxury-dining-table",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"seo",
+										"deleteSEO",
+										"luxury-dining-table"
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Specifications",
+					"item": [
+						{
+							"name": "SpecificationsService_CreateSpecifications",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"physical_dimensions\": {\n    \"length\": 180.0,\n    \"width\": 90.0,\n    \"height\": 75.0,\n    \"weight\": 35.0\n  },\n  \"material_finish\": {\n    \"primary_material\": \"SOLID_WOOD\",\n    \"secondary_material\": \"METAL\",\n    \"finish_type\": \"MATTE\"\n  },\n  \"technical_properties\": {\n    \"assembly_required\": false,\n    \"load_capacity\": \"UP_TO_150_KG\",\n    \"desc\": \"Teak finish solid wood structure\"\n  },\n  \"additional_attributes\": [\n    {\n      \"attribute_name\": \"Seating\",\n      \"value\": \"6 Seater\"\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/specifications/createSpecifications/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"specifications",
+										"createSpecifications",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "SpecificationsService_GetAllSpecifications",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/specifications/getAllSpecifications",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"specifications",
+										"getAllSpecifications"
+									]
+								}
+							}
+						},
+						{
+							"name": "SpecificationsService_GetSpecificationsByProdId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/specifications/getSpecifications/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"specifications",
+										"getSpecifications",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "SpecificationsService_UpdateSpecifications",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"physical_dimensions\": {\n    \"length\": 180.0,\n    \"width\": 90.0,\n    \"height\": 75.0,\n    \"weight\": 38.0\n  },\n  \"material_finish\": {\n    \"primary_material\": \"SOLID_WOOD\",\n    \"secondary_material\": \"GLASS\",\n    \"finish_type\": \"GLOSS\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/specifications/updateSpecifications/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"specifications",
+										"updateSpecifications",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "SpecificationsService_DeleteSpecifications",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/specifications/deleteSpecifications/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"specifications",
+										"deleteSpecifications",
+										"1"
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Internal",
+					"item": [
+						{
+							"name": "InternalService_CreateInternal",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"visibility_status\": {\n    \"publishing_status\": \"APPROVED\",\n    \"visibility\": true,\n    \"schedule_launch\": \"2026-09-01T00:00:00\"\n  },\n  \"access_permissions\": {\n    \"allowed_users\": [\"manager@example.com\"],\n    \"restricted_region\": \"DOMESTIC_ONLY\"\n  },\n  \"system_hooks_integration\": {\n    \"erp_module_integration\": {\n      \"sales_module\": true,\n      \"inventory_sync\": true,\n      \"procurement_pipeline\": false,\n      \"accounting_code\": \"ACC-INT-001\"\n    }\n  },\n  \"audit_trail_notes\": {\n    \"desc\": \"Approved by quality control\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/internal/createInternal/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"internal",
+										"createInternal",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "InternalService_GetAllInternal",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/internal/getAllInternal",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"internal",
+										"getAllInternal"
+									]
+								}
+							}
+						},
+						{
+							"name": "InternalService_GetInternalByProdId",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/internal/getInternal/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"internal",
+										"getInternal",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "InternalService_UpdateInternal",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"visibility_status\": {\n    \"publishing_status\": \"PUBLISHED\",\n    \"visibility\": true,\n    \"schedule_launch\": \"2026-08-15T00:00:00\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/internal/updateInternal/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"internal",
+										"updateInternal",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "InternalService_DeleteInternal",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/internal/deleteInternal/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"internal",
+										"deleteInternal",
+										"1"
+									]
+								}
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}
