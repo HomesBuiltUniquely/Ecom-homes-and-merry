@@ -45,28 +45,26 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
-                        /*
-                         * .requestMatchers("/api/v1/CreateUser").permitAll()
-                         * .requestMatchers("/api/auth/login").permitAll()
-                         * .requestMatchers("/api/v1/products/createProduct").hasAnyRole(UserRole.ADMIN.
-                         * name(), UserRole.ENTERPRISE.name())
-                         * .requestMatchers("/api/v1/CreateCategory").hasRole("ADMIN")
-                         * .requestMatchers("/api/v1/products/getAllProducts").permitAll()
-                         * 
-                         * // ── Pricing (admin only) ──────────────────────────────────────────
-                         * .requestMatchers("/api/v1/pricing/createPricing/{prod_id}").hasAnyRole(
-                         * UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
-                         * .anyRequest().authenticated()
-                         * )
-                         */
-                        // ── Auth (public) ─────────────────────────────────────────────────
+
                         .requestMatchers("/api/auth/login").permitAll()
 
-                        // ── User (public registration) ────────────────────────────────────
                         .requestMatchers("/api/v1/CreateUser").permitAll()
 
-                        // ── Category (admin only) ─────────────────────────────────────────
-                        .requestMatchers("/api/v1/CreateCategory").hasRole("ADMIN")
+                        // ── Categories — public reads ─────────────────────────────────────
+                        .requestMatchers("/api/v1/categories/getAllCategories").permitAll()
+                        .requestMatchers("/api/v1/categories/getCategory/**").permitAll()
+                        .requestMatchers("/api/v1/secondary-categories/getAllCategories").permitAll()
+                        .requestMatchers("/api/v1/secondary-categories/getCategory/**").permitAll()
+                        .requestMatchers("/api/v1/secondary-categories/getCategoriesByPrimary/**").permitAll()
+
+                        // ── Categories — admin writes ─────────────────────────────────────
+                        .requestMatchers("/api/v1/categories/createCategory").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/categories/updateCategory/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/categories/deleteCategory/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/secondary-categories/createCategory/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/secondary-categories/createSubCategory/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/secondary-categories/updateCategory/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/secondary-categories/deleteCategory/**").hasRole("ADMIN")
 
                         // ── Products — public reads ───────────────────────────────────────
                         .requestMatchers("/api/v1/products/getAllProducts").permitAll()
@@ -99,12 +97,6 @@ public class SecurityConfig {
                         // ── Internal (admin only) ─────────────────────────────────────────
                         .requestMatchers("/api/v1/internal/**").hasRole("ADMIN")
 
-                        // ── Fallback ──────────────────────────────────────────────────────
-                        // CUSTOMER and ENTERPRISER roles are loaded from the DB on every
-                        // request via CustomUserDetailsService. No endpoints currently require
-                        // CUSTOMER/ENTERPRISER-specific restriction. When such endpoints are
-                        // added, insert explicit .hasRole("CUSTOMER") / .hasRole("ENTERPRISER")
-                        // rules ABOVE this line — do not rely on this fallback for role-gating.
                         .anyRequest().authenticated())
 
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

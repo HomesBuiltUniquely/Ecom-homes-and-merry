@@ -2,30 +2,45 @@ package com.hubinterior.Ecom.Homes.merry.Domain.category.model;
 
 import com.hubinterior.Ecom.Homes.merry.Domain.product.model.ProdData;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Entity
+@Table(name = "secondary_category")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table
+@Builder
 public class SecondaryCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="scatId")
-    Long SecondaryCategoryId;
-    @Column(name="scatName")
-    String SecondaryCategoryName;
-    @Column(name="scatDesc")
-    String SecondaryCategoryDescription;
+    @Column(name = "scatId")
+    private Long secondaryCategoryId;
+
+    @Column(name = "scatName")
+    private String secondaryCategoryName;
+
+    @Column(name = "scatDesc")
+    private String secondaryCategoryDescription;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "primary_category_id")
+    private PrimaryCategory primaryCategory;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_scat_id")
+    private SecondaryCategory parent;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<SecondaryCategory> subCategory = new ArrayList<>();
+
     @OneToMany(cascade = CascadeType.ALL)
-    List<SecondaryCategory> subCategory = new ArrayList<>();
-    @OneToMany(cascade = CascadeType.ALL)
-    List<ProdData> Products = new ArrayList<>();
+    @JoinColumn(name = "secondary_category_id")
+    @Builder.Default
+    private List<ProdData> products = new ArrayList<>();
 }
