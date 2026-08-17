@@ -15,8 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.ArrayList;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -45,20 +43,6 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
-                        /*
-                         * .requestMatchers("/api/v1/CreateUser").permitAll()
-                         * .requestMatchers("/api/auth/login").permitAll()
-                         * .requestMatchers("/api/v1/products/createProduct").hasAnyRole(UserRole.ADMIN.
-                         * name(), UserRole.ENTERPRISE.name())
-                         * .requestMatchers("/api/v1/CreateCategory").hasRole("ADMIN")
-                         * .requestMatchers("/api/v1/products/getAllProducts").permitAll()
-                         * 
-                         * // ── Pricing (admin only) ──────────────────────────────────────────
-                         * .requestMatchers("/api/v1/pricing/createPricing/{prod_id}").hasAnyRole(
-                         * UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
-                         * .anyRequest().authenticated()
-                         * )
-                         */
                         // ── Auth (public) ─────────────────────────────────────────────────
                         .requestMatchers("/api/auth/login").permitAll()
 
@@ -72,39 +56,37 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/products/getAllProducts").permitAll()
                         .requestMatchers("/api/v1/products/getProduct/**").permitAll()
 
-                        // ── Products — admin writes ───────────────────────────────────────
+                        // ── Products — bulk update (STRICTLY ADMIN ONLY) ───────────────────
+                        .requestMatchers("/api/v1/products/updateAllProducts").hasRole("ADMIN")
+
+                        // ── Products — single product write permissions (ADMIN & ENTERPRISE)
                         .requestMatchers("/api/v1/products/createProduct")
                         .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
                         .requestMatchers("/api/v1/products/updateProduct/**")
                         .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
-                        .requestMatchers("/api/v1/products/updateAllProducts").hasRole("ADMIN")
-                        .requestMatchers("/api/v1/products/deleteProduct/**").hasRole("ADMIN")
-
-                        // ── Pricing (admin only) ──────────────────────────────────────────
-                        .requestMatchers("/api/v1/pricing/createPricing/{prod_id}")
+                        .requestMatchers("/api/v1/products/deleteProduct/**")
                         .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
 
-                        // ── Inventory (admin only) ────────────────────────────────────────
-                        .requestMatchers("/api/v1/inventory/**").hasRole("ADMIN")
+                        // ── Sub-modules (admin & enterprise) ──────────────────────────────
+                        .requestMatchers("/api/v1/pricing/**")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
 
-                        // ── Media (admin only) ────────────────────────────────────────────
-                        .requestMatchers("/api/v1/media/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/inventory/**")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
 
-                        // ── SEO (admin only) ──────────────────────────────────────────────
-                        .requestMatchers("/api/v1/seo/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/media/**")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
 
-                        // ── Specifications (admin only) ───────────────────────────────────
-                        .requestMatchers("/api/v1/specifications/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/seo/**")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
 
-                        // ── Internal (admin only) ─────────────────────────────────────────
-                        .requestMatchers("/api/v1/internal/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/specifications/**")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+
+                        .requestMatchers("/api/v1/internal/**")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
 
                         // ── Fallback ──────────────────────────────────────────────────────
-                        // CUSTOMER and ENTERPRISER roles are loaded from the DB on every
-                        // request via CustomUserDetailsService. No endpoints currently require
-                        // CUSTOMER/ENTERPRISER-specific restriction. When such endpoints are
-                        // added, insert explicit .hasRole("CUSTOMER") / .hasRole("ENTERPRISER")
-                        // rules ABOVE this line — do not rely on this fallback for role-gating.
                         .anyRequest().authenticated())
 
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
