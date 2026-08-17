@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "ecom-homes-and-merry-apidog-collection",
 		"name": "Ecom-homes-and-merry",
-		"description": "Complete API Collection for Ecom-homes-and-merry ready for Apidog Import",
+		"description": "Complete API Collection for Ecom-homes-and-merry including User, Category, and Product domains ready for Apidog Import",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -76,6 +76,352 @@
 							]
 						}
 					}
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "PrimaryCategory",
+					"item": [
+						{
+							"name": "PrimaryCat_CreateCategory",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"primaryCategoryName\": \"Furniture\",\n  \"primaryCategoryDescription\": \"All home and office furniture categories\",\n  \"subCategory\": [\n    {\n      \"secondaryCategoryName\": \"Living Room Furniture\",\n      \"secondaryCategoryDescription\": \"Sofas, tables, and recliners\"\n    }\n  ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/categories/createCategory",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"createCategory"
+									]
+								}
+							}
+						},
+						{
+							"name": "PrimaryCat_GetAllCategories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/categories/getAllCategories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"getAllCategories"
+									]
+								}
+							}
+						},
+						{
+							"name": "PrimaryCat_GetCategoryById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/categories/getCategory/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"getCategory",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "PrimaryCat_UpdateCategory",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"primaryCategoryName\": \"Updated Furniture\",\n  \"primaryCategoryDescription\": \"Updated premium furniture collection\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/categories/updateCategory/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"updateCategory",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "PrimaryCat_DeleteCategory",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/categories/deleteCategory/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"categories",
+										"deleteCategory",
+										"1"
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "SecondaryCategory",
+					"item": [
+						{
+							"name": "SecondaryCat_CreateCategory",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"secondaryCategoryName\": \"Sofas & Seating\",\n  \"secondaryCategoryDescription\": \"Luxury sofas, armchairs and bean bags\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/secondary-categories/createCategory/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"secondary-categories",
+										"createCategory",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "SecondaryCat_CreateSubCategory",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"secondaryCategoryName\": \"Recliners\",\n  \"secondaryCategoryDescription\": \"Motorized and manual recliners\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/secondary-categories/createSubCategory/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"secondary-categories",
+										"createSubCategory",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "SecondaryCat_GetAllCategories",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/secondary-categories/getAllCategories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"secondary-categories",
+										"getAllCategories"
+									]
+								}
+							}
+						},
+						{
+							"name": "SecondaryCat_GetCategoriesByPrimary",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/secondary-categories/getCategoriesByPrimary/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"secondary-categories",
+										"getCategoriesByPrimary",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "SecondaryCat_GetCategoryById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/secondary-categories/getCategory/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"secondary-categories",
+										"getCategory",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "SecondaryCat_UpdateCategory",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"secondaryCategoryName\": \"Updated Sofas & Recliners\",\n  \"secondaryCategoryDescription\": \"Updated luxury seating solutions\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/v1/secondary-categories/updateCategory/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"secondary-categories",
+										"updateCategory",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "SecondaryCat_DeleteCategory",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/v1/secondary-categories/deleteCategory/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"secondary-categories",
+										"deleteCategory",
+										"1"
+									]
+								}
+							}
+						}
+					]
 				}
 			]
 		},

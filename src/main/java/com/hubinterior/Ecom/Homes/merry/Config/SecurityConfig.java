@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.ArrayList;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -50,8 +49,21 @@ public class SecurityConfig {
                         // ── User (public registration) ────────────────────────────────────
                         .requestMatchers("/api/v1/CreateUser").permitAll()
 
-                        // ── Category (admin only) ─────────────────────────────────────────
-                        .requestMatchers("/api/v1/CreateCategory").hasRole("ADMIN")
+                        // ── Primary Categories ───────────────────────────────────────────
+                        .requestMatchers("/api/v1/categories/getAllCategories").permitAll()
+                        .requestMatchers("/api/v1/categories/getCategory/**").permitAll()
+                        .requestMatchers("/api/v1/categories/createCategory").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/categories/updateCategory/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/categories/deleteCategory/**").hasRole(UserRole.ADMIN.name())
+
+                        // ── Secondary Categories ─────────────────────────────────────────
+                        .requestMatchers("/api/v1/secondary-categories/getAllCategories").permitAll()
+                        .requestMatchers("/api/v1/secondary-categories/getCategory/**").permitAll()
+                        .requestMatchers("/api/v1/secondary-categories/getCategoriesByPrimary/**").permitAll()
+                        .requestMatchers("/api/v1/secondary-categories/createCategory/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/secondary-categories/createSubCategory/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/secondary-categories/updateCategory/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/secondary-categories/deleteCategory/**").hasRole(UserRole.ADMIN.name())
 
                         // ── Products — public reads ───────────────────────────────────────
                         .requestMatchers("/api/v1/products/getAllProducts").permitAll()
