@@ -12,8 +12,16 @@ public interface SecondaryCatMapper {
     @Mapping(target = "secondaryCategoryId", ignore = true)
     @Mapping(target = "primaryCategory", ignore = true)
     @Mapping(target = "parent", ignore = true)
-    @Mapping(target = "products", ignore = true)
+    @Mapping(source = "secondaryCategoryName", target = "secondaryCategoryName")
+    @Mapping(source = "secondaryCategoryDescription", target = "secondaryCategoryDescription")
+    @Mapping(source = "subCategory", target = "subCategory")
+    @Mapping(source = "products", target = "products")
     SecondaryCategory toEntity(SecondaryCatReqData req);
 
+    @Mapping(source = "secondaryCategoryId", target = "secondaryCategoryId")
+    @Mapping(source = "secondaryCategoryName", target = "secondaryCategoryName")
+    @Mapping(source = "secondaryCategoryDescription", target = "secondaryCategoryDescription")
+    @Mapping(source = "subCategory", target = "subCategory")
+    @Mapping(source = "products", target = "products")
     SecondaryCatResData toResponseDto(SecondaryCategory entity);
 }

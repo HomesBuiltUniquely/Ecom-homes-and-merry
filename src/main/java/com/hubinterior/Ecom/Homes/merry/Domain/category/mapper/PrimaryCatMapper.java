@@ -13,9 +13,17 @@ import org.mapstruct.MappingTarget;
 public interface PrimaryCatMapper {
 
     @Mapping(target = "primaryCategoryId", ignore = true)
+    @Mapping(source = "primaryCategoryName", target = "primaryCategoryName")
+    @Mapping(source = "primaryCategoryDescription", target = "primaryCategoryDescription")
+    @Mapping(source = "subCategory", target = "subCategory")
     @Mapping(source = "products", target = "Products")
     PrimaryCategory toEntity(PrimaryCatReqData req);
 
+    @Mapping(source = "primaryCategoryId", target = "primaryCategoryId")
+    @Mapping(source = "primaryCategoryName", target = "primaryCategoryName")
+    @Mapping(source = "primaryCategoryDescription", target = "primaryCategoryDescription")
+    @Mapping(source = "subCategory", target = "subCategory")
+    @Mapping(source = "products", target = "products")
     PrimaryCatResData toResponseDto(PrimaryCategory entity);
 
     @AfterMapping

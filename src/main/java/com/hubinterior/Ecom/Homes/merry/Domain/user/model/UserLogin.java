@@ -3,10 +3,12 @@ package com.hubinterior.Ecom.Homes.merry.Domain.user.model;
 import com.hubinterior.Ecom.Homes.merry.Domain.user.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
+@Data
 @Entity
 @Table(name = "login")
 @NoArgsConstructor
