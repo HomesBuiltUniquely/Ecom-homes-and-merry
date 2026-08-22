@@ -5,6 +5,8 @@ import com.hubinterior.Ecom.Homes.merry.Domain.category.dto.PrimaryCatResData;
 import com.hubinterior.Ecom.Homes.merry.Domain.category.service.PrimaryCatService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +29,10 @@ public class PrimaryCatController {
     }
 
     @GetMapping("/getAllCategories")
-    public ResponseEntity<List<PrimaryCatResData>> getAllCategories() {
+    public ResponseEntity<Page<PrimaryCatResData>> getAllCategories(Pageable pageable) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(service.getAllCategory());
+                .body(service.getAllCategory(pageable));
     }
 
     @GetMapping("/getCategory/{primaryCategoryId}")
