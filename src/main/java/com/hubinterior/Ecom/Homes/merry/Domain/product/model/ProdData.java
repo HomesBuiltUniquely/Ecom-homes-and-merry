@@ -1,5 +1,6 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.product.model;
 
+import com.hubinterior.Ecom.Homes.merry.Domain.category.model.PrimaryCategory;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Offering_Category;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Offering_Type;
 import jakarta.persistence.*;
@@ -76,4 +77,8 @@ public class ProdData {
 
     @Embedded
     private Internal internal;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "primary_category_id")
+    private PrimaryCategory primaryCategory;
 }

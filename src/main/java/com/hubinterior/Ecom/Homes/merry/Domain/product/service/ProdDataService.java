@@ -7,6 +7,8 @@ import com.hubinterior.Ecom.Homes.merry.Domain.product.model.ProdData;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.repository.ProdDataRepository;
 import com.hubinterior.Ecom.Homes.merry.Exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,11 +32,10 @@ public class ProdDataService {
         return mapper.toResponseDto(saved);
     }
 
-    public List<Prod_Data_Res_DTO> getAllProducts() {
-        return repository.findAll()
-                .stream()
-                .map(mapper::toResponseDto)
-                .collect(Collectors.toList());
+    public Page<Prod_Data_Res_DTO> getAllProducts(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(mapper::toResponseDto);
+
     }
 
     public Prod_Data_Res_DTO getProductById(Long prod_id) {
