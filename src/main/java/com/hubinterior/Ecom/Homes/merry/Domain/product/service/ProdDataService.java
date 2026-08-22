@@ -13,11 +13,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.hubinterior.Ecom.Homes.merry.Common.PageableSortHelper.of;
 
 @Service
 @RequiredArgsConstructor
 public class ProdDataService {
+
+    private static final Map<String, String> ALLOWED_SORT_FIELDS = Map.of(
+            "prod_id", "prod_id",
+            "offering_name", "offering_name",
+            "sku_id", "sku_id",
+            "brand", "brand",
+            "category", "category",
+            "featured_offer", "featured_offer"
+    );
 
     private final ProdDataMapper mapper;
     private final ProdDataRepository repository;
@@ -32,10 +44,10 @@ public class ProdDataService {
         return mapper.toResponseDto(saved);
     }
 
-    public Page<Prod_Data_Res_DTO> getAllProducts(Pageable pageable) {
+    public Page<Prod_Data_Res_DTO> getAllProducts(int page, int size, String sort) {
+        Pageable pageable = of(page, size, sort, ALLOWED_SORT_FIELDS, "prod_id");
         return repository.findAll(pageable)
                 .map(mapper::toResponseDto);
-
     }
 
     public Prod_Data_Res_DTO getProductById(Long prod_id) {

@@ -4,12 +4,10 @@ import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Prod_Data_Req_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Prod_Data_Res_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.service.ProdDataService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,11 +41,13 @@ public class ProdDataController {
     )
     @GetMapping("/getAllProducts")
     public ResponseEntity<Page<Prod_Data_Res_DTO>> getAllProducts(
-            @ParameterObject @PageableDefault(size = 20, sort = "prod_id") Pageable pageable) {
+            @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Items per page") @RequestParam(defaultValue = "20") int size,
+            @Parameter(description = "Optional. Example: offering_name,asc") @RequestParam(required = false) String sort) {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(service.getAllProducts(pageable));
+                .body(service.getAllProducts(page, size, sort));
     }
 
     @GetMapping("/getProduct/{prod_id}")
