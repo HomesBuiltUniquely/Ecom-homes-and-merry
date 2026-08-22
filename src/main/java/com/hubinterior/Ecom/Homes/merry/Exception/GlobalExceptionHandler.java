@@ -1,6 +1,7 @@
 package com.hubinterior.Ecom.Homes.merry.Exception;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -84,6 +85,18 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse(
                         HttpStatus.BAD_REQUEST.value(),
                         message,
+                        LocalDateTime.now()
+                ));
+    }
+
+    // ── 400 — Invalid sort / page query params ────────────────────────────────
+    @ExceptionHandler(PropertyReferenceException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidSortProperty(PropertyReferenceException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(
+                        HttpStatus.BAD_REQUEST.value(),
+                        "Invalid sort or filter property: " + ex.getPropertyName(),
                         LocalDateTime.now()
                 ));
     }

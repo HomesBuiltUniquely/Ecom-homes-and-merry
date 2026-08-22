@@ -3,10 +3,13 @@ package com.hubinterior.Ecom.Homes.merry.Domain.category.controller;
 import com.hubinterior.Ecom.Homes.merry.Domain.category.dto.PrimaryCatReqData;
 import com.hubinterior.Ecom.Homes.merry.Domain.category.dto.PrimaryCatResData;
 import com.hubinterior.Ecom.Homes.merry.Domain.category.service.PrimaryCatService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +31,18 @@ public class PrimaryCatController {
                 .body(service.createCategory(req));
     }
 
+    @Operation(
+            summary = "Get all primary categories (paginated)",
+            description = """
+                    Query params: page (0-based), size, sort.
+                    Valid sort fields: primaryCategoryId, primaryCategoryName.
+                    Sort format: field,direction — example: primaryCategoryName,asc
+                    Leave sort empty to use default: primaryCategoryId,asc
+                    """
+    )
     @GetMapping("/getAllCategories")
-    public ResponseEntity<Page<PrimaryCatResData>> getAllCategories(Pageable pageable) {
+    public ResponseEntity<Page<PrimaryCatResData>> getAllCategories(
+            @ParameterObject @PageableDefault(size = 20, sort = "primaryCategoryId") Pageable pageable) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(service.getAllCategory(pageable));

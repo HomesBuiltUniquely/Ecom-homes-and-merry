@@ -1,6 +1,7 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.category.dto;
 
 import com.hubinterior.Ecom.Homes.merry.Domain.category.model.SecondaryCategory;
+import com.hubinterior.Ecom.Homes.merry.Domain.product.model.ProdData;
 
 import java.util.List;
 
@@ -9,6 +10,6 @@ public record SecondaryCatResData(
         String secondaryCategoryName,
         String secondaryCategoryDescription,
         List<SecondaryCatResData> subCategory,
-        SecondaryCategory parent
+        List<ProdData> products
 ) {
 }

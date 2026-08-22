@@ -13,12 +13,13 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
+    private static final long EXPIRATION_MS = 1000 * 60 * 60; // 1 HOUR
 
-    @Value("${JWT_SECRET}")
-    private String SECRET ;
-    private static final long EXPIRATION_MS = 1000 * 60 * 60; //1 HOUR
+    private final SecretKey key;
 
-    private final SecretKey key = Keys.hmacShaKeyFor(SECRET.getBytes());
+    public JwtUtil(@Value("${JWT_SECRET}") String secret) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+    }
 
     public String generateToken(String username) {
         Date now = new Date();
@@ -42,7 +43,6 @@ public class JwtUtil {
             Date expiration = extractClaim(token, Claims::getExpiration);
             return username.equals(expectedUsername) && expiration.after(new Date());
         } catch (Exception e) {
-            // Malformed, expired, or tampered token -> treat as invalid
             return false;
         }
     }
@@ -55,5 +55,4 @@ public class JwtUtil {
                 .getPayload();
         return resolver.apply(claims);
     }
-
 }

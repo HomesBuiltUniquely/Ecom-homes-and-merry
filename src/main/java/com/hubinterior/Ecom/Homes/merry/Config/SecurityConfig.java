@@ -99,6 +99,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/internal/**")
                         .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
 
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+
                         // ── Fallback ──────────────────────────────────────────────────────
                         .anyRequest().authenticated())
 

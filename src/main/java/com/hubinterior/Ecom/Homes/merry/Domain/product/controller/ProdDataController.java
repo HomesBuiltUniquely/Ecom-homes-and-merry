@@ -3,10 +3,13 @@ package com.hubinterior.Ecom.Homes.merry.Domain.product.controller;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Prod_Data_Req_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Prod_Data_Res_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.service.ProdDataService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +32,18 @@ public class ProdDataController {
                 .body(service.addProduct(req));
     }
 
+    @Operation(
+            summary = "Get all products (paginated)",
+            description = """
+                    Query params: page (0-based), size, sort.
+                    Valid sort fields: prod_id, offering_name, sku_id, brand, featured_offer, category.
+                    Sort format: field,direction — example: offering_name,asc
+                    Leave sort empty to use default: prod_id,asc
+                    """
+    )
     @GetMapping("/getAllProducts")
-    public ResponseEntity<Page<Prod_Data_Res_DTO>> getAllProducts(Pageable pageable) {
+    public ResponseEntity<Page<Prod_Data_Res_DTO>> getAllProducts(
+            @ParameterObject @PageableDefault(size = 20, sort = "prod_id") Pageable pageable) {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
