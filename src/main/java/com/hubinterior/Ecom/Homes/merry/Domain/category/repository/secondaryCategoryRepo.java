@@ -8,4 +8,6 @@ import java.util.List;
 public interface secondaryCategoryRepo extends JpaRepository<SecondaryCategory, Long> {
 
     List<SecondaryCategory> findByPrimaryCategoryPrimaryCategoryIdAndParentIsNull(Long primaryCategoryId);
+
+    boolean existsBySecondaryCategoryNameAndPrimaryCategoryPrimaryCategoryId(String secondaryCategoryName, Long primaryCategoryId);
 }

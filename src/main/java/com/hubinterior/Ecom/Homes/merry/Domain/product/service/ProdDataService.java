@@ -5,12 +5,15 @@ import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Prod_Data_Req_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Prod_Data_Res_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.model.ProdData;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.repository.ProdDataRepository;
+import com.hubinterior.Ecom.Homes.merry.Exception.BusinessRuleException;
+import com.hubinterior.Ecom.Homes.merry.Exception.DuplicateResourceException;
 import com.hubinterior.Ecom.Homes.merry.Exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,19 +27,19 @@ public class ProdDataService {
     @Transactional
     public Prod_Data_Res_DTO addProduct(Prod_Data_Req_DTO req) {
         if (req.sku_id() != null && repository.existsBySku_id(req.sku_id())) {
-            throw new IllegalArgumentException("Product with SKU ID '" + req.sku_id() + "' already exists.");
+            throw new DuplicateResourceException("Product with SKU ID '" + req.sku_id() + "' already exists.");
         }
+
+        validatePricingBusinessRules(req);
+
         ProdData newProduct = mapper.toEntity(req);
         ProdData saved = repository.save(newProduct);
         return mapper.toResponseDto(saved);
     }
 
     public Page<Prod_Data_Res_DTO> getAllProducts(Pageable pageable) {
-
-
         return repository.findAll(pageable)
                 .map(mapper::toResponseDto);
-
     }
 
     public Prod_Data_Res_DTO getProductById(Long prodId) {
@@ -50,14 +53,15 @@ public class ProdDataService {
         ProdData existing = repository.findById(prodId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + prodId));
 
-        // If SKU ID is changed, ensure the new SKU ID is not already used by another product
         if (req.sku_id() != null && !req.sku_id().equals(existing.getSku_id())) {
             repository.findBySku_id(req.sku_id()).ifPresent(otherProduct -> {
                 if (!otherProduct.getProdId().equals(prodId)) {
-                    throw new IllegalArgumentException("SKU ID '" + req.sku_id() + "' is already assigned to another product (product ID: " + otherProduct.getProdId() + ").");
+                    throw new DuplicateResourceException("SKU ID '" + req.sku_id() + "' is already assigned to another product (product ID: " + otherProduct.getProdId() + ").");
                 }
             });
         }
+
+        validatePricingBusinessRules(req);
 
         mapper.updateEntityFromDto(req, existing);
         ProdData updated = repository.save(existing);
@@ -68,17 +72,17 @@ public class ProdDataService {
     public List<Prod_Data_Res_DTO> updateAllProducts(Prod_Data_Req_DTO req) {
         List<ProdData> products = repository.findAll();
         if (products.isEmpty()) {
-            return List.of();
+            throw new ResourceNotFoundException("No products exist in the catalog to perform bulk update.");
         }
+
+        validatePricingBusinessRules(req);
 
         for (ProdData existing : products) {
             String originalSku = existing.getSku_id();
             Long originalProdId = existing.getProdId();
 
-            // Update entity with provided non-null values from req
             mapper.updateEntityFromDto(req, existing);
 
-            // Always preserve each product's original prodId and sku_id to avoid unique constraint conflicts across products
             existing.setProdId(originalProdId);
             existing.setSku_id(originalSku);
             if (existing.getInventory() != null) {
@@ -97,5 +101,13 @@ public class ProdDataService {
         ProdData product = repository.findById(prodId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + prodId));
         repository.delete(product);
+    }
+
+    private void validatePricingBusinessRules(Prod_Data_Req_DTO req) {
+        if (req.pricing() != null && req.pricing().getSelling_price() > 0 && req.pricing().getCost_price() > 0) {
+            if (req.pricing().getSelling_price() < req.pricing().getCost_price()) {
+                throw new BusinessRuleException("Selling price (" + req.pricing().getSelling_price() + ") cannot be lower than cost price (" + req.pricing().getCost_price() + ").");
+            }
+        }
     }
 }

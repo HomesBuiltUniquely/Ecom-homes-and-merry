@@ -1,9 +1,13 @@
 package com.hubinterior.Ecom.Homes.merry.Exception;
 
+import com.hubinterior.Ecom.Homes.merry.Exception.dto.ErrorResponse;
+import com.hubinterior.Ecom.Homes.merry.Exception.dto.ValidationErrorResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,25 +20,22 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // ── 404 — Resource not found ──────────────────────────────────────────────
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleResourceNotFound(
-            ResourceNotFoundException ex) {
-
+    // ── Handle Custom Base ApiException Hierarchy ──────────────────────────────
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<ErrorResponse> handleApiException(ApiException ex) {
         return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
+                .status(ex.getStatus())
                 .body(new ErrorResponse(
-                        HttpStatus.NOT_FOUND.value(),
+                        ex.getStatus().value(),
+                        ex.getErrorCode(),
                         ex.getMessage(),
                         LocalDateTime.now()
                 ));
     }
 
-    // ── 400 — Validation failures (@Valid) ────────────────────────────────────
+    // ── 400 — Validation Failures (@Valid) ────────────────────────────────────
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidationErrorResponse> handleValidationErrors(
-            MethodArgumentNotValidException ex) {
-
+    public ResponseEntity<ValidationErrorResponse> handleValidationErrors(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
 
         ex.getBindingResult()
@@ -49,30 +50,56 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ValidationErrorResponse(
                         HttpStatus.BAD_REQUEST.value(),
+                        ErrorCode.VALIDATION_FAILED,
                         "Validation failed",
                         errors,
                         LocalDateTime.now()
                 ));
     }
 
-    // ── 400 — Invalid Argument / Business Rule Failures ──────────────────────
+    // ── 400 — Invalid Arguments ───────────────────────────────────────────────
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
-
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(
                         HttpStatus.BAD_REQUEST.value(),
+                        ErrorCode.VALIDATION_FAILED,
                         ex.getMessage(),
                         LocalDateTime.now()
                 ));
     }
 
-    // ── 400 — Data Integrity Violations (Unique Constraint, Duplicate Keys) ───
+    // ── 401 — Bad Credentials (Authentication Failure) ────────────────────────
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleBadCredentials(BadCredentialsException ex) {
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponse(
+                        HttpStatus.UNAUTHORIZED.value(),
+                        ErrorCode.UNAUTHORIZED,
+                        "Invalid username or password.",
+                        LocalDateTime.now()
+                ));
+    }
+
+    // ── 403 — Access Denied (Authorization Failure) ───────────────────────────
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedException ex) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(new ErrorResponse(
+                        HttpStatus.FORBIDDEN.value(),
+                        ErrorCode.FORBIDDEN,
+                        "Access denied: You do not have permission to execute this operation.",
+                        LocalDateTime.now()
+                ));
+    }
+
+    // ── 409 — Data Integrity Violations (Database Unique Constraint / Keys) ────
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
-
-        String message = "Database error: A unique constraint or foreign key rule was violated.";
+        String message = "Database error: A unique constraint or relational integrity rule was violated.";
         if (ex.getMostSpecificCause() != null && ex.getMostSpecificCause().getMessage() != null) {
             String cause = ex.getMostSpecificCause().getMessage();
             if (cause.contains("Duplicate entry")) {
@@ -81,51 +108,38 @@ public class GlobalExceptionHandler {
         }
 
         return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
+                .status(HttpStatus.CONFLICT)
                 .body(new ErrorResponse(
-                        HttpStatus.BAD_REQUEST.value(),
+                        HttpStatus.CONFLICT.value(),
+                        ErrorCode.DUPLICATE_RESOURCE,
                         message,
                         LocalDateTime.now()
                 ));
     }
 
-    // ── 400 — Invalid sort / page query params ────────────────────────────────
+    // ── 400 — Invalid Sort / Query Parameters ─────────────────────────────────
     @ExceptionHandler(PropertyReferenceException.class)
     public ResponseEntity<ErrorResponse> handleInvalidSortProperty(PropertyReferenceException ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(
                         HttpStatus.BAD_REQUEST.value(),
+                        ErrorCode.VALIDATION_FAILED,
                         "Invalid sort or filter property: " + ex.getPropertyName(),
                         LocalDateTime.now()
                 ));
     }
 
-    // ── 500 — Catch-all for unexpected errors ─────────────────────────────────
+    // ── 500 — Sanitized Catch-all for Unexpected Errors ───────────────────────
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
-
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse(
                         HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                        "An unexpected error occurred: " + ex.getMessage(),
+                        ErrorCode.INTERNAL_SERVER_ERROR,
+                        "An unexpected internal error occurred. Please try again later.",
                         LocalDateTime.now()
                 ));
     }
-
-    // ── Response payload records ──────────────────────────────────────────────
-
-    public record ErrorResponse(
-            int status,
-            String message,
-            LocalDateTime timestamp
-    ) {}
-
-    public record ValidationErrorResponse(
-            int status,
-            String message,
-            Map<String, String> errors,
-            LocalDateTime timestamp
-    ) {}
 }

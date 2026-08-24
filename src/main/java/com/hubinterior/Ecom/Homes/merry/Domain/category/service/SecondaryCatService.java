@@ -7,6 +7,8 @@ import com.hubinterior.Ecom.Homes.merry.Domain.category.model.PrimaryCategory;
 import com.hubinterior.Ecom.Homes.merry.Domain.category.model.SecondaryCategory;
 import com.hubinterior.Ecom.Homes.merry.Domain.category.repository.primaryCategoryRepo;
 import com.hubinterior.Ecom.Homes.merry.Domain.category.repository.secondaryCategoryRepo;
+import com.hubinterior.Ecom.Homes.merry.Exception.BusinessRuleException;
+import com.hubinterior.Ecom.Homes.merry.Exception.DuplicateResourceException;
 import com.hubinterior.Ecom.Homes.merry.Exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,11 @@ public class SecondaryCatService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Primary category not found with id: " + primaryCategoryId));
 
+        if (req.secondaryCategoryName() != null &&
+            secondaryCatRepo.existsBySecondaryCategoryNameAndPrimaryCategoryPrimaryCategoryId(req.secondaryCategoryName(), primaryCategoryId)) {
+            throw new DuplicateResourceException("Secondary Category with name '" + req.secondaryCategoryName() + "' already exists under primary category ID: " + primaryCategoryId);
+        }
+
         SecondaryCategory entity = mapper.toEntity(req);
         entity.setPrimaryCategory(primary);
         linkSubCategories(entity);
@@ -43,6 +50,11 @@ public class SecondaryCatService {
                         "Secondary category not found with id: " + parentSecondaryCategoryId));
 
         SecondaryCategory entity = mapper.toEntity(req);
+
+        if (entity.getSecondaryCategoryId() != null && entity.getSecondaryCategoryId().equals(parentSecondaryCategoryId)) {
+            throw new BusinessRuleException("Circular category relationship error: Secondary category cannot be a sub-category of itself.");
+        }
+
         entity.setPrimaryCategory(parent.getPrimaryCategory());
         entity.setParent(parent);
         linkSubCategories(entity);
@@ -95,6 +107,12 @@ public class SecondaryCatService {
         SecondaryCategory category = secondaryCatRepo.findById(secondaryCategoryId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Secondary category not found with id: " + secondaryCategoryId));
+
+        if ((category.getSubCategory() != null && !category.getSubCategory().isEmpty()) ||
+            (category.getProducts() != null && !category.getProducts().isEmpty())) {
+            throw new BusinessRuleException("Cannot delete Secondary Category with id " + secondaryCategoryId + " because it contains linked subcategories or active products.");
+        }
+
         secondaryCatRepo.delete(category);
     }
 
