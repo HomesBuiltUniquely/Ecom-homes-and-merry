@@ -22,7 +22,7 @@ public class ProdData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "prod_id")
-    private Long prod_id;
+    private Long prodId;
 
     @NotBlank
     @Column(name = "offering_name", nullable = false)

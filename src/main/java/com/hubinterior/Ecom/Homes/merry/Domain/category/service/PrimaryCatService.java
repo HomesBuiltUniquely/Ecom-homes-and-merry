@@ -6,8 +6,6 @@ import com.hubinterior.Ecom.Homes.merry.Domain.category.model.PrimaryCategory;
 import com.hubinterior.Ecom.Homes.merry.Domain.category.repository.primaryCategoryRepo;
 import com.hubinterior.Ecom.Homes.merry.Exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,9 +28,11 @@ public class PrimaryCatService {
     }
 
 
-    public Page<PrimaryCatResData> getAllCategory(Pageable pageable) {
-        return primaryCatRepo.findAll(pageable)
-                .map(mapper::toResponseDto);
+    public List<PrimaryCatResData> getAllCategory() {
+        return primaryCatRepo.findAll()
+                .stream()
+                .map(mapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 
 
