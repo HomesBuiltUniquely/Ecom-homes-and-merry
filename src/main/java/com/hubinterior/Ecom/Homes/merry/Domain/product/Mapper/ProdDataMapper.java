@@ -11,7 +11,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ProdDataMapper {
 
-    @Mapping(target = "prod_id", ignore = true)
+    @Mapping(target = "prodId", ignore = true)
     @Mapping(source = "offering_name", target = "offering_name")
     @Mapping(source = "offering_type", target = "offering_type")
     @Mapping(source = "sku_id", target = "sku_id")
@@ -29,7 +29,7 @@ public interface ProdDataMapper {
     @Mapping(source = "internal", target = "internal")
     ProdData toEntity(Prod_Data_Req_DTO req);
 
-    @Mapping(target = "prod_id", ignore = true)
+    @Mapping(target = "prodId", ignore = true)
     @Mapping(source = "offering_name", target = "offering_name")
     @Mapping(source = "offering_type", target = "offering_type")
     @Mapping(source = "sku_id", target = "sku_id")
@@ -47,7 +47,7 @@ public interface ProdDataMapper {
     @Mapping(source = "internal", target = "internal")
     void updateEntityFromDto(Prod_Data_Req_DTO req, @MappingTarget ProdData entity);
 
-    @Mapping(source = "prod_id", target = "prod_id")
+    @Mapping(source = "prodId", target = "prodId")
     @Mapping(source = "offering_name", target = "offering_name")
     @Mapping(source = "offering_type", target = "offering_type")
     @Mapping(source = "pricing", target = "pricing")

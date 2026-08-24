@@ -8,7 +8,7 @@ import java.util.List;
 
 public record Prod_Data_Res_DTO(
 
-        Long prod_id,
+        Long prodId,
 
         String offering_name,
 
