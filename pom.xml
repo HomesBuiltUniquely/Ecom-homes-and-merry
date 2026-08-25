@@ -56,6 +56,15 @@
 			<version>2.7.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-mysql</artifactId>
+		</dependency>
+
 
 		<dependency>
 			<groupId>com.mysql</groupId>
@@ -124,6 +133,29 @@
 
 	<build>
 		<plugins>
+			<!-- Clear stale MapStruct *Impl.java before compile (avoids FilerException) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>clean-mapstruct-generated</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<delete quiet="true" includeEmptyDirs="true">
+									<fileset dir="${project.build.directory}/generated-sources/annotations"/>
+								</delete>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
