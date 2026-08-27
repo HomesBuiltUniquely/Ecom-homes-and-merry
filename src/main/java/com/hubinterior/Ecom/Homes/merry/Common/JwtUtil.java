@@ -17,7 +17,7 @@ public class JwtUtil {
 
     private final SecretKey key;
 
-    public JwtUtil(@Value("${JWT_SECRET}") String secret) {
+    public JwtUtil(@Value("${JWT_SECRET:ecomhomesandmerrysecretkeyforjwttokengenerationspecification1234567890}") String secret) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 

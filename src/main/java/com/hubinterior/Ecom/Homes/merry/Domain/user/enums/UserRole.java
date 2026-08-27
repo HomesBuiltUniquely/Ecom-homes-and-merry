@@ -5,8 +5,15 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum UserRole {
     ADMIN,
-    CUSTOMER,
-    ENTERPRISE;
+    ENTERPRISE,
+    RETAIL_CUSTOMER,
+    INTERIOR_CLIENT,
+    DESIGNERS,
+    DESIGN_MANAGERS,
+    TDM,
+    SALES_EXECUTIVE,
+    SALES_MANAGER,
+    SALES_ADMIN;
 
     @JsonCreator
     public static UserRole fromString(String value) {

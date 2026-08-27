@@ -4,9 +4,9 @@ spring:
     name: "Homes-merry"
 
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: ${DB_URL:jdbc:mysql://localhost:3306/Homes_Merry}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root@00}
     driver-class-name: "com.mysql.cj.jdbc.Driver"
 
   jpa:
@@ -23,3 +23,12 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
     baseline-version: 0
+    clean-disabled: false
+    clean-on-validation-error: true
+
+prolance:
+  api:
+    baseUrl: ${PROLANCE_BASE_URL:https://api.prolance.design}
+    apiKey: ${PROLANCE_API_KEY:c4b24d7c25cc11f1a660066e82f6587b}
+    username: ${PROLANCE_USERNAME:}
+    password: ${PROLANCE_PASSWORD:}

@@ -20,10 +20,10 @@ public class AuthController {
     private final JwtUtil jwtUtil;
     private final LoginMapper loginmapper;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil,LoginMapper loginMapper) {
+    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil, LoginMapper loginMapper) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
-        this.loginmapper= loginMapper;
+        this.loginmapper = loginMapper;
     }
 
     @PostMapping("/login")
@@ -33,10 +33,8 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(request.Username(), request.Password())
         );
 
-
         String token = jwtUtil.generateToken(request.Username());
 
-
-        return ResponseEntity.ok(loginmapper.toResponseDto(token,request.Username()));
+        return ResponseEntity.ok(loginmapper.toResponseDto(token, request.Username()));
     }
 }

@@ -49,6 +49,26 @@ public class SecurityConfig {
                         // ── User (public registration) ────────────────────────────────────
                         .requestMatchers("/api/v1/CreateUser").permitAll()
 
+                        // ── Designer Lead Queue Endpoints ─────────────────────────────────
+                        .requestMatchers("/api/leads/queue", "/api/v1/leads/queue")
+                        .hasAnyRole(UserRole.DESIGNERS.name(), UserRole.DESIGN_MANAGERS.name(), UserRole.TDM.name(), UserRole.ADMIN.name())
+
+                        // ── CRM Sales Lead Filter Endpoints ───────────────────────────────
+                        .requestMatchers("/v1/leads/filter", "/api/v1/leads/filter")
+                        .hasAnyRole(UserRole.SALES_EXECUTIVE.name(), UserRole.SALES_MANAGER.name(), UserRole.SALES_ADMIN.name(), UserRole.ADMIN.name())
+
+                        // ── Prolance Quote Link Endpoints ─────────────────────────────────
+                        .requestMatchers("/Origin/Quotes/FullDetails/**")
+                        .hasAnyRole(
+                                UserRole.DESIGNERS.name(),
+                                UserRole.DESIGN_MANAGERS.name(),
+                                UserRole.TDM.name(),
+                                UserRole.SALES_EXECUTIVE.name(),
+                                UserRole.SALES_MANAGER.name(),
+                                UserRole.SALES_ADMIN.name(),
+                                UserRole.ADMIN.name()
+                        )
+
                         // ── Primary Categories ───────────────────────────────────────────
                         .requestMatchers("/api/v1/categories/getAllCategories").permitAll()
                         .requestMatchers("/api/v1/categories/getCategory/**").permitAll()

@@ -1,20 +1,20 @@
-create table category (
+create table if not exists category (
     pcat_id bigint not null auto_increment,
     pcat_desc varchar(255),
     pcat_name varchar(255),
     primary key (pcat_id)
 ) engine=InnoDB;
 
-create table login (
+create table if not exists login (
     login_id bigint not null auto_increment,
     logintime datetime(6),
     password varchar(255),
     username varchar(255),
-    role enum ('ADMIN','CUSTOMER','ENTERPRISE'),
+    role varchar(50),
     primary key (login_id)
 ) engine=InnoDB;
 
-create table product (
+create table if not exists product (
     assembly_required bit,
     cost_price float(23),
     current_stock integer,
@@ -57,28 +57,28 @@ create table product (
     video_link varchar(255),
     additional_attributes json,
     allowed_users json,
-    category enum ('BATH','BEDDING','DECOR','FURNITURE','KITCHEN','LIGHTING','OTHER','OUTDOOR','RUGS','STORAGE','WALL_ART') not null,
-    finish_type enum ('BRUSHED','DISTRESSED','GLOSS','LACQUERED','MATTE','NATURAL','NONE','POLISHED','POWDER_COATED','SATIN','SEMI_GLOSS'),
+    category varchar(50) not null,
+    finish_type varchar(50),
     gallery_images json,
-    gst_rate enum ('GST_0','GST_12','GST_18','GST_28','GST_5'),
-    load_capacity enum ('ABOVE_200_KG','NOT_APPLICABLE','UP_TO_100_KG','UP_TO_150_KG','UP_TO_200_KG','UP_TO_50_KG','UP_TO_80_KG'),
-    offering_type enum ('BUNDLE','PRODUCT','SERVICE') not null,
-    preferred_vendor enum ('IMPORTED','IN_HOUSE','THIRD_PARTY','VENDOR_A','VENDOR_B','VENDOR_C'),
-    price_unit enum ('PER_BOX','PER_KG','PER_LITRE','PER_METER','PER_PAIR','PER_PIECE','PER_SET','PER_SQ_METER'),
-    primary_material enum ('ALUMINIUM','BAMBOO','ENGINEERED_WOOD','FABRIC','GLASS','GRANITE','LEATHER','MARBLE','MDF','METAL','OTHER','PLASTIC','PLYWOOD','RATTAN','SOLID_WOOD','STAINLESS_STEEL'),
-    publishing_status enum ('APPROVED','ARCHIVED','DISCONTINUED','DRAFT','IN_REVIEW','PUBLISHED','SCHEDULED'),
-    restricted_region enum ('DOMESTIC_ONLY','EAST_INDIA','EXPORT_ONLY','METRO_ONLY','NONE','NORTH_INDIA','SOUTH_INDIA','TIER_1_ONLY','WEST_INDIA'),
-    secondary_material enum ('ENGINEERED_WOOD','FABRIC','FOAM','GLASS','LEATHER','MDF','METAL','NONE','OTHER','PLASTIC','SOLID_WOOD'),
+    gst_rate varchar(50),
+    load_capacity varchar(50),
+    offering_type varchar(50) not null,
+    preferred_vendor varchar(50),
+    price_unit varchar(50),
+    primary_material varchar(50),
+    publishing_status varchar(50),
+    restricted_region varchar(50),
+    secondary_material varchar(50),
     seo_keywords json,
     primary key (prod_id)
 ) engine=InnoDB;
 
-create table product_tags (
+create table if not exists product_tags (
     prod_id bigint not null,
     tag varchar(255)
 ) engine=InnoDB;
 
-create table secondary_category (
+create table if not exists secondary_category (
     parent_scat_id bigint,
     primary_category_id bigint,
     scat_id bigint not null auto_increment,
@@ -87,7 +87,7 @@ create table secondary_category (
     primary key (scat_id)
 ) engine=InnoDB;
 
-create table user (
+create table if not exists user (
     created_at datetime(6),
     phone_number bigint,
     pincode bigint,
@@ -101,34 +101,6 @@ create table user (
     last_name varchar(255),
     password varchar(255),
     state varchar(255),
-    role enum ('ADMIN','CUSTOMER','ENTERPRISE'),
+    role varchar(50),
     primary key (uuid)
 ) engine=InnoDB;
-
-alter table product
-   add constraint UK33ly4am1qqsbj8j1j7cyw7y27 unique (sku_id);
-
-alter table product
-   add constraint FKh14uv8fk6cibavvovd9fk7xw9
-   foreign key (primary_category_id)
-   references category (pcat_id);
-
-alter table product
-   add constraint FK5ujypc793ic3gtmvk3ly4xm1r
-   foreign key (secondary_category_id)
-   references secondary_category (scat_id);
-
-alter table product_tags
-   add constraint FK9261nab572rcinhhp67wotaih
-   foreign key (prod_id)
-   references product (prod_id);
-
-alter table secondary_category
-   add constraint FKl1h51qlbnl67i5ik217brmemr
-   foreign key (parent_scat_id)
-   references secondary_category (scat_id);
-
-alter table secondary_category
-   add constraint FKnotgpa9fuf4q3dmk7fe9cpimu
-   foreign key (primary_category_id)
-   references category (pcat_id);
