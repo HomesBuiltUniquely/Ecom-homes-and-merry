@@ -119,6 +119,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/internal/**")
                         .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
 
+                        // ── Internal Microservice Endpoints ───────────────────────────────
+                        .requestMatchers("/api/v1/products/internal/**").permitAll()
+                        .requestMatchers("/api/v1/inventory/internal/**").permitAll()
+
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",

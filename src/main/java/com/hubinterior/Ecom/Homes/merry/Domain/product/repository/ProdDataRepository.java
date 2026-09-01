@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -16,4 +17,7 @@ public interface ProdDataRepository extends JpaRepository<ProdData, Long> {
 
     @Query("SELECT p FROM ProdData p WHERE p.sku_id = :sku_id")
     Optional<ProdData> findBySku_id(@Param("sku_id") String sku_id);
+
+    List<ProdData> findByProdIdIn(List<Long> prodIds);
 }
+

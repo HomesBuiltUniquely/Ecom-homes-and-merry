@@ -1,0 +1,332 @@
+{
+	"info": {
+		"_postman_id": "ecom-homes-merry-ecosystem-v1",
+		"name": "Ecom Homes & Merry - Complete Microservices Ecosystem",
+		"description": "Postman API Collection for Gateway (8000), Client Storefront Service (8081), and Core Catalog/Inventory Service (8080)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "gateway_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "client_service_url",
+			"value": "http://localhost:8081",
+			"type": "string"
+		},
+		{
+			"key": "core_service_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "client_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "cart_item_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "wishlist_item_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "order_id",
+			"value": "1",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "1. API Gateway (Port 8000 - Single Entry Point)",
+			"item": [
+				{
+					"name": "Gateway - View Client Cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/v1/client/{{client_id}}/cart",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "v1", "client", "{{client_id}}", "cart"]
+						}
+					}
+				},
+				{
+					"name": "Gateway - Add Item to Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"product_id\": 1,\n  \"quantity\": 2\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/v1/client/{{client_id}}/cart/items",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "v1", "client", "{{client_id}}", "cart", "items"]
+						}
+					}
+				},
+				{
+					"name": "Gateway - Initiate Checkout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{gateway_url}}/api/v1/client/{{client_id}}/checkout/initiate",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "v1", "client", "{{client_id}}", "checkout", "initiate"]
+						}
+					}
+				},
+				{
+					"name": "Gateway - Verify Block Internal APIs (Should return 403 Forbidden)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"items\": [{\"productId\": 1, \"quantity\": 1}]\n}"
+						},
+						"url": {
+							"raw": "{{gateway_url}}/api/v1/inventory/internal/verify-stock",
+							"host": ["{{gateway_url}}"],
+							"path": ["api", "v1", "inventory", "internal", "verify-stock"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Client Storefront Service (Port 8081)",
+			"item": [
+				{
+					"name": "Cart - Add Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"product_id\": 1,\n  \"quantity\": 2\n}"
+						},
+						"url": {
+							"raw": "{{client_service_url}}/api/v1/client/{{client_id}}/cart/items",
+							"host": ["{{client_service_url}}"],
+							"path": ["api", "v1", "client", "{{client_id}}", "cart", "items"]
+						}
+					}
+				},
+				{
+					"name": "Cart - Update Item Quantity",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 3\n}"
+						},
+						"url": {
+							"raw": "{{client_service_url}}/api/v1/client/{{client_id}}/cart/items/{{cart_item_id}}",
+							"host": ["{{client_service_url}}"],
+							"path": ["api", "v1", "client", "{{client_id}}", "cart", "items", "{{cart_item_id}}"]
+						}
+					}
+				},
+				{
+					"name": "Cart - View Cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{client_service_url}}/api/v1/client/{{client_id}}/cart",
+							"host": ["{{client_service_url}}"],
+							"path": ["api", "v1", "client", "{{client_id}}", "cart"]
+						}
+					}
+				},
+				{
+					"name": "Cart - Apply Coupon Code (FESTIVE15)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"coupon_code\": \"FESTIVE15\"\n}"
+						},
+						"url": {
+							"raw": "{{client_service_url}}/api/v1/client/{{client_id}}/cart/coupons/apply",
+							"host": ["{{client_service_url}}"],
+							"path": ["api", "v1", "client", "{{client_id}}", "cart", "coupons", "apply"]
+						}
+					}
+				},
+				{
+					"name": "Cart - Move Item to Wishlist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{client_service_url}}/api/v1/client/{{client_id}}/cart/items/{{cart_item_id}}/move-to-wishlist",
+							"host": ["{{client_service_url}}"],
+							"path": ["api", "v1", "client", "{{client_id}}", "cart", "items", "{{cart_item_id}}", "move-to-wishlist"]
+						}
+					}
+				},
+				{
+					"name": "Wishlist - View Wishlist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{client_service_url}}/api/v1/client/{{client_id}}/wishlist",
+							"host": ["{{client_service_url}}"],
+							"path": ["api", "v1", "client", "{{client_id}}", "wishlist"]
+						}
+					}
+				},
+				{
+					"name": "Wishlist - Move Item to Cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 1\n}"
+						},
+						"url": {
+							"raw": "{{client_service_url}}/api/v1/client/{{client_id}}/wishlist/items/{{wishlist_item_id}}/move-to-cart",
+							"host": ["{{client_service_url}}"],
+							"path": ["api", "v1", "client", "{{client_id}}", "wishlist", "items", "{{wishlist_item_id}}", "move-to-cart"]
+						}
+					}
+				},
+				{
+					"name": "Checkout - Initiate Checkout (Hold Stock)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{client_service_url}}/api/v1/client/{{client_id}}/checkout/initiate",
+							"host": ["{{client_service_url}}"],
+							"path": ["api", "v1", "client", "{{client_id}}", "checkout", "initiate"]
+						}
+					}
+				},
+				{
+					"name": "Checkout - Confirm Payment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"order_id\": 1,\n  \"transaction_id\": \"TXN_987654321\",\n  \"payment_status\": \"SUCCESS\"\n}"
+						},
+						"url": {
+							"raw": "{{client_service_url}}/api/v1/client/{{client_id}}/checkout/confirm-payment",
+							"host": ["{{client_service_url}}"],
+							"path": ["api", "v1", "client", "{{client_id}}", "checkout", "confirm-payment"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Core Service Internal APIs (Port 8080)",
+			"item": [
+				{
+					"name": "Internal - Batch Product Summary",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"productIds\": [1, 2, 3]\n}"
+						},
+						"url": {
+							"raw": "{{core_service_url}}/api/v1/products/internal/batch-summary",
+							"host": ["{{core_service_url}}"],
+							"path": ["api", "v1", "products", "internal", "batch-summary"]
+						}
+					}
+				},
+				{
+					"name": "Internal - Verify Stock",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"items\": [\n    {\"productId\": 1, \"skuId\": \"SKU-101\", \"requestedQuantity\": 2}\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{core_service_url}}/api/v1/inventory/internal/verify-stock",
+							"host": ["{{core_service_url}}"],
+							"path": ["api", "v1", "inventory", "internal", "verify-stock"]
+						}
+					}
+				},
+				{
+					"name": "Internal - Hold Stock (15-min TTL)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"orderReference\": \"ORD-TEST-001\",\n  \"items\": [\n    {\"productId\": 1, \"quantity\": 1}\n  ],\n  \"holdDurationMinutes\": 15\n}"
+						},
+						"url": {
+							"raw": "{{core_service_url}}/api/v1/inventory/internal/hold-stock",
+							"host": ["{{core_service_url}}"],
+							"path": ["api", "v1", "inventory", "internal", "hold-stock"]
+						}
+					}
+				},
+				{
+					"name": "Internal - Release Held Stock",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reference\": \"HLD-TEST\",\n  \"items\": [\n    {\"productId\": 1, \"quantity\": 1}\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{core_service_url}}/api/v1/inventory/internal/release-stock",
+							"host": ["{{core_service_url}}"],
+							"path": ["api", "v1", "inventory", "internal", "release-stock"]
+						}
+					}
+				}
+			]
+		}
+	]
+}
