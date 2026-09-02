@@ -1,6 +1,7 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.user.controller;
 
 import com.hubinterior.Ecom.Homes.merry.Common.JwtUtil;
+import com.hubinterior.Ecom.Homes.merry.Domain.common.dto.MessageResponse;
 import com.hubinterior.Ecom.Homes.merry.Domain.user.dto.UserDataRequest;
 import com.hubinterior.Ecom.Homes.merry.Domain.user.dto.UserDataResponse;
 import com.hubinterior.Ecom.Homes.merry.Domain.user.service.userDataService;
@@ -24,11 +25,12 @@ public class UserController {
     private final userDataService data;
 
     @PostMapping("/CreateUser")
-    public ResponseEntity<UserDataResponse> createUser(
+    public ResponseEntity<MessageResponse<UserDataResponse>> createUser(
             @Valid @RequestBody UserDataRequest reqUser)
     {
         UserDataResponse userResp= data.CreateUser(reqUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userResp);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new MessageResponse<>(reqUser.email() + " created successfully.", userResp));
     }
 
 

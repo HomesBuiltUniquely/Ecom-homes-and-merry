@@ -1,5 +1,6 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.product.controller;
 
+import com.hubinterior.Ecom.Homes.merry.Domain.common.dto.MessageResponse;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Specifications_Req_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Specifications_Res_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.service.SpecificationsService;
@@ -20,10 +21,11 @@ public class SpecificationsController {
 
 
     @PutMapping("/updateSpecifications/{prod_id}")
-    public ResponseEntity<Specifications_Res_DTO> updateSpecifications(
+    public ResponseEntity<MessageResponse<Specifications_Res_DTO>> updateSpecifications(
             @PathVariable Long prod_id,
             @Valid @RequestBody Specifications_Req_DTO req) {
-        return ResponseEntity.ok(service.updateSpecifications(prod_id, req));
+        return ResponseEntity.ok(new MessageResponse<>("Product specifications updated successfully.",
+            service.updateSpecifications(prod_id, req)));
     }
 
 }

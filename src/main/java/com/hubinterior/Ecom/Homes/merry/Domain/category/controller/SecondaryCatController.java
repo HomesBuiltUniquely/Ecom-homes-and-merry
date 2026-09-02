@@ -1,5 +1,6 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.category.controller;
 
+import com.hubinterior.Ecom.Homes.merry.Domain.common.dto.MessageResponse;
 import com.hubinterior.Ecom.Homes.merry.Domain.category.dto.SecondaryCatReqData;
 import com.hubinterior.Ecom.Homes.merry.Domain.category.dto.SecondaryCatResData;
 import com.hubinterior.Ecom.Homes.merry.Domain.category.service.SecondaryCatService;
@@ -19,12 +20,15 @@ public class SecondaryCatController {
     private final SecondaryCatService service;
 
     @PostMapping("/createCategory/{primaryCategoryId}")
-    public ResponseEntity<SecondaryCatResData> createCategory(
+    public ResponseEntity<MessageResponse<SecondaryCatResData>> createCategory(
             @PathVariable Long primaryCategoryId,
             @Valid @RequestBody SecondaryCatReqData req) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(service.createCategory(primaryCategoryId, req));
+                .body(new MessageResponse<>(
+                        "Secondary category created successfully.",
+                        service.createCategory(primaryCategoryId, req)
+                ));
     }
 
     @PostMapping("/createSubCategory/{parentSecondaryCategoryId}")
@@ -69,11 +73,13 @@ public class SecondaryCatController {
     }
 
     @DeleteMapping("/deleteCategory/{secondaryCategoryId}")
-    public ResponseEntity<String> deleteCategory(
+    public ResponseEntity<MessageResponse<Void>> deleteCategory(
             @PathVariable Long secondaryCategoryId) {
         service.deleteCategory(secondaryCategoryId);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("Secondary category with id " + secondaryCategoryId + " deleted successfully.");
+                .body(new MessageResponse<>(
+                        "Secondary category with id " + secondaryCategoryId + " deleted successfully."
+                ));
     }
 }
