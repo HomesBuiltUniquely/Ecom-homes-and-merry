@@ -17,9 +17,6 @@ import java.util.List;
 @Embeddable
 public class Media {
 
-    @Column(name = "media_id")
-    private Integer media_id;
-
     @Column(name = "primary_image")
     private String primary_image;
 

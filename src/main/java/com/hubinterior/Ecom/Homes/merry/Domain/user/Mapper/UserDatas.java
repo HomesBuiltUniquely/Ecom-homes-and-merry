@@ -12,10 +12,20 @@ public interface UserDatas {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
-    @Mapping(target = "phone_number", source = "phone_number", qualifiedByName = "toPhoneNumber")
+    @Mapping(source = "first_name", target = "first_name")
+    @Mapping(source = "last_name", target = "last_name")
+    @Mapping(source = "email", target = "email")
+    @Mapping(source = "pincode", target = "pincode")
+    @Mapping(source = "phone_number", target = "phone_number", qualifiedByName = "toPhoneNumber")
+    @Mapping(source = "brand_name", target = "brand_name")
+    @Mapping(source = "role", target = "role")
+    @Mapping(source = "address", target = "address")
+    @Mapping(source = "password", target = "password")
+    @Mapping(source = "gst_number", target = "gst_number")
     UserData toEntity(UserDataRequest req);
 
     @Mapping(target = "full_name", source = ".", qualifiedByName = "toFullName")
+    @Mapping(source = "role", target = "role")
     UserDataResponse toResponseDto(UserData entity);
 
     @Named("toFullName")

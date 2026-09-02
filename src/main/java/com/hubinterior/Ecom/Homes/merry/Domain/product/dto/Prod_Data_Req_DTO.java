@@ -11,9 +11,6 @@ import java.util.List;
 
 public record Prod_Data_Req_DTO(
 
-                // Required only for bulk update; leave null for single-product endpoints
-                Long prod_id,
-
                 @NotBlank(message = "Offering name cannot be empty") String offering_name,
 
                 @NotNull(message = "Offering type is required") Offering_Type offering_type,
@@ -35,8 +32,6 @@ public record Prod_Data_Req_DTO(
                 @Valid Pricing pricing,
 
                 @Valid Inventory inventory,
-
-                @Valid SourcingLogistics sourcingLogistics,
 
                 @Valid Media media,
 

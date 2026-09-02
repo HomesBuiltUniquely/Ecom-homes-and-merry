@@ -15,12 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.ArrayList;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
@@ -43,69 +40,97 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
 
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
-                      /*  .requestMatchers("/api/v1/CreateUser").permitAll()
-                        .requestMatchers("/api/auth/login").permitAll()
-                        .requestMatchers("/api/v1/products/createProduct").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
-                        .requestMatchers("/api/v1/CreateCategory").hasRole("ADMIN")
-                        .requestMatchers("/api/v1/products/getAllProducts").permitAll()
-
-                        // ── Pricing (admin only) ──────────────────────────────────────────
-                        .requestMatchers("/api/v1/pricing/createPricing/{prod_id}").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
-                        .anyRequest().authenticated()
-                )*/
                         // ── Auth (public) ─────────────────────────────────────────────────
                         .requestMatchers("/api/auth/login").permitAll()
 
-                         // ── User (public registration) ────────────────────────────────────
+                        // ── User (public registration) ────────────────────────────────────
                         .requestMatchers("/api/v1/CreateUser").permitAll()
 
-                        // ── Category (admin only) ─────────────────────────────────────────
-                        .requestMatchers("/api/v1/CreateCategory").hasRole("ADMIN")
+                        // ── Designer Lead Queue Endpoints ─────────────────────────────────
+                        .requestMatchers("/api/leads/queue", "/api/v1/leads/queue")
+                        .hasAnyRole(UserRole.DESIGNERS.name(), UserRole.DESIGN_MANAGERS.name(), UserRole.TDM.name(), UserRole.ADMIN.name())
+
+                        // ── CRM Sales Lead Filter Endpoints ───────────────────────────────
+                        .requestMatchers("/v1/leads/filter", "/api/v1/leads/filter")
+                        .hasAnyRole(UserRole.SALES_EXECUTIVE.name(), UserRole.SALES_MANAGER.name(), UserRole.SALES_ADMIN.name(), UserRole.ADMIN.name())
+
+                        // ── Prolance Quote Link Endpoints ─────────────────────────────────
+                        .requestMatchers("/Origin/Quotes/FullDetails/**")
+                        .hasAnyRole(
+                                UserRole.DESIGNERS.name(),
+                                UserRole.DESIGN_MANAGERS.name(),
+                                UserRole.TDM.name(),
+                                UserRole.SALES_EXECUTIVE.name(),
+                                UserRole.SALES_MANAGER.name(),
+                                UserRole.SALES_ADMIN.name(),
+                                UserRole.ADMIN.name()
+                        )
+
+                        // ── Primary Categories ───────────────────────────────────────────
+                        .requestMatchers("/api/v1/categories/getAllCategories").permitAll()
+                        .requestMatchers("/api/v1/categories/getCategory/**").permitAll()
+                        .requestMatchers("/api/v1/categories/createCategory").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/categories/updateCategory/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/categories/deleteCategory/**").hasRole(UserRole.ADMIN.name())
+
+                        // ── Secondary Categories ─────────────────────────────────────────
+                        .requestMatchers("/api/v1/secondary-categories/getAllCategories").permitAll()
+                        .requestMatchers("/api/v1/secondary-categories/getCategory/**").permitAll()
+                        .requestMatchers("/api/v1/secondary-categories/getCategoriesByPrimary/**").permitAll()
+                        .requestMatchers("/api/v1/secondary-categories/createCategory/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/secondary-categories/createSubCategory/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/secondary-categories/updateCategory/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/secondary-categories/deleteCategory/**").hasRole(UserRole.ADMIN.name())
 
                         // ── Products — public reads ───────────────────────────────────────
                         .requestMatchers("/api/v1/products/getAllProducts").permitAll()
                         .requestMatchers("/api/v1/products/getProduct/**").permitAll()
 
-                        // ── Products — admin writes ───────────────────────────────────────
-                        .requestMatchers("/api/v1/products/createProduct")
-                                            .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
-                        .requestMatchers("/api/v1/products/updateProduct/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        // ── Products — bulk update (STRICTLY ADMIN ONLY) ───────────────────
                         .requestMatchers("/api/v1/products/updateAllProducts").hasRole("ADMIN")
-                        .requestMatchers("/api/v1/products/deleteProduct/**").hasRole("ADMIN")
 
-                        // ── Pricing (admin only) ──────────────────────────────────────────
-                        .requestMatchers("/api/v1/pricing/createPricing/{prod_id}").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        // ── Products — single product write permissions (ADMIN & ENTERPRISE)
+                        .requestMatchers("/api/v1/products/createProduct")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/products/updateProduct/**")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/products/deleteProduct/**")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
 
-                        // ── Inventory (admin only) ────────────────────────────────────────
-                        .requestMatchers("/api/v1/inventory/**").hasRole("ADMIN")
+                        // ── Sub-modules (admin & enterprise) ──────────────────────────────
+                        .requestMatchers("/api/v1/pricing/**")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
 
-                        // ── Media (admin only) ────────────────────────────────────────────
-                        .requestMatchers("/api/v1/media/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/inventory/**")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
 
-                        // ── SEO (admin only) ──────────────────────────────────────────────
-                        .requestMatchers("/api/v1/seo/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/media/**")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
 
-                        // ── Sourcing & Logistics (admin only) ─────────────────────────────
-                        .requestMatchers("/api/v1/sourcing/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/seo/**")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
 
-                        // ── Specifications (admin only) ───────────────────────────────────
-                        .requestMatchers("/api/v1/specifications/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/specifications/**")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
 
-                        // ── Internal (admin only) ─────────────────────────────────────────
-                        .requestMatchers("/api/v1/internal/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/internal/**")
+                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+
+                        // ── Internal Microservice Endpoints ───────────────────────────────
+                        .requestMatchers("/api/v1/products/internal/**").permitAll()
+                        .requestMatchers("/api/v1/inventory/internal/**").permitAll()
+
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll()
 
                         // ── Fallback ──────────────────────────────────────────────────────
-                        // CUSTOMER and ENTERPRISER roles are loaded from the DB on every
-                        // request via CustomUserDetailsService. No endpoints currently require
-                        // CUSTOMER/ENTERPRISER-specific restriction. When such endpoints are
-                        // added, insert explicit .hasRole("CUSTOMER") / .hasRole("ENTERPRISER")
-                        // rules ABOVE this line — do not rely on this fallback for role-gating.
-                        .anyRequest().authenticated()
-                )
+                        .anyRequest().authenticated())
 
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

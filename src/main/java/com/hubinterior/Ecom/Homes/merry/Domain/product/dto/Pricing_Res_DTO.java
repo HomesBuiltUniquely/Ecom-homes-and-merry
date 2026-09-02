@@ -5,8 +5,6 @@ import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Price_U
 
 public record Pricing_Res_DTO(
 
-        Integer price_id,
-
         Float cost_price,
 
         Float selling_price,

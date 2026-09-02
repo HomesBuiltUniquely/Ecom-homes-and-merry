@@ -12,9 +12,6 @@ import lombok.*;
 @Embeddable
 public class Pricing {
 
-    @Column(name = "price_id")
-    private Integer price_id;
-
     @Column(name = "cost_price")
     private Float cost_price;
 

@@ -5,6 +5,10 @@ import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Prod_Data_Res_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.service.ProdDataService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +32,13 @@ public class ProdDataController {
     }
 
     @GetMapping("/getAllProducts")
-    public ResponseEntity<List<Prod_Data_Res_DTO>> getAllProducts() {
+    public ResponseEntity<Page<Prod_Data_Res_DTO>> getAllProducts(
+            @PageableDefault(page = 0, size = 10, sort = "prodId", direction = Sort.Direction.ASC) Pageable pageable
+    ) {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(service.getAllProducts());
+                .body(service.getAllProducts(pageable));
     }
 
     @GetMapping("/getProduct/{prod_id}")
@@ -54,6 +60,14 @@ public class ProdDataController {
                 .body(service.updateProduct(prod_id, req));
     }
 
+    @PutMapping("/updateAllProducts")
+    public ResponseEntity<List<Prod_Data_Res_DTO>> updateAllProducts(
+            @RequestBody Prod_Data_Req_DTO req) {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.updateAllProducts(req));
+    }
 
     @DeleteMapping("/deleteProduct/{prod_id}")
     public ResponseEntity<String> deleteProduct(

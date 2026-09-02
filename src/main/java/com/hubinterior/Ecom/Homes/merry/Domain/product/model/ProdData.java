@@ -1,5 +1,6 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.product.model;
 
+import com.hubinterior.Ecom.Homes.merry.Domain.category.model.PrimaryCategory;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Offering_Category;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Offering_Type;
 import jakarta.persistence.*;
@@ -21,7 +22,7 @@ public class ProdData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "prod_id")
-    private Long prod_id;
+    private Long prodId;
 
     @NotBlank
     @Column(name = "offering_name", nullable = false)
@@ -66,9 +67,6 @@ public class ProdData {
     private Inventory inventory;
 
     @Embedded
-    private SourcingLogistics sourcingLogistics;
-
-    @Embedded
     private Media media;
 
     @Embedded
@@ -79,4 +77,8 @@ public class ProdData {
 
     @Embedded
     private Internal internal;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "primary_category_id")
+    private PrimaryCategory primaryCategory;
 }
