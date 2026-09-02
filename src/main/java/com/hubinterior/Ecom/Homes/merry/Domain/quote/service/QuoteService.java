@@ -12,8 +12,12 @@ public class QuoteService {
 
     private final ProlanceApiClient prolanceApiClient;
 
-    public Object getQuoteFullDetails(String quoteId) {
+    public <T> T getQuoteFullDetails(String quoteId, Class<T> responseType) {
         String sessionId = prolanceApiClient.authenticatePartnerSession();
-        return prolanceApiClient.fetchQuoteFullDetails(quoteId, sessionId);
+        return prolanceApiClient.fetchQuoteFullDetails(quoteId, sessionId, responseType);
+    }
+
+    public Object getQuoteFullDetails(String quoteId) {
+        return getQuoteFullDetails(quoteId, Object.class);
     }
 }

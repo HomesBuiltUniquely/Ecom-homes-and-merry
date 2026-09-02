@@ -96,7 +96,7 @@ public class ProlanceApiClient {
         }
     }
 
-    public Object fetchQuoteFullDetails(String quoteId, String sessionId) {
+    public <T> T fetchQuoteFullDetails(String quoteId, String sessionId, Class<T> responseType) {
         try {
             return restClient.get()
                     .uri("/Origin/Quotes/FullDetails/{quoteId}", quoteId)
@@ -105,7 +105,7 @@ public class ProlanceApiClient {
                     .header("NoEncryption", "1")
                     .accept(MediaType.APPLICATION_JSON)
                     .retrieve()
-                    .body(Object.class);
+                    .body(responseType);
         } catch (HttpClientErrorException ex) {
             log.error("Prolance Quote Details HTTP error for quoteId {}: {}", quoteId, ex.getStatusCode(), ex);
             if (ex.getStatusCode() == HttpStatus.NOT_FOUND) {
@@ -119,5 +119,9 @@ public class ProlanceApiClient {
             log.error("Failed to fetch Prolance quote details for quoteId: {}", quoteId, e);
             throw new BusinessRuleException("Failed to fetch Prolance quote details: " + e.getMessage());
         }
+    }
+
+    public Object fetchQuoteFullDetails(String quoteId, String sessionId) {
+        return fetchQuoteFullDetails(quoteId, sessionId, Object.class);
     }
 }
