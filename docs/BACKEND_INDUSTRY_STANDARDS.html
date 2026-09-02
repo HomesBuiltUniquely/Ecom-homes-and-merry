@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Homes-merry Backend — Industry Standards Guide</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface-2: #22263a;
+      --border: #2e3348;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent: #6366f1;
+      --accent-light: #818cf8;
+      --green: #22c55e;
+      --yellow: #eab308;
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --orange: #f97316;
+      --sidebar-width: 280px;
+      --radius: 10px;
+      --shadow: 0 4px 24px rgba(0,0,0,.35);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      overflow-y: auto;
+      padding: 1.5rem 0;
+      z-index: 100;
+    }
+
+    .sidebar-logo {
+      padding: 0 1.5rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-logo h2 {
+      font-size: 1rem;
+      color: var(--accent-light);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .sidebar-logo p {
+      font-size: .78rem;
+      color: var(--text-muted);
+      margin-top: .25rem;
+    }
+
+    .nav-section {
+      padding: .5rem 1.5rem .25rem;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .sidebar a {
+      display: block;
+      padding: .45rem 1.5rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: .875rem;
+      border-left: 3px solid transparent;
+      transition: all .15s;
+    }
+
+    .sidebar a:hover,
+    .sidebar a.active {
+      color: var(--text);
+      background: var(--surface-2);
+      border-left-color: var(--accent);
+    }
+
+    /* ── Main content ── */
+    .main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      max-width: 960px;
+      padding: 3rem 3rem 6rem;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1a1d27 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      box-shadow: var(--shadow);
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: .75rem;
+    }
+
+    .hero p {
+      color: #c7d2fe;
+      font-size: 1.05rem;
+      max-width: 620px;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta span {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      padding: .3rem .85rem;
+      border-radius: 999px;
+      font-size: .78rem;
+      color: #c7d2fe;
+    }
+
+    /* ── Sections ── */
+    section {
+      margin-bottom: 3.5rem;
+      scroll-margin-top: 2rem;
+    }
+
+    section > h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      padding-bottom: .75rem;
+      border-bottom: 2px solid var(--accent);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    section > h2 .num {
+      background: var(--accent);
+      color: #fff;
+      font-size: .75rem;
+      padding: .15rem .55rem;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--accent-light);
+      margin: 1.75rem 0 .75rem;
+    }
+
+    h4 {
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin: 1.25rem 0 .5rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    p { margin-bottom: .85rem; color: #cbd5e1; }
+
+    ul, ol { padding-left: 1.4rem; margin-bottom: 1rem; color: #cbd5e1; }
+    li { margin-bottom: .35rem; }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-grid .card { margin-bottom: 0; }
+
+    .card h4 { margin-top: 0; color: var(--text); text-transform: none; letter-spacing: 0; font-size: .95rem; }
+    .card p { font-size: .875rem; margin-bottom: 0; }
+
+    /* ── Status badges ── */
+    .badge {
+      display: inline-block;
+      padding: .15rem .6rem;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .badge-done    { background: rgba(34,197,94,.15);  color: var(--green);  border: 1px solid rgba(34,197,94,.3); }
+    .badge-partial { background: rgba(234,179,8,.15);  color: var(--yellow); border: 1px solid rgba(234,179,8,.3); }
+    .badge-missing { background: rgba(239,68,68,.15);  color: var(--red);    border: 1px solid rgba(239,68,68,.3); }
+    .badge-planned { background: rgba(59,130,246,.15); color: var(--blue);   border: 1px solid rgba(59,130,246,.3); }
+
+    /* ── Tables ── */
+    .table-wrap { overflow-x: auto; margin-bottom: 1.5rem; border-radius: var(--radius); border: 1px solid var(--border); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .875rem;
+    }
+
+    thead { background: var(--surface-2); }
+
+    th {
+      text-align: left;
+      padding: .75rem 1rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: .7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      color: #cbd5e1;
+      vertical-align: top;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(99,102,241,.04); }
+
+    /* ── Code blocks ── */
+    pre {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+      font-size: .82rem;
+      line-height: 1.6;
+    }
+
+    code {
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      color: #a5f3fc;
+    }
+
+    p code, li code, td code {
+      background: var(--surface-2);
+      padding: .15rem .45rem;
+      border-radius: 4px;
+      font-size: .82rem;
+      color: #fcd34d;
+      border: 1px solid var(--border);
+    }
+
+    .comment { color: #6b7280; }
+    .keyword { color: #c084fc; }
+    .string  { color: #86efac; }
+    .type    { color: #93c5fd; }
+    .bad     { color: #fca5a5; }
+    .good    { color: #86efac; }
+
+    /* ── Alert boxes ── */
+    .alert {
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+      font-size: .875rem;
+      border-left: 4px solid;
+    }
+
+    .alert-info    { background: rgba(59,130,246,.08);  border-color: var(--blue);   color: #bfdbfe; }
+    .alert-warn    { background: rgba(234,179,8,.08);  border-color: var(--yellow); color: #fde68a; }
+    .alert-danger  { background: rgba(239,68,68,.08);   border-color: var(--red);    color: #fecaca; }
+    .alert-success { background: rgba(34,197,94,.08);  border-color: var(--green);  color: #bbf7d0; }
+
+    .alert strong { display: block; margin-bottom: .25rem; font-size: .9rem; }
+
+    /* ── Compare boxes ── */
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .compare-box {
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      font-size: .875rem;
+    }
+
+    .compare-box.bad  { background: rgba(239,68,68,.08);  border: 1px solid rgba(239,68,68,.25); }
+    .compare-box.good { background: rgba(34,197,94,.08);  border: 1px solid rgba(34,197,94,.25); }
+
+    .compare-box h4 { margin: 0 0 .5rem; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; }
+    .compare-box.bad  h4 { color: var(--red); }
+    .compare-box.good h4 { color: var(--green); }
+
+    /* ── Roadmap ── */
+    .roadmap { display: flex; flex-direction: column; gap: 1rem; }
+
+    .phase {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .phase-header {
+      padding: .85rem 1.25rem;
+      font-weight: 700;
+      font-size: .9rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+
+    .phase-1 .phase-header { background: rgba(99,102,241,.15); color: #a5b4fc; border-bottom: 1px solid rgba(99,102,241,.25); }
+    .phase-2 .phase-header { background: rgba(59,130,246,.12); color: #93c5fd; border-bottom: 1px solid rgba(59,130,246,.25); }
+    .phase-3 .phase-header { background: rgba(234,179,8,.1);  color: #fde68a; border-bottom: 1px solid rgba(234,179,8,.25); }
+    .phase-4 .phase-header { background: rgba(34,197,94,.1);  color: #86efac; border-bottom: 1px solid rgba(34,197,94,.25); }
+
+    .phase-body { padding: 1rem 1.25rem; }
+    .phase-body li { font-size: .875rem; color: #94a3b8; list-style: none; padding: .3rem 0; border-bottom: 1px solid var(--border); }
+    .phase-body li:last-child { border-bottom: none; }
+    .phase-body li::before { content: "→ "; color: var(--accent-light); }
+
+    /* ── Checklist ── */
+    .checklist { list-style: none; padding: 0; }
+
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      padding: .65rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: .5rem;
+      font-size: .875rem;
+      color: #cbd5e1;
+    }
+
+    .checklist li::before {
+      content: "";
+      width: 18px; height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .checklist li.done {
+      opacity: .75;
+      border-color: rgba(34,197,94,.3);
+      background: rgba(34,197,94,.06);
+    }
+
+    .checklist li.done::before {
+      content: "✓";
+      background: rgba(34,197,94,.2);
+      border-color: var(--green);
+      color: var(--green);
+      font-size: .75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .checklist li.done span { text-decoration: line-through; color: var(--text-muted); }
+
+    /* ── Progress bar ── */
+    .progress-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .75rem;
+      font-size: .875rem;
+    }
+
+    .progress-header strong { color: var(--green); font-size: 1.1rem; }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--surface-2);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green), #4ade80);
+      border-radius: 999px;
+      transition: width .3s;
+    }
+
+    .progress-label { font-size: .78rem; color: var(--text-muted); margin-top: .5rem; }
+
+    .phase-body li.done { opacity: .65; }
+    .phase-body li.done::before { content: "✓ "; color: var(--green); }
+
+    /* ── Architecture diagram ── */
+    .diagram {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      font-family: monospace;
+      font-size: .82rem;
+      color: #94a3b8;
+      line-height: 1.9;
+      margin-bottom: 1rem;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .diagram .highlight { color: var(--accent-light); }
+    .diagram .arrow     { color: var(--yellow); }
+
+    /* ── HTTP status pills ── */
+    .status-code {
+      display: inline-block;
+      padding: .1rem .5rem;
+      border-radius: 4px;
+      font-size: .75rem;
+      font-weight: 700;
+      font-family: monospace;
+    }
+
+    .s400 { background: rgba(234,179,8,.15); color: var(--yellow); }
+    .s401 { background: rgba(249,115,22,.15); color: var(--orange); }
+    .s403 { background: rgba(249,115,22,.15); color: var(--orange); }
+    .s404 { background: rgba(59,130,246,.15); color: var(--blue); }
+    .s409 { background: rgba(168,85,247,.15); color: #c084fc; }
+    .s422 { background: rgba(236,72,153,.15); color: #f9a8d4; }
+    .s500 { background: rgba(239,68,68,.15); color: var(--red); }
+
+    /* ── Links ── */
+    a { color: var(--accent-light); }
+    a:hover { color: #c7d2fe; }
+
+    .ref-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: .65rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: .5rem;
+      text-decoration: none;
+      font-size: .875rem;
+      color: var(--text);
+      transition: border-color .15s;
+    }
+
+    .ref-link:hover { border-color: var(--accent); color: var(--text); }
+    .ref-link span { color: var(--text-muted); font-size: .78rem; }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: .8rem;
+      text-align: center;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 1.5rem; }
+      .compare { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <h2>Homes-merry</h2>
+    <p>Backend Industry Standards</p>
+  </div>
+
+  <div class="nav-section">Overview</div>
+  <a href="#current-state">Current State</a>
+  <a href="#roadmap">Roadmap</a>
+  <a href="#quick-wins">Quick Wins</a>
+
+  <div class="nav-section">Priorities</div>
+  <a href="#priority-1">1 · Production Basics</a>
+  <a href="#priority-2">2 · E-Commerce Features</a>
+  <a href="#priority-3">3 · Security</a>
+  <a href="#priority-4">4 · Performance</a>
+  <a href="#priority-5">5 · DevOps</a>
+  <a href="#priority-6">6 · API Design</a>
+
+  <div class="nav-section">Deep Dives</div>
+  <a href="#exception-handling">Exception Handling</a>
+  <a href="#dto-strategy">DTO Strategy</a>
+  <a href="#elasticsearch">Elasticsearch</a>
+
+  <div class="nav-section">Resources</div>
+  <a href="#references">Reference Links</a>
+</nav>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main class="main">
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>Backend Industry Standards Guide</h1>
+    <p>A complete reference for bringing the Homes-merry e-commerce backend from MVP to production-grade quality.</p>
+    <div class="hero-meta">
+      <span>Spring Boot 3.4</span>
+      <span>Java 17</span>
+      <span>MySQL + JPA</span>
+      <span>JWT Auth</span>
+      <span>Updated Aug 24, 2026</span>
+    </div>
+  </div>
+
+  <!-- Progress tracker -->
+  <div class="progress-wrap">
+    <div class="progress-header">
+      <span>Quick Wins Checklist</span>
+      <strong>6 / 10 complete</strong>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+    <div class="progress-label">Recently completed: Flyway DB migrations — <code>V1__init_schema.sql</code>, <code>V2__add_user_test_column.sql</code>, <code>ddl-auto: validate</code> in dev</div>
+  </div>
+
+  <!-- ── 1. CURRENT STATE ── -->
+  <section id="current-state">
+    <h2><span class="num">01</span> Current State — What You Have</h2>
+
+    <div class="card-grid">
+      <div class="card">
+        <h4>✅ Layered Architecture</h4>
+        <p>Controller → Service → Repository pattern implemented across all domains.</p>
+      </div>
+      <div class="card">
+        <h4>✅ DTOs + MapStruct</h4>
+        <p>Clean separation between API contracts and database entities.</p>
+      </div>
+      <div class="card">
+        <h4>✅ JWT + RBAC</h4>
+        <p>Role-based access with ADMIN and ENTERPRISE roles.</p>
+      </div>
+      <div class="card">
+        <h4>✅ Validation</h4>
+        <p><code>@Valid</code> on request DTOs with field-level error messages.</p>
+      </div>
+      <div class="card">
+        <h4>✅ Swagger / OpenAPI</h4>
+        <p><code>springdoc-openapi</code> 2.7.0 — UI at <code>/swagger-ui/index.html</code>, JWT Bearer auth configured.</p>
+      </div>
+      <div class="card">
+        <h4>✅ Env-based Secrets</h4>
+        <p>Prod uses <code>${DB_URL}</code>, <code>${JWT_SECRET}</code>. Dev profile has local config.</p>
+      </div>
+      <div class="card">
+        <h4>✅ Spring Profiles</h4>
+        <p><code>application-dev.yaml</code> + <code>application-prod.yaml</code> — active profile: <code>dev</code>.</p>
+      </div>
+      <div class="card">
+        <h4>✅ Pagination</h4>
+        <p><code>getAllProducts</code> returns <code>Page&lt;Prod_Data_Res_DTO&gt;</code> with <code>page</code>, <code>size</code>, and <code>sort</code> query params.</p>
+      </div>
+      <div class="card">
+        <h4>✅ Flyway Migrations</h4>
+        <p>Versioned SQL in <code>db/migration/</code> — <code>V1__init_schema.sql</code>, <code>V2__add_user_test_column.sql</code>. Dev uses <code>ddl-auto: validate</code>.</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Area</th><th>Status</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Layered architecture</td><td><span class="badge badge-done">Done</span></td><td>Controller → Service → Repository</td></tr>
+          <tr><td>DTOs + MapStruct</td><td><span class="badge badge-done">Done</span></td><td>Clean entity separation</td></tr>
+          <tr><td>JWT auth + RBAC</td><td><span class="badge badge-done">Done</span></td><td>ADMIN, ENTERPRISE roles</td></tr>
+          <tr><td>Global exception handler</td><td><span class="badge badge-partial">Partial</span></td><td>See Exception Handling section</td></tr>
+          <tr><td>Request validation</td><td><span class="badge badge-done">Done</span></td><td><code>@Valid</code> on DTOs</td></tr>
+          <tr><td>API versioning</td><td><span class="badge badge-done">Done</span></td><td><code>/api/v1/...</code></td></tr>
+          <tr><td>API documentation (Swagger)</td><td><span class="badge badge-done">Done</span></td><td><code>springdoc-openapi</code> 2.7.0 · <code>OpenApiConfig</code> · JWT Bearer</td></tr>
+          <tr><td>Pagination</td><td><span class="badge badge-done">Done</span></td><td><code>getAllProducts</code> — Spring Data <code>Pageable</code>, default size 10, sort <code>prodId</code></td></tr>
+          <tr><td>Secrets management</td><td><span class="badge badge-done">Done</span></td><td>Dev profile local · Prod uses <code>${DB_URL}</code>, <code>${JWT_SECRET}</code></td></tr>
+          <tr><td>Spring profiles</td><td><span class="badge badge-done">Done</span></td><td><code>application-dev.yaml</code>, <code>application-prod.yaml</code>, active: <code>dev</code></td></tr>
+          <tr><td>DB migrations</td><td><span class="badge badge-done">Done</span></td><td>Flyway enabled · <code>V1__init_schema.sql</code>, <code>V2__add_user_test_column.sql</code> · dev <code>ddl-auto: validate</code></td></tr>
+          <tr><td>Tests</td><td><span class="badge badge-missing">Missing</span></td><td>Only <code>contextLoads</code> smoke test</td></tr>
+          <tr><td>Search</td><td><span class="badge badge-planned">Planned</span></td><td>Elasticsearch on EC2</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── 2. PRIORITY 1 ── -->
+  <section id="priority-1">
+    <h2><span class="num">02</span> Priority 1 — Production Basics</h2>
+    <p>These must be done before going live. Highest impact, lowest complexity.</p>
+
+    <h3>2.1 Environment &amp; Secrets Management</h3>
+    <div class="alert alert-success">
+      <strong>✅ Done</strong>
+      Profiles split into <code>application-dev.yaml</code> (local DB) and <code>application-prod.yaml</code> (env vars). Default active profile: <code>dev</code>.
+    </div>
+    <pre><code><span class="comment"># application.yaml</span>
+spring:
+  profiles:
+    active: dev
+
+<span class="comment"># Run dev (default)</span>
+./mvnw spring-boot:run
+
+<span class="comment"># Run production profile</span>
+./mvnw spring-boot:run -Dspring-boot.run.profiles=prod
+
+<span class="comment"># Or via env var</span>
+export SPRING_PROFILES_ACTIVE=prod</code></pre>
+    <div class="alert alert-info">
+      <strong>Optional next step:</strong> On AWS EC2 use Secrets Manager or Parameter Store for prod env vars.
+    </div>
+
+    <h3>2.2 Database Migrations — Flyway</h3>
+    <div class="alert alert-success">
+      <strong>✅ Done</strong>
+      Flyway enabled with versioned migrations in <code>src/main/resources/db/migration/</code>. Dev profile uses <code>ddl-auto: validate</code> so Hibernate checks the schema without auto-altering it.
+    </div>
+    <pre><code><span class="comment"># Applied migrations</span>
+V1__init_schema.sql          — full initial schema
+V2__add_user_test_column.sql — ALTER TABLE user ADD COLUMN test
+
+<span class="comment"># application-dev.yaml</span>
+spring:
+  jpa.hibernate.ddl-auto: validate
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+<span class="comment"># Rule: never edit applied migrations — add V3, V4, etc.</span></code></pre>
+    <div class="alert alert-info">
+      <strong>Dev tip:</strong> If you edit an already-applied migration locally, run <code>flyway repair</code> to fix checksum mismatches before restarting the app.
+    </div>
+
+    <h3>2.3 Pagination</h3>
+    <div class="alert alert-success">
+      <strong>✅ Done</strong>
+      <code>GET /api/v1/products/getAllProducts</code> returns a Spring Data <code>Page</code> with <code>@PageableDefault(page = 0, size = 10, sort = "prodId")</code>.
+    </div>
+    <pre><code><span class="comment"># Example requests</span>
+GET /api/v1/products/getAllProducts?page=0&amp;size=10
+GET /api/v1/products/getAllProducts?page=1&amp;size=20&amp;sort=prodId,desc
+
+<span class="comment"># Response includes content, totalElements, totalPages, number, size</span></code></pre>
+    <div class="alert alert-info">
+      <strong>Optional next step:</strong> Add pagination to <code>getAllCategories</code> when the category list grows.
+    </div>
+
+    <h3>2.4 API Documentation — Swagger</h3>
+    <div class="alert alert-success">
+      <strong>✅ Done</strong>
+      <code>springdoc-openapi-starter-webmvc-ui</code> 2.7.0 with <code>OpenApiConfig</code> (JWT Bearer) and public access in <code>SecurityConfig</code>.
+    </div>
+    <pre><code><span class="comment"># Access Swagger UI</span>
+http://localhost:8080/swagger-ui/index.html
+
+<span class="comment"># Raw OpenAPI JSON</span>
+http://localhost:8080/v3/api-docs
+
+<span class="comment"># Test protected endpoints</span>
+1. POST /api/auth/login → copy token
+2. Click Authorize → enter: Bearer &lt;token&gt;
+3. Try ADMIN / ENTERPRISE endpoints</code></pre>
+    <div class="alert alert-warn">
+      <strong>Production tip:</strong> Disable Swagger in <code>application-prod.yaml</code> or restrict by IP before going live.
+    </div>
+
+    <h3>2.5 Health Monitoring — Actuator</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Endpoint</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>/actuator/health</code></td><td>AWS load balancer health checks</td></tr>
+          <tr><td><code>/actuator/metrics</code></td><td>JVM, HTTP, DB pool stats</td></tr>
+          <tr><td><code>/actuator/info</code></td><td>App version, build info</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>2.6 CORS Configuration</h3>
+    <p>Required when your React/Next.js frontend calls the API from a different domain.</p>
+
+    <h3>2.7 Tests</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Tool</th><th>What to Test</th></tr></thead>
+        <tbody>
+          <tr><td>Unit tests</td><td>JUnit 5 + Mockito</td><td>Services, mappers</td></tr>
+          <tr><td>Controller tests</td><td><code>@WebMvcTest</code></td><td>HTTP status, JSON response</td></tr>
+          <tr><td>Repository tests</td><td><code>@DataJpaTest</code></td><td>Custom queries</td></tr>
+          <tr><td>Integration tests</td><td>Testcontainers</td><td>Full flow with real MySQL</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="alert alert-info"><strong>Target:</strong> 60–80% code coverage on the service layer minimum.</div>
+  </section>
+
+  <!-- ── 3. PRIORITY 2 ── -->
+  <section id="priority-2">
+    <h2><span class="num">03</span> Priority 2 — E-Commerce Features</h2>
+    <p>Your backend is currently a <strong>product catalog + admin API</strong>. Full e-commerce requires these modules:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Module</th><th>Purpose</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Search</td><td>Elasticsearch product search</td><td><span class="badge badge-planned">Planned</span></td></tr>
+          <tr><td>Cart</td><td>Add/remove items, session or user-based</td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td>Orders</td><td>Checkout flow, order status tracking</td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td>Payments</td><td>Razorpay / Stripe integration</td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td>Inventory locking</td><td>Prevent overselling during checkout</td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td>Wishlist</td><td>Save products for later</td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td>Reviews &amp; ratings</td><td>Social proof on products</td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td>Coupons</td><td>Promo codes and discounts</td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td>Notifications</td><td>Order confirmation email / SMS</td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td>File upload</td><td>Product images → AWS S3</td><td><span class="badge badge-missing">Missing</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── 4. PRIORITY 3 ── -->
+  <section id="priority-3">
+    <h2><span class="num">04</span> Priority 3 — Security Hardening</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Item</th><th>Why</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Secrets in env vars</td><td>Prevent credential leaks in git</td><td><span class="badge badge-done">Done</span></td></tr>
+          <tr><td>JWT refresh tokens</td><td>Short-lived access (15 min) + long refresh</td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td>Rate limiting</td><td>Prevent brute-force on <code>/api/auth/login</code></td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td>HTTPS only</td><td>Terminate SSL at ALB / nginx on EC2</td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td>Input sanitization</td><td>Prevent XSS in <code>long_desc</code>, search queries</td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td>Audit fields</td><td><code>createdAt</code>, <code>updatedAt</code>, <code>createdBy</code></td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td>Soft delete</td><td><code>deletedAt</code> instead of hard delete</td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td>Hide 500 internals</td><td>Don't expose <code>ex.getMessage()</code> to clients</td><td><span class="badge badge-missing">Missing</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── 5. PRIORITY 4 ── -->
+  <section id="priority-4">
+    <h2><span class="num">05</span> Priority 4 — Performance &amp; Scale</h2>
+    <div class="card-grid">
+      <div class="card"><h4>Redis Caching</h4><p>Cache categories and featured products to reduce DB load.</p></div>
+      <div class="card"><h4>CDN for Images</h4><p>CloudFront + S3 for product media delivery.</p></div>
+      <div class="card"><h4>DB Indexes</h4><p>Index <code>sku_id</code>, <code>offering_name</code>, category FKs.</p></div>
+      <div class="card"><h4>Connection Pooling</h4><p>HikariCP tuning in production config.</p></div>
+      <div class="card"><h4>Async Processing</h4><p><code>@Async</code> or SQS for emails and ES indexing.</p></div>
+      <div class="card"><h4>Pagination</h4><p>Products done — extend to categories and future list endpoints.</p></div>
+    </div>
+  </section>
+
+  <!-- ── 6. PRIORITY 5 ── -->
+  <section id="priority-5">
+    <h2><span class="num">06</span> Priority 5 — DevOps &amp; Deployment</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Item</th><th>Purpose</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Dockerfile</strong></td><td>Consistent Spring Boot deploys on EC2</td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td><strong>docker-compose.yml</strong></td><td>App + MySQL + Elasticsearch locally</td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td><strong>CI/CD (GitHub Actions)</strong></td><td>Auto test + build on every push</td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td><strong>Structured logging</strong></td><td>JSON logs → AWS CloudWatch</td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td><strong>Environment profiles</strong></td><td><code>application-dev.yaml</code> / <code>application-prod.yaml</code></td><td><span class="badge badge-done">Done</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── 7. PRIORITY 6 ── -->
+  <section id="priority-6">
+    <h2><span class="num">07</span> Priority 6 — API Design Polish</h2>
+
+    <h3>RESTful URL Conventions</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Current</th><th>REST Standard</th></tr></thead>
+        <tbody>
+          <tr><td><code>POST /createProduct</code></td><td><code>POST /api/v1/products</code></td></tr>
+          <tr><td><code>GET /getProduct/{id}</code></td><td><code>GET /api/v1/products/{id}</code></td></tr>
+          <tr><td><code>PUT /updateProduct/{id}</code></td><td><code>PUT /api/v1/products/{id}</code></td></tr>
+          <tr><td><code>DELETE /deleteProduct/{id}</code></td><td><code>DELETE /api/v1/products/{id}</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="alert alert-info"><strong>Note:</strong> Current URLs work fine — migrate gradually without breaking existing clients.</div>
+
+    <h3>Standard Response Wrapper</h3>
+    <pre><code>{
+  <span class="string">"success"</span>: <span class="keyword">true</span>,
+  <span class="string">"data"</span>: { ... },
+  <span class="string">"message"</span>: <span class="string">"Product created successfully"</span>,
+  <span class="string">"timestamp"</span>: <span class="string">"2026-08-22T15:38:00"</span>
+}</code></pre>
+  </section>
+
+  <!-- ── 8. EXCEPTION HANDLING ── -->
+  <section id="exception-handling">
+    <h2><span class="num">08</span> Exception Handling — Full Guide</h2>
+
+    <h3>8.1 Current vs Target</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Exception</th><th>HTTP Status</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><code>ResourceNotFoundException</code></td><td><span class="status-code s404">404</span></td><td><span class="badge badge-done">Done</span></td></tr>
+          <tr><td><code>MethodArgumentNotValidException</code></td><td><span class="status-code s400">400</span></td><td><span class="badge badge-done">Done</span></td></tr>
+          <tr><td><code>IllegalArgumentException</code></td><td><span class="status-code s400">400</span></td><td><span class="badge badge-done">Done</span></td></tr>
+          <tr><td><code>DataIntegrityViolationException</code></td><td><span class="status-code s409">409</span></td><td><span class="badge badge-partial">Should be 409</span></td></tr>
+          <tr><td><code>Exception</code> (catch-all)</td><td><span class="status-code s500">500</span></td><td><span class="badge badge-partial">Leaks internals</span></td></tr>
+          <tr><td><code>BadCredentialsException</code></td><td><span class="status-code s401">401</span></td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td><code>AccessDeniedException</code></td><td><span class="status-code s403">403</span></td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td><code>DuplicateResourceException</code></td><td><span class="status-code s409">409</span></td><td><span class="badge badge-missing">Missing</span></td></tr>
+          <tr><td><code>BusinessRuleException</code></td><td><span class="status-code s422">422</span></td><td><span class="badge badge-missing">Missing</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>8.2 Target Exception Hierarchy</h3>
+    <div class="diagram">Exception/
+├── GlobalExceptionHandler.java
+├── ApiException.java                  <span class="highlight">(abstract base)</span>
+├── ErrorCode.java                     <span class="highlight">(enum of all error codes)</span>
+├── ResourceNotFoundException.java     <span class="highlight">404</span>
+├── DuplicateResourceException.java    <span class="highlight">409 — SKU already exists</span>
+├── BusinessRuleException.java         <span class="highlight">422 — business logic failed</span>
+├── UnauthorizedException.java         <span class="highlight">401</span>
+├── ForbiddenException.java            <span class="highlight">403</span>
+└── dto/
+    ├── ApiErrorResponse.java
+    └── ValidationErrorResponse.java</div>
+
+    <h3>8.3 Unified Error Response Format</h3>
+    <pre><code>{
+  <span class="string">"status"</span>: 404,
+  <span class="string">"error"</span>: <span class="string">"Not Found"</span>,
+  <span class="string">"code"</span>: <span class="string">"PRODUCT_NOT_FOUND"</span>,
+  <span class="string">"message"</span>: <span class="string">"Product not found with id: 5"</span>,
+  <span class="string">"path"</span>: <span class="string">"/api/v1/products/getProduct/5"</span>,
+  <span class="string">"traceId"</span>: <span class="string">"a1b2c3d4-e5f6-7890"</span>,
+  <span class="string">"timestamp"</span>: <span class="string">"2026-08-22T15:38:00"</span>
+}</code></pre>
+
+    <h3>8.4 Logging Rules</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>HTTP Status</th><th>Log Level</th><th>Client Message</th></tr></thead>
+        <tbody>
+          <tr><td>400, 404, 409, 422</td><td><code>WARN</code></td><td>Specific, helpful message</td></tr>
+          <tr><td>401, 403</td><td><code>WARN</code></td><td>Generic auth message</td></tr>
+          <tr><td>500</td><td><code>ERROR</code> + full stack trace</td><td>Generic + traceId only</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="compare">
+      <div class="compare-box bad">
+        <h4>❌ Never do this on 500</h4>
+        <pre><code><span class="bad">"An unexpected error occurred: "
+  + ex.getMessage()</span></code></pre>
+        <p style="margin-top:.5rem;font-size:.8rem;color:#fca5a5">Leaks SQL errors, file paths, internal details.</p>
+      </div>
+      <div class="compare-box good">
+        <h4>✅ Do this instead</h4>
+        <pre><code>log.error("[{}] Unhandled at {} {}",
+  traceId, method, path, ex);
+<span class="good">return "Contact support with traceId: "
+  + traceId;</span></code></pre>
+      </div>
+    </div>
+
+    <h3>8.5 How to Throw in Service Layer</h3>
+    <div class="compare">
+      <div class="compare-box bad">
+        <h4>❌ Before (current)</h4>
+        <pre><code><span class="keyword">throw new</span> IllegalArgumentException(
+  <span class="string">"SKU already exists"</span>);
+
+.orElseThrow(() ->
+  <span class="keyword">new</span> ResourceNotFoundException(
+    <span class="string">"Product not found..."</span>));</code></pre>
+      </div>
+      <div class="compare-box good">
+        <h4>✅ After (standard)</h4>
+        <pre><code><span class="keyword">throw new</span> DuplicateResourceException(
+  ErrorCode.SKU_DUPLICATE,
+  <span class="string">"SKU '"</span> + sku + <span class="string">"' exists"</span>);
+
+.orElseThrow(() ->
+  <span class="keyword">new</span> ResourceNotFoundException(
+    ErrorCode.PRODUCT_NOT_FOUND,
+    <span class="string">"Product not found: "</span> + id));</code></pre>
+      </div>
+    </div>
+
+    <div class="alert alert-success">
+      <strong>Rule:</strong> Controllers should have zero try/catch — all exceptions bubble up to <code>GlobalExceptionHandler</code>.
+    </div>
+
+    <h3>8.6 Implementation Order</h3>
+    <ol>
+      <li>Unified <code>ApiErrorResponse</code> record (status, code, message, path, traceId, timestamp)</li>
+      <li><code>ErrorCode</code> enum</li>
+      <li><code>ApiException</code> base class</li>
+      <li><code>DuplicateResourceException</code> (409) — replace SKU IllegalArgumentException</li>
+      <li>Security handlers (401, 403) + AuthenticationEntryPoint</li>
+      <li><code>HttpMessageNotReadableException</code> + <code>MethodArgumentTypeMismatchException</code></li>
+      <li>Logging + hide 500 internals + traceId</li>
+      <li><code>BusinessRuleException</code> (422)</li>
+    </ol>
+  </section>
+
+  <!-- ── 9. DTO STRATEGY ── -->
+  <section id="dto-strategy">
+    <h2><span class="num">09</span> DTO vs Entity Strategy</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Concern</th><th>Entity (ProdData)</th><th>DTO (Req/Res)</th></tr></thead>
+        <tbody>
+          <tr><td>DB persistence</td><td>✅</td><td>❌</td></tr>
+          <tr><td>API validation</td><td>❌</td><td>✅ <code>@NotBlank</code>, <code>@Valid</code></td></tr>
+          <tr><td>Hide internal fields</td><td>❌</td><td>✅ (no Internal in response)</td></tr>
+          <tr><td>API stability</td><td>❌ (changes with DB)</td><td>✅</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Recommended Pattern</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Operation</th><th>DTO</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Create</td><td>Full Req_DTO with validation</td><td>All required fields</td></tr>
+          <tr><td>Update</td><td>Same Req_DTO + MapStruct IGNORE nulls</td><td>Partial update — send only changed fields</td></tr>
+          <tr><td>Response</td><td>Res_DTO</td><td>Hide sensitive / internal fields</td></tr>
+          <tr><td>List</td><td>Res_DTO (paginated)</td><td>Never return full entity</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>What NOT to Do</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Approach</th><th>Verdict</th><th>Reason</th></tr></thead>
+        <tbody>
+          <tr><td><code>Map&lt;String, Object&gt;</code> as request body</td><td><span class="badge badge-missing">Avoid</span></td><td>No validation, security risk</td></tr>
+          <tr><td>Entity directly as <code>@RequestBody</code></td><td><span class="badge badge-missing">Avoid</span></td><td>Exposes DB structure, mass assignment</td></tr>
+          <tr><td>Generics to skip DTO updates</td><td><span class="badge badge-missing">Avoid</span></td><td>Generics still need concrete types</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── 10. ELASTICSEARCH ── -->
+  <section id="elasticsearch">
+    <h2><span class="num">10</span> Elasticsearch Integration</h2>
+
+    <div class="diagram"><span class="highlight">MySQL</span> (source of truth)
+    <span class="arrow">↓ sync on create / update / delete</span>
+<span class="highlight">Elasticsearch</span> (search index)
+    <span class="arrow">↑ query</span>
+<span class="highlight">SearchController</span> → GET /api/v1/products/search?q=...</div>
+
+    <h3>Index Fields (MVP)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Field</th><th>ES Type</th><th>Search Weight</th></tr></thead>
+        <tbody>
+          <tr><td><code>offeringName</code></td><td>text</td><td>Highest (^3)</td></tr>
+          <tr><td><code>brand</code></td><td>text</td><td>High (^2)</td></tr>
+          <tr><td><code>tags</code></td><td>text</td><td>Medium</td></tr>
+          <tr><td><code>shortDesc</code></td><td>text</td><td>Medium</td></tr>
+          <tr><td><code>skuId</code></td><td>keyword</td><td>Exact match only</td></tr>
+          <tr><td><code>category</code></td><td>keyword</td><td>Filter</td></tr>
+          <tr><td><code>sellingPrice</code></td><td>float</td><td>Filter + sort</td></tr>
+          <tr><td><code>featuredOffer</code></td><td>boolean</td><td>Relevance boost</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-info">
+      <strong>Important:</strong> Do NOT also implement MySQL FULLTEXT. Elasticsearch replaces the search layer entirely. MySQL remains for CRUD only.
+    </div>
+
+    <h3>Search Endpoint</h3>
+    <pre><code>GET /api/v1/products/search
+  ?q=wooden+table
+  &amp;category=FURNITURE
+  &amp;minPrice=5000
+  &amp;maxPrice=50000
+  &amp;page=0
+  &amp;size=20
+  &amp;sort=relevance</code></pre>
+  </section>
+
+  <!-- ── 11. ROADMAP ── -->
+  <section id="roadmap">
+    <h2><span class="num">11</span> Recommended Roadmap</h2>
+    <div class="roadmap">
+      <div class="phase phase-1">
+        <div class="phase-header">🚀 Phase 1 — Production Basics (do now)</div>
+        <div class="phase-body"><ul>
+          <li class="done">Move secrets to environment variables</li>
+          <li class="done">Spring profiles: <code>application-dev.yaml</code> / <code>application-prod.yaml</code></li>
+          <li class="done">Flyway database migrations (<code>V1__init_schema.sql</code>, <code>V2__add_user_test_column.sql</code>)</li>
+          <li class="done">Pagination on <code>getAllProducts</code> (<code>Pageable</code>)</li>
+          <li class="done">Swagger / OpenAPI documentation</li>
+          <li>Actuator health check endpoint</li>
+          <li>Fix 500 error message leakage</li>
+          <li>CORS configuration</li>
+          <li>Exception handling upgrade</li>
+        </ul></div>
+      </div>
+      <div class="phase phase-2">
+        <div class="phase-header">🛒 Phase 2 — E-Commerce Core</div>
+        <div class="phase-body"><ul>
+          <li>Elasticsearch search integration</li>
+          <li>Cart + Orders modules</li>
+          <li>AWS S3 image upload</li>
+          <li>Payment gateway (Razorpay / Stripe)</li>
+          <li>Email notifications</li>
+        </ul></div>
+      </div>
+      <div class="phase phase-3">
+        <div class="phase-header">⚡ Phase 3 — Scale &amp; Quality</div>
+        <div class="phase-body"><ul>
+          <li>Redis caching (categories, featured products)</li>
+          <li>Unit + integration tests (60%+ service coverage)</li>
+          <li>CI/CD pipeline (GitHub Actions)</li>
+          <li>JWT refresh tokens</li>
+          <li>Rate limiting on auth endpoints</li>
+        </ul></div>
+      </div>
+      <div class="phase phase-4">
+        <div class="phase-header">✨ Phase 4 — Polish</div>
+        <div class="phase-body"><ul>
+          <li>RESTful URL cleanup (non-breaking migration)</li>
+          <li>Audit fields (createdAt, updatedAt, createdBy)</li>
+          <li>Soft delete for products and orders</li>
+          <li>Reviews, wishlist, coupons</li>
+          <li>Monitoring (CloudWatch / Grafana)</li>
+        </ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 12. QUICK WINS ── -->
+  <section id="quick-wins">
+    <h2><span class="num">12</span> Quick Wins Checklist</h2>
+    <p>Track your progress — checked items are done in the codebase:</p>
+    <ul class="checklist">
+      <li class="done"><span>Move JWT secret to environment variable (<code>JWT_SECRET</code>)</span></li>
+      <li class="done"><span>Move DB credentials to environment variables (<code>DB_URL</code>, <code>DB_USERNAME</code>, <code>DB_PASSWORD</code>)</span></li>
+      <li class="done"><span>Split Spring profiles: <code>application-dev.yaml</code> / <code>application-prod.yaml</code> (active: <code>dev</code>)</span></li>
+      <li class="done"><span>Add <code>springdoc-openapi</code> → Swagger UI at <code>/swagger-ui/index.html</code> + <code>OpenApiConfig</code> with JWT Bearer</span></li>
+      <li class="done"><span>Add pagination — <code>getAllProducts</code> returns <code>Page&lt;Prod_Data_Res_DTO&gt;</code> with <code>Pageable</code></span></li>
+      <li class="done"><span>Add Flyway + migration scripts (<code>V1__init_schema.sql</code>, <code>V2__add_user_test_column.sql</code>)</span></li>
+      <li><span>Add Actuator → expose <code>/actuator/health</code></span></li>
+      <li><span>Fix 500 handler — log server-side, return generic message + traceId</span></li>
+      <li><span>Add <code>DuplicateResourceException</code> (409) for SKU conflicts</span></li>
+      <li><span>Add 401 / 403 security exception handlers</span></li>
+    </ul>
+  </section>
+
+  <!-- ── REFERENCES ── -->
+  <section id="references">
+    <h2><span class="num">13</span> Reference Links</h2>
+    <a class="ref-link" href="https://docs.spring.io/spring-boot/docs/current/reference/html/" target="_blank">Spring Boot Docs <span>docs.spring.io</span></a>
+    <a class="ref-link" href="https://docs.spring.io/spring-security/reference/" target="_blank">Spring Security <span>docs.spring.io</span></a>
+    <a class="ref-link" href="https://flywaydb.org/documentation/" target="_blank">Flyway Migrations <span>flywaydb.org</span></a>
+    <a class="ref-link" href="https://springdoc.org/" target="_blank">Springdoc OpenAPI <span>springdoc.org</span></a>
+    <a class="ref-link" href="https://www.elastic.co/guide/en/elasticsearch/client/java-api-client/current/index.html" target="_blank">Elasticsearch Java Client <span>elastic.co</span></a>
+    <a class="ref-link" href="https://datatracker.ietf.org/doc/html/rfc7807" target="_blank">RFC 7807 Problem Details <span>ietf.org</span></a>
+    <a class="ref-link" href="https://docs.aws.amazon.com/secretsmanager/" target="_blank">AWS Secrets Manager <span>docs.aws.amazon.com</span></a>
+  </section>
+
+  <footer>
+    Homes-merry Backend Industry Standards Guide &nbsp;·&nbsp; Maintained for the Homes-merry project &nbsp;·&nbsp; August 2026
+  </footer>
+
+</main>
+
+<script>
+  // Highlight active sidebar link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.sidebar a');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        const active = document.querySelector(`.sidebar a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

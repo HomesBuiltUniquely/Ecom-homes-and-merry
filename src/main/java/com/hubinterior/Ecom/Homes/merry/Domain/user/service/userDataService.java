@@ -4,7 +4,9 @@ import com.hubinterior.Ecom.Homes.merry.Domain.user.Mapper.UserDatas;
 import com.hubinterior.Ecom.Homes.merry.Domain.user.dto.UserDataRequest;
 import com.hubinterior.Ecom.Homes.merry.Domain.user.dto.UserDataResponse;
 import com.hubinterior.Ecom.Homes.merry.Domain.user.model.UserData;
+import com.hubinterior.Ecom.Homes.merry.Domain.user.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -12,22 +14,16 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class userData {
-    int count;
+public class userDataService {
     private final UserDatas mapper;
-    Map<Long,UserData> temp_store= new HashMap<>();
+    private final UserRepo user_repo;
+    private final PasswordEncoder passwordEncoder;
+
 
     public UserDataResponse CreateUser(UserDataRequest req){
-
         UserData newCustomer=mapper.toEntity(req);
-        newCustomer.setId(10L);
-        temp_store.put(newCustomer.getId(), newCustomer);
-        temp_store.forEach((key,value)->
-                System.out.println(key+":"+value)
-                );
-
+        newCustomer.setPassword(passwordEncoder.encode(req.password()));
+        user_repo.saveAndFlush(newCustomer);
         return mapper.toResponseDto(newCustomer);
     }
-
-
 }

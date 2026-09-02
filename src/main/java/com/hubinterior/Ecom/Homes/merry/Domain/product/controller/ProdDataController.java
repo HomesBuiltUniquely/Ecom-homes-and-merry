@@ -18,7 +18,6 @@ public class ProdDataController {
 
     private final ProdDataService service;
 
-    // ── CREATE ────────────────────────────────────────────────────────────────
     @PostMapping("/createProduct")
     public ResponseEntity<Prod_Data_Res_DTO> createProduct(
             @Valid @RequestBody Prod_Data_Req_DTO req) {
@@ -28,7 +27,6 @@ public class ProdDataController {
                 .body(service.addProduct(req));
     }
 
-    // ── READ ALL ──────────────────────────────────────────────────────────────
     @GetMapping("/getAllProducts")
     public ResponseEntity<List<Prod_Data_Res_DTO>> getAllProducts() {
 
@@ -37,7 +35,6 @@ public class ProdDataController {
                 .body(service.getAllProducts());
     }
 
-    // ── READ BY ID ────────────────────────────────────────────────────────────
     @GetMapping("/getProduct/{prod_id}")
     public ResponseEntity<Prod_Data_Res_DTO> getProductById(
             @PathVariable Long prod_id) {
@@ -47,7 +44,6 @@ public class ProdDataController {
                 .body(service.getProductById(prod_id));
     }
 
-    // ── UPDATE ────────────────────────────────────────────────────────────────
     @PutMapping("/updateProduct/{prod_id}")
     public ResponseEntity<Prod_Data_Res_DTO> updateProduct(
             @PathVariable Long prod_id,
@@ -58,17 +54,7 @@ public class ProdDataController {
                 .body(service.updateProduct(prod_id, req));
     }
 
-    // ── UPDATE ALL ────────────────────────────────────────────────────────────
-    @PutMapping("/updateAllProducts")
-    public ResponseEntity<List<Prod_Data_Res_DTO>> updateAllProducts(
-            @Valid @RequestBody List<Prod_Data_Req_DTO> reqs) {
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(service.updateAllProducts(reqs));
-    }
-
-    // ── DELETE ────────────────────────────────────────────────────────────────
     @DeleteMapping("/deleteProduct/{prod_id}")
     public ResponseEntity<String> deleteProduct(
             @PathVariable Long prod_id) {
