@@ -29,8 +29,12 @@ public class UserController {
             @Valid @RequestBody UserDataRequest reqUser)
     {
         UserDataResponse userResp= data.CreateUser(reqUser);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new MessageResponse<>(reqUser.email() + " created successfully.", userResp));
+return ResponseEntity.status(HttpStatus.CREATED)
+        .body(new MessageResponse<>(
+                reqUser.first_name() + " " + reqUser.last_name()
+                        + "'s account was created successfully.",
+                userResp
+        ));
     }
 
 

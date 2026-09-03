@@ -1,5 +1,6 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.product.controller;
 
+import com.hubinterior.Ecom.Homes.merry.Domain.common.dto.MessageResponse;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.SEO_Req_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.SEO_Res_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.service.SEOService;
@@ -19,10 +20,15 @@ public class SEOController {
     private final SEOService service;
 
     @PutMapping("/updateSEO/{prod_id}")
-    public ResponseEntity<SEO_Res_DTO> updateSEO(
+    public ResponseEntity<MessageResponse<SEO_Res_DTO>> updateSEO(
             @PathVariable Long prod_id,
             @Valid @RequestBody SEO_Req_DTO req) {
-        return ResponseEntity.ok(service.updateSEO(prod_id, req));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new MessageResponse<>(
+                        "Product SEO details updated successfully.",
+                        service.updateSEO(prod_id, req)
+                ));
     }
 
 }

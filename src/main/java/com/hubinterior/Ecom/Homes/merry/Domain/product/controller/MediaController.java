@@ -1,5 +1,6 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.product.controller;
 
+import com.hubinterior.Ecom.Homes.merry.Domain.common.dto.MessageResponse;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Media_Req_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Media_Res_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.model.ProdData;
@@ -20,11 +21,14 @@ public class MediaController {
     private final MediaService service;
 
     @PutMapping("/updateMedia/{prod_id}")
-    public ResponseEntity<Media_Res_DTO> updateMedia(
+    public ResponseEntity<MessageResponse<Media_Res_DTO>> updateMedia(
             @PathVariable  Long prod_id,
             @Valid @RequestBody Media_Req_DTO req) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(service.updateMedia(prod_id, req));
+                .body(new MessageResponse<>(
+                        "Product media updated successfully.",
+                        service.updateMedia(prod_id, req)
+                ));
     }
 }
