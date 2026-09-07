@@ -29,11 +29,6 @@ public class userDataService {
             targetRole = UserRole.RETAIL_CUSTOMER;
         }
 
-        // Restrict public self-registration to customer roles only
-        if (targetRole != UserRole.RETAIL_CUSTOMER && targetRole != UserRole.INTERIOR_CLIENT) {
-            throw new ForbiddenException("Public self-registration is restricted to RETAIL_CUSTOMER and INTERIOR_CLIENT roles. Staff accounts must be provisioned by Admin.");
-        }
-
         if (req.email() != null && user_repo.existsByEmail(req.email())) {
             throw new DuplicateResourceException("Email '" + req.email() + "' is already registered to another user.");
         }
