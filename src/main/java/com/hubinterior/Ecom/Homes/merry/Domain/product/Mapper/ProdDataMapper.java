@@ -56,6 +56,12 @@ public interface ProdDataMapper {
     @Mapping(source = "brand", target = "brand")
     @Mapping(source = "tags", target = "tags")
     @Mapping(source = "short_desc", target = "short_desc")
+    @Mapping(source = "long_desc", target = "long_desc")
     @Mapping(source = "featured_offer", target = "featured_offer")
+    @Mapping(source = "inventory", target = "inventory")
+    @Mapping(source = "media", target = "media")
+    @Mapping(source = "specifications", target = "specifications")
+    @Mapping(source = "seo", target = "seo")
+    @Mapping(source = "internal", target = "internal")
     Prod_Data_Res_DTO toResponseDto(ProdData entity);
 }
