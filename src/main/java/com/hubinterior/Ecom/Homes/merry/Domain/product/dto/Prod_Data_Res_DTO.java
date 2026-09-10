@@ -2,7 +2,7 @@ package com.hubinterior.Ecom.Homes.merry.Domain.product.dto;
 
 import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Offering_Category;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.enums.GlobalEnums.Offering_Type;
-import com.hubinterior.Ecom.Homes.merry.Domain.product.model.Pricing;
+import com.hubinterior.Ecom.Homes.merry.Domain.product.model.*;
 
 import java.util.List;
 
@@ -26,5 +26,17 @@ public record Prod_Data_Res_DTO(
 
         String short_desc,
 
-        boolean featured_offer
+        String long_desc,
+
+        boolean featured_offer,
+
+        Inventory inventory,
+
+        Media media,
+
+        Specifications specifications,
+
+        SEO seo,
+
+        Internal internal
 ) {}
