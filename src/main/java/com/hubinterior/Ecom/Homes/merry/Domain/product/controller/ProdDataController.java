@@ -33,12 +33,13 @@ public class ProdDataController {
 
     @GetMapping("/getAllProducts")
     public ResponseEntity<Page<Prod_Data_Res_DTO>> getAllProducts(
+            @RequestParam(name = "is_published", required = false) Boolean is_published,
             @PageableDefault(page = 0, size = 10, sort = "prodId", direction = Sort.Direction.ASC) Pageable pageable
     ) {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(service.getAllProducts(pageable));
+                .body(service.getAllProducts(is_published, pageable));
     }
 
     @GetMapping("/getProduct/{prod_id}")
