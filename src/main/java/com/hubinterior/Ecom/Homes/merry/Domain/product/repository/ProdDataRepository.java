@@ -1,6 +1,8 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.product.repository;
 
 import com.hubinterior.Ecom.Homes.merry.Domain.product.model.ProdData;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,5 +21,8 @@ public interface ProdDataRepository extends JpaRepository<ProdData, Long> {
     Optional<ProdData> findBySku_id(@Param("sku_id") String sku_id);
 
     List<ProdData> findByProdIdIn(List<Long> prodIds);
+
+    @Query("SELECT p FROM ProdData p WHERE p.is_published = :isPublished")
+    Page<ProdData> findByIs_published(@Param("isPublished") boolean isPublished, Pageable pageable);
 }
 

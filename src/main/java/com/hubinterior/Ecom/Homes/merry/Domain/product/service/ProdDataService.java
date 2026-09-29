@@ -37,7 +37,11 @@ public class ProdDataService {
         return mapper.toResponseDto(saved);
     }
 
-    public Page<Prod_Data_Res_DTO> getAllProducts(Pageable pageable) {
+    public Page<Prod_Data_Res_DTO> getAllProducts(Boolean isPublished, Pageable pageable) {
+        if (isPublished != null) {
+            return repository.findByIs_published(isPublished, pageable)
+                    .map(mapper::toResponseDto);
+        }
         return repository.findAll(pageable)
                 .map(mapper::toResponseDto);
     }

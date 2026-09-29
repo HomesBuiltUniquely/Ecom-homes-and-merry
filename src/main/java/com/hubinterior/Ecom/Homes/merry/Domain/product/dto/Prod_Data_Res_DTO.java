@@ -29,6 +29,8 @@ public record Prod_Data_Res_DTO(
 
         boolean featured_offer,
 
+        boolean is_published,
+
         Inventory inventory,
 
         Media media,

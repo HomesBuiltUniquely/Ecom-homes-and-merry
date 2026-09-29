@@ -60,6 +60,18 @@ public class ProdData {
     @Column(name = "featured_offer")
     private boolean featured_offer;
 
+    @Column(name = "is_published")
+    @Builder.Default
+    private boolean is_published = false;
+
+    public boolean getIs_published() {
+        return is_published;
+    }
+
+    public void setIs_published(boolean is_published) {
+        this.is_published = is_published;
+    }
+
     @Embedded
     private Pricing pricing;
 

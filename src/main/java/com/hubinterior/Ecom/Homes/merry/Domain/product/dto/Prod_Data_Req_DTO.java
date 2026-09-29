@@ -29,6 +29,8 @@ public record Prod_Data_Req_DTO(
 
                 boolean featured_offer,
 
+                boolean is_published,
+
                 @Valid Pricing pricing,
 
                 @Valid Inventory inventory,
