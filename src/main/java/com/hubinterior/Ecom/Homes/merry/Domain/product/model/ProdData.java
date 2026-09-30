@@ -93,4 +93,8 @@ public class ProdData {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "primary_category_id")
     private PrimaryCategory primaryCategory;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id")
+    private com.hubinterior.Ecom.Homes.merry.Domain.brand.model.Brand brandEntity;
 }

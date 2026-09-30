@@ -1,5 +1,6 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.product.Mapper;
 
+import com.hubinterior.Ecom.Homes.merry.Domain.brand.mapper.BrandMapper;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Prod_Data_Req_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Prod_Data_Res_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.model.ProdData;
@@ -8,10 +9,12 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring", uses = {BrandMapper.class}, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ProdDataMapper {
 
     @Mapping(target = "prodId", ignore = true)
+    @Mapping(target = "primaryCategory", ignore = true)
+    @Mapping(target = "brandEntity", ignore = true)
     @Mapping(source = "offering_name", target = "offering_name")
     @Mapping(source = "offering_type", target = "offering_type")
     @Mapping(source = "sku_id", target = "sku_id")
@@ -31,6 +34,8 @@ public interface ProdDataMapper {
     ProdData toEntity(Prod_Data_Req_DTO req);
 
     @Mapping(target = "prodId", ignore = true)
+    @Mapping(target = "primaryCategory", ignore = true)
+    @Mapping(target = "brandEntity", ignore = true)
     @Mapping(source = "offering_name", target = "offering_name")
     @Mapping(source = "offering_type", target = "offering_type")
     @Mapping(source = "sku_id", target = "sku_id")
@@ -56,6 +61,7 @@ public interface ProdDataMapper {
     @Mapping(source = "sku_id", target = "sku_id")
     @Mapping(source = "category", target = "category")
     @Mapping(source = "brand", target = "brand")
+    @Mapping(source = "brandEntity", target = "brand_details")
     @Mapping(source = "tags", target = "tags")
     @Mapping(source = "short_desc", target = "short_desc")
     @Mapping(source = "long_desc", target = "long_desc")

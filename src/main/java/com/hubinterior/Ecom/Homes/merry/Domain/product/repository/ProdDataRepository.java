@@ -24,5 +24,8 @@ public interface ProdDataRepository extends JpaRepository<ProdData, Long> {
 
     @Query("SELECT p FROM ProdData p WHERE p.is_published = :isPublished")
     Page<ProdData> findByIs_published(@Param("isPublished") boolean isPublished, Pageable pageable);
+
+    @Query("SELECT COUNT(p) FROM ProdData p WHERE p.is_published = :isPublished")
+    long countByIs_published(@Param("isPublished") boolean isPublished);
 }
 

@@ -23,6 +23,7 @@ public class ProdDataService {
 
     private final ProdDataMapper mapper;
     private final ProdDataRepository repository;
+    private final com.hubinterior.Ecom.Homes.merry.Domain.brand.repository.BrandRepository brandRepository;
 
     @Transactional
     public Prod_Data_Res_DTO addProduct(Prod_Data_Req_DTO req) {
@@ -33,6 +34,14 @@ public class ProdDataService {
         validatePricingBusinessRules(req);
 
         ProdData newProduct = mapper.toEntity(req);
+
+        if (req.brand_id() != null) {
+            var brand = brandRepository.findById(req.brand_id())
+                    .orElseThrow(() -> new ResourceNotFoundException("Brand not found with id: " + req.brand_id()));
+            newProduct.setBrandEntity(brand);
+            newProduct.setBrand(brand.getBrandName());
+        }
+
         ProdData saved = repository.save(newProduct);
         return mapper.toResponseDto(saved);
     }
@@ -68,6 +77,14 @@ public class ProdDataService {
         validatePricingBusinessRules(req);
 
         mapper.updateEntityFromDto(req, existing);
+
+        if (req.brand_id() != null) {
+            var brand = brandRepository.findById(req.brand_id())
+                    .orElseThrow(() -> new ResourceNotFoundException("Brand not found with id: " + req.brand_id()));
+            existing.setBrandEntity(brand);
+            existing.setBrand(brand.getBrandName());
+        }
+
         ProdData updated = repository.save(existing);
         return mapper.toResponseDto(updated);
     }

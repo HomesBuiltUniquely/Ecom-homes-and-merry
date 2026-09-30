@@ -22,6 +22,8 @@ public record Prod_Data_Res_DTO(
 
         String brand,
 
+        com.hubinterior.Ecom.Homes.merry.Domain.brand.dto.BrandDropdownDTO brand_details,
+
         List<String> tags,
 
         String short_desc,

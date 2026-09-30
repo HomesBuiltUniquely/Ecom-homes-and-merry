@@ -92,6 +92,15 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/secondary-categories/updateCategory/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
                         .requestMatchers("/api/v1/secondary-categories/deleteCategory/**").hasRole(UserRole.ADMIN.name())
 
+                        // ── Brands ────────────────────────────────────────────────────────
+                        .requestMatchers("/api/v1/brands/getAllBrands").permitAll()
+                        .requestMatchers("/api/v1/brands/getBrand/**").permitAll()
+                        .requestMatchers("/api/v1/brands/dropdown").permitAll()
+                        .requestMatchers("/api/v1/brands/stats").permitAll()
+                        .requestMatchers("/api/v1/brands/createBrand").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/brands/updateBrand/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/brands/deleteBrand/**").hasRole(UserRole.ADMIN.name())
+
                         // ── Products — public reads ───────────────────────────────────────
                         .requestMatchers("/api/v1/products/getAllProducts").permitAll()
                         .requestMatchers("/api/v1/products/getProduct/**").permitAll()
