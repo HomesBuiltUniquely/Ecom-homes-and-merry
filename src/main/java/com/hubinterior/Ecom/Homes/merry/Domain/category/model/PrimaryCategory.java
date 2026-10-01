@@ -1,8 +1,11 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.category.model;
 
 import com.hubinterior.Ecom.Homes.merry.Domain.product.model.ProdData;
+import com.hubinterior.Ecom.Homes.merry.Domain.product.model.SEO;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,17 @@ public class PrimaryCategory {
 
     @Column(name = "pcatDesc")
     private String primaryCategoryDescription;
+
+    @Column(name = "image_url", length = 500)
+    private String imageUrl;
+
+    @Embedded
+    private SEO seo;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "internal_tags", columnDefinition = "json")
+    @Builder.Default
+    private List<String> internalTags = new ArrayList<>();
 
     @OneToMany(mappedBy = "primaryCategory", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default

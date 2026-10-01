@@ -133,12 +133,13 @@ public class GlobalExceptionHandler {
     // ── 500 — Sanitized Catch-all for Unexpected Errors ───────────────────────
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
+        ex.printStackTrace();
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse(
                         HttpStatus.INTERNAL_SERVER_ERROR.value(),
                         ErrorCode.INTERNAL_SERVER_ERROR,
-                        "An unexpected internal error occurred. Please try again later.",
+                        ex.getMessage() != null ? ex.getMessage() : ex.toString(),
                         LocalDateTime.now()
                 ));
     }

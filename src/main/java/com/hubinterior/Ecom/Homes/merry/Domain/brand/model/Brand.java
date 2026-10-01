@@ -83,6 +83,18 @@ public class Brand {
         if (this.offeringsCount == null) {
             this.offeringsCount = 0;
         }
+        if (this.countryCode == null) {
+            this.countryCode = "IT";
+        }
+        if (this.country == null) {
+            this.country = "Italy";
+        }
+        if (this.manufacturer == null) {
+            this.manufacturer = (this.brandName != null ? this.brandName : "Global") + " Manufacturing Group";
+        }
+        if (this.logoUrl == null) {
+            this.logoUrl = "/brands/default.svg";
+        }
     }
 
     @PreUpdate
