@@ -47,7 +47,7 @@ public class BrandController {
             @RequestParam(name = "search", required = false) String search,
             @RequestParam(name = "status", required = false) BrandStatus status,
             @RequestParam(name = "country", required = false) String country,
-            @PageableDefault(page = 0, size = 15, sort = "updatedAt", direction = Sort.Direction.DESC) Pageable pageable
+            @PageableDefault(page = 0, size = 15, sort = "id", direction = Sort.Direction.ASC) Pageable pageable
     ) {
         return ResponseEntity
                 .status(HttpStatus.OK)

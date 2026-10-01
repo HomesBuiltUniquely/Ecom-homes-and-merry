@@ -11,10 +11,11 @@ public record BrandResDTO(
         String manufacturer,
         String code,
         String country,
+        String country_code,
         String logo_url,
         BrandStatus status,
-        Long offerings_count,
+        Integer offerings_count,
         List<String> categories,
-        LocalDateTime created_at,
-        LocalDateTime updated_at
+        String updated_date,
+        LocalDateTime created_at
 ) {}

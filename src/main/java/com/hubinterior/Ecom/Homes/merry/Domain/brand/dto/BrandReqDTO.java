@@ -16,6 +16,8 @@ public record BrandReqDTO(
 
         String country,
 
+        String country_code,
+
         String logo_url,
 
         BrandStatus status,

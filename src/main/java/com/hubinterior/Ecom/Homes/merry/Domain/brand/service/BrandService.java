@@ -45,8 +45,8 @@ public class BrandService {
 
         if (req.code() != null && !req.code().equalsIgnoreCase(existing.getCode())) {
             brandRepository.findByCode(req.code()).ifPresent(other -> {
-                if (!other.getBrandId().equals(brandId)) {
-                    throw new DuplicateResourceException("Brand code '" + req.code() + "' is already assigned to another brand (brand ID: " + other.getBrandId() + ").");
+                if (!other.getId().equals(brandId)) {
+                    throw new DuplicateResourceException("Brand code '" + req.code() + "' is already assigned to another brand (brand ID: " + other.getId() + ").");
                 }
             });
         }
