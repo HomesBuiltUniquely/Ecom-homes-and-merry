@@ -14,6 +14,9 @@ public interface SecondaryCatMapper {
     @Mapping(target = "parent", ignore = true)
     @Mapping(source = "secondaryCategoryName", target = "secondaryCategoryName")
     @Mapping(source = "secondaryCategoryDescription", target = "secondaryCategoryDescription")
+    @Mapping(source = "imageUrl", target = "imageUrl")
+    @Mapping(source = "seo", target = "seo")
+    @Mapping(source = "internalTags", target = "internalTags")
     @Mapping(source = "subCategory", target = "subCategory")
     @Mapping(source = "products", target = "products")
     SecondaryCategory toEntity(SecondaryCatReqData req);
@@ -21,6 +24,9 @@ public interface SecondaryCatMapper {
     @Mapping(source = "secondaryCategoryId", target = "secondaryCategoryId")
     @Mapping(source = "secondaryCategoryName", target = "secondaryCategoryName")
     @Mapping(source = "secondaryCategoryDescription", target = "secondaryCategoryDescription")
+    @Mapping(source = "imageUrl", target = "imageUrl")
+    @Mapping(source = "seo", target = "seo")
+    @Mapping(source = "internalTags", target = "internalTags")
     @Mapping(source = "subCategory", target = "subCategory")
     @Mapping(source = "products", target = "products")
     SecondaryCatResData toResponseDto(SecondaryCategory entity);

@@ -21,6 +21,8 @@ public record Prod_Data_Req_DTO(
 
                 String brand,
 
+                Long brand_id,
+
                 List<String> tags,
 
                 String short_desc,

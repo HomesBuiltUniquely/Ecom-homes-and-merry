@@ -92,6 +92,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/secondary-categories/updateCategory/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
                         .requestMatchers("/api/v1/secondary-categories/deleteCategory/**").hasRole(UserRole.ADMIN.name())
 
+                        // ── Brands ────────────────────────────────────────────────────────
+                        .requestMatchers("/api/v1/brands/**").permitAll()
+
                         // ── Products — public reads ───────────────────────────────────────
                         .requestMatchers("/api/v1/products/getAllProducts").permitAll()
                         .requestMatchers("/api/v1/products/getProduct/**").permitAll()
@@ -100,8 +103,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/products/updateAllProducts").hasRole("ADMIN")
 
                         // ── Products — single product write permissions (ADMIN & ENTERPRISE)
-                        .requestMatchers("/api/v1/products/createProduct")
-                        .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
+                        .requestMatchers("/api/v1/products/createProduct").permitAll()
                         .requestMatchers("/api/v1/products/updateProduct/**")
                         .hasAnyRole(UserRole.ADMIN.name(), UserRole.ENTERPRISE.name())
                         .requestMatchers("/api/v1/products/deleteProduct/**")

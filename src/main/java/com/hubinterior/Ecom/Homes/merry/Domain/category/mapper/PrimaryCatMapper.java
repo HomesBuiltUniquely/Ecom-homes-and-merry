@@ -15,6 +15,9 @@ public interface PrimaryCatMapper {
     @Mapping(target = "primaryCategoryId", ignore = true)
     @Mapping(source = "primaryCategoryName", target = "primaryCategoryName")
     @Mapping(source = "primaryCategoryDescription", target = "primaryCategoryDescription")
+    @Mapping(source = "imageUrl", target = "imageUrl")
+    @Mapping(source = "seo", target = "seo")
+    @Mapping(source = "internalTags", target = "internalTags")
     @Mapping(source = "subCategory", target = "subCategory")
     @Mapping(source = "products", target = "Products")
     PrimaryCategory toEntity(PrimaryCatReqData req);
@@ -22,6 +25,9 @@ public interface PrimaryCatMapper {
     @Mapping(source = "primaryCategoryId", target = "primaryCategoryId")
     @Mapping(source = "primaryCategoryName", target = "primaryCategoryName")
     @Mapping(source = "primaryCategoryDescription", target = "primaryCategoryDescription")
+    @Mapping(source = "imageUrl", target = "imageUrl")
+    @Mapping(source = "seo", target = "seo")
+    @Mapping(source = "internalTags", target = "internalTags")
     @Mapping(source = "subCategory", target = "subCategory")
     @Mapping(source = "products", target = "products")
     PrimaryCatResData toResponseDto(PrimaryCategory entity);
