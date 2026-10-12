@@ -1,5 +1,6 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.category.controller;
 
+import com.hubinterior.Ecom.Homes.merry.Domain.common.dto.MessageResponse;
 import com.hubinterior.Ecom.Homes.merry.Domain.category.dto.SecondaryCatReqData;
 import com.hubinterior.Ecom.Homes.merry.Domain.category.dto.SecondaryCatResData;
 import com.hubinterior.Ecom.Homes.merry.Domain.category.service.SecondaryCatService;
@@ -19,21 +20,29 @@ public class SecondaryCatController {
     private final SecondaryCatService service;
 
     @PostMapping("/createCategory/{primaryCategoryId}")
-    public ResponseEntity<SecondaryCatResData> createCategory(
+    public ResponseEntity<MessageResponse<SecondaryCatResData>> createCategory(
             @PathVariable Long primaryCategoryId,
             @Valid @RequestBody SecondaryCatReqData req) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(service.createCategory(primaryCategoryId, req));
+                .body(new MessageResponse<>(
+                        req.secondaryCategoryName()
+                                + " Secondary category created successfully.",
+                        service.createCategory(primaryCategoryId, req)
+                ));
     }
 
     @PostMapping("/createSubCategory/{parentSecondaryCategoryId}")
-    public ResponseEntity<SecondaryCatResData> createSubCategory(
+    public ResponseEntity<MessageResponse<SecondaryCatResData>> createSubCategory(
             @PathVariable Long parentSecondaryCategoryId,
             @Valid @RequestBody SecondaryCatReqData req) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(service.createSubCategory(parentSecondaryCategoryId, req));
+                .body(new MessageResponse<>(
+                        req.secondaryCategoryName()
+                                + " Sub category created successfully.",
+                        service.createSubCategory(parentSecondaryCategoryId, req)
+                ));
     }
 
     @GetMapping("/getAllCategories")
@@ -60,20 +69,28 @@ public class SecondaryCatController {
     }
 
     @PutMapping("/updateCategory/{secondaryCategoryId}")
-    public ResponseEntity<SecondaryCatResData> updateCategory(
+    public ResponseEntity<MessageResponse<SecondaryCatResData>> updateCategory(
             @PathVariable Long secondaryCategoryId,
             @Valid @RequestBody SecondaryCatReqData req) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(service.updateCategory(secondaryCategoryId, req));
+                .body(new MessageResponse<>(
+                        req.secondaryCategoryName()
+                                + " Secondary category updated successfully.",
+                        service.updateCategory(secondaryCategoryId, req)
+                ));
     }
 
     @DeleteMapping("/deleteCategory/{secondaryCategoryId}")
-    public ResponseEntity<String> deleteCategory(
+    public ResponseEntity<MessageResponse<Void>> deleteCategory(
             @PathVariable Long secondaryCategoryId) {
         service.deleteCategory(secondaryCategoryId);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("Secondary category with id " + secondaryCategoryId + " deleted successfully.");
+                .body(new MessageResponse<>(
+                        "Secondary category with id "
+                                + secondaryCategoryId
+                                + " deleted successfully."
+                ));
     }
 }

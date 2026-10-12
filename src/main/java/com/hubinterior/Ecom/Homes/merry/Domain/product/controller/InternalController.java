@@ -1,5 +1,6 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.product.controller;
 
+import com.hubinterior.Ecom.Homes.merry.Domain.common.dto.MessageResponse;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Internal_Req_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Internal_Res_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.service.InternalService;
@@ -19,10 +20,15 @@ public class InternalController {
     private final InternalService service;
 
     @PutMapping("/updateInternal/{prod_id}")
-    public ResponseEntity<Internal_Res_DTO> updateInternal(
+    public ResponseEntity<MessageResponse<Internal_Res_DTO>> updateInternal(
             @PathVariable Long prod_id,
             @Valid @RequestBody Internal_Req_DTO req) {
-        return ResponseEntity.ok(service.updateInternal(prod_id, req));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(new MessageResponse<>(
+                        "Product internal details updated successfully.",
+                        service.updateInternal(prod_id, req)
+                ));
     }
 
 }

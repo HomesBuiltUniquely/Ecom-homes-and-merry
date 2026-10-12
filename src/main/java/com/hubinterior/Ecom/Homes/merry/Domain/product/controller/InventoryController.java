@@ -1,5 +1,6 @@
 package com.hubinterior.Ecom.Homes.merry.Domain.product.controller;
 
+import com.hubinterior.Ecom.Homes.merry.Domain.common.dto.MessageResponse;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Inventory_Req_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.dto.Inventory_Res_DTO;
 import com.hubinterior.Ecom.Homes.merry.Domain.product.service.InventoryService;
@@ -20,10 +21,11 @@ public class InventoryController {
 
 
     @PutMapping("/updateInventory/{prod_id}/{sku_Id}")
-    public ResponseEntity<Inventory_Res_DTO> updateInventory(
+    public ResponseEntity<MessageResponse<Inventory_Res_DTO>> updateInventory(
             @PathVariable Long prod_id,
             @Valid @RequestBody Inventory_Req_DTO req) {
-        return ResponseEntity.ok(service.updateInventory(prod_id,req));
+        return ResponseEntity.ok(new MessageResponse<>("Product inventory updated successfully.",
+            service.updateInventory(prod_id, req)));
     }
 
 
