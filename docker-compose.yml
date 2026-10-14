@@ -1,0 +1,42 @@
+# Single EC2: app + MySQL (good for staging / small prod).
+# For production at scale, use RDS and docker-compose.app-only.yml instead.
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: homes-merry-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-change-me-root}
+      MYSQL_DATABASE: Homes_Merry
+      MYSQL_USER: ${DB_USERNAME:-homes_app}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-change-me-app}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "127.0.0.1:3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-change-me-root}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  app:
+    build: .
+    container_name: homes-merry-api
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_URL: jdbc:mysql://mysql:3306/Homes_Merry?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+      DB_USERNAME: ${DB_USERNAME:-homes_app}
+      DB_PASSWORD: ${DB_PASSWORD:-change-me-app}
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
+
+volumes:
+  mysql_data:

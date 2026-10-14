@@ -36,3 +36,6 @@ build/
 ### Local documentation ###
 docs/BACKEND_INDUSTRY_STANDARDS.html
 docs/BACKEND_INDUSTRY_STANDARDS.md
+
+### Docker / secrets ###
+.env
