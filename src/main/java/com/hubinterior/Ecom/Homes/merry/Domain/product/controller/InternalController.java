@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InternalController {
 
-    private final InternalService service;
+    private final InternalService service = null;
 
     @PutMapping("/updateInternal/{prod_id}")
     public ResponseEntity<MessageResponse<Internal_Res_DTO>> updateInternal(
@@ -25,7 +25,7 @@ public class InternalController {
             @Valid @RequestBody Internal_Req_DTO req) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new MessageResponse<>(
+                .body(new MessageResponse<Internal_Res_DTO>(
                         "Product internal details updated successfully.",
                         service.updateInternal(prod_id, req)
                 ));

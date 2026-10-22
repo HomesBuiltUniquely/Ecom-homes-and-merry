@@ -1,0 +1,695 @@
+================================================================================
+ HOMES & MERRY E-COMMERCE BACKEND - 49 PUT / POST / DELETE APIs (cURL DATA)
+ Response DTO: MessageResponse<T> { String message; T data; }
+ Base URL: http://localhost:8080
+ Total APIs: 49 (POST: 24 | PUT: 12 | DELETE: 13)
+================================================================================
+
+TABLE OF CONTENTS
+--------------------------------------------------------------------------------
+01. [POST  ] /api/auth/login                                              (UserAuthLogin)
+02. [POST  ] /api/v1/CreateUser                                           (UserSignUp)
+03. [POST  ] /api/v1/inventory/create                                     (Create Inventory)
+04. [PUT   ] /api/v1/inventory/updateInventory/{prod_id}                  (Update Inventory)
+05. [DELETE] /api/v1/inventory/deleteInventory/{prod_id}                  (Delete Inventory)
+06. [PUT   ] /api/v1/pricing/updatePricing/{prod_id}                      (Update Pricing)
+07. [POST  ] /api/v1/media/create                                         (Create Media)
+08. [PUT   ] /api/v1/media/updateMedia/{prod_id}                          (Update Media)
+09. [DELETE] /api/v1/media/deleteMedia/{prod_id}                          (Delete Media)
+10. [POST  ] /api/v1/seo/create                                           (Create SEO)
+11. [PUT   ] /api/v1/seo/updateSEO/{prod_id}                              (Update SEO)
+12. [DELETE] /api/v1/seo/deleteSEO/{prod_id}                              (Delete SEO)
+13. [POST  ] /api/v1/specifications/create                                (Create Specifications)
+14. [PUT   ] /api/v1/specifications/updateSpecifications/{prod_id}        (Update Specifications)
+15. [DELETE] /api/v1/specifications/deleteSpecifications/{prod_id}        (Delete Specifications)
+16. [POST  ] /api/v1/internal/create                                      (Create Internal)
+17. [PUT   ] /api/v1/internal/updateInternal/{prod_id}                    (Update Internal)
+18. [DELETE] /api/v1/internal/deleteInternal/{prod_id}                    (Delete Internal)
+19. [POST  ] /api/v1/products/createProduct                               (Create Product)
+20. [PUT   ] /api/v1/products/updateProduct/{prod_id}                     (Update Product by ID)
+21. [PUT   ] /api/v1/products/updateAllProducts                           (Update All Products)
+22. [DELETE] /api/v1/products/deleteProduct/{prod_id}                     (Delete Product)
+23. [POST  ] /api/v1/categories/createCategory                            (Create Primary Category)
+24. [PUT   ] /api/v1/categories/updateCategory/{primaryCategoryId}        (Update Primary Category)
+25. [DELETE] /api/v1/categories/deleteCategory/{primaryCategoryId}        (Delete Primary Category)
+26. [POST  ] /api/v1/secondary-categories/createCategory/{primaryCategoryId} (Create Secondary Category)
+27. [PUT   ] /api/v1/secondary-categories/updateCategory/{secondaryCategoryId} (Update Secondary Category)
+28. [DELETE] /api/v1/secondary-categories/deleteCategory/{secondaryCategoryId} (Delete Secondary Category)
+29. [POST  ] /api/v1/brands/create                                        (Create Brand)
+30. [PUT   ] /api/v1/brands/update/{brandId}                              (Update Brand)
+31. [DELETE] /api/v1/brands/delete/{brandId}                              (Delete Brand)
+32. [POST  ] /api/crm/login                                               (CRM Login)
+33. [POST  ] /api/design/login                                            (Design Module Login)
+34. [POST  ] /api/prolance/login                                          (Prolance Login)
+35. [POST  ] /api/prolance/partner/login                                  (Prolance Partner Login)
+36. [POST  ] /api/leads/assign                                            (Lead Assignment (Additional API))
+37. [POST  ] /api/v1/cart/add                                             (Add to Cart)
+38. [PUT   ] /api/v1/cart/update                                          (Update Cart Items)
+39. [POST  ] /api/v1/cart/coupon                                          (Apply Coupon Code)
+40. [DELETE] /api/v1/cart/coupon/{couponId}                               (Remove Coupon)
+41. [POST  ] /api/v1/cart/wishlist                                        (Cart to Wishlist)
+42. [DELETE] /api/v1/cart/item/{itemId}                                   (Remove Single Item)
+43. [DELETE] /api/v1/cart/clear                                           (Clear Cart)
+44. [POST  ] /api/v1/wishlist/cart                                        (Wishlist to Cart)
+45. [DELETE] /api/v1/wishlist/item/{itemId}                               (Delete Wishlist Item)
+46. [POST  ] /api/v1/checkout/initiate                                    (Initiate Checkout)
+47. [POST  ] /api/v1/checkout/confirm                                     (Confirm Payment)
+48. [POST  ] /api/v1/checkout/payment-failed                              (Payment Failed)
+49. [POST  ] /api/v1/checkout/cancel                                      (Cancel Checkout)
+--------------------------------------------------------------------------------
+
+================================================================================
+API #1: UserAuthLogin
+Method & Route: POST /api/auth/login
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "password": "password123"
+  }'
+
+================================================================================
+API #2: UserSignUp
+Method & Route: POST /api/v1/CreateUser
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/CreateUser \
+  -H "Content-Type: application/json" \
+  -d '{
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john@example.com",
+    "phone_number": "9876543210",
+    "password": "password123",
+    "role": "RETAIL_CUSTOMER",
+    "brand_name": "John Store",
+    "pincode": 560001,
+    "address": {
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "description": "123 Main St"
+    }
+  }'
+
+================================================================================
+API #3: Create Inventory
+Method & Route: POST /api/v1/inventory/create
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/inventory/create \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "productId": 1,
+    "stockQuantity": 100,
+    "reservedQuantity": 10,
+    "warehouseLocation": "WH-001"
+  }'
+
+================================================================================
+API #4: Update Inventory
+Method & Route: PUT /api/v1/inventory/updateInventory/{prod_id}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X PUT http://localhost:8080/api/v1/inventory/updateInventory/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "stockQuantity": 150,
+    "reservedQuantity": 5,
+    "availableQuantity": 145
+  }'
+
+================================================================================
+API #5: Delete Inventory
+Method & Route: DELETE /api/v1/inventory/deleteInventory/{prod_id}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X DELETE http://localhost:8080/api/v1/inventory/deleteInventory/1 \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+================================================================================
+API #6: Update Pricing
+Method & Route: PUT /api/v1/pricing/updatePricing/{prod_id}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X PUT http://localhost:8080/api/v1/pricing/updatePricing/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "basePrice": 50000.00,
+    "discountedPrice": 45000.00,
+    "taxRate": 18.0,
+    "currency": "INR"
+  }'
+
+================================================================================
+API #7: Create Media
+Method & Route: POST /api/v1/media/create
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/media/create \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "productId": 1,
+    "primaryImage": "https://example.com/image1.jpg",
+    "imageGallery": ["https://example.com/img1.jpg", "https://example.com/img2.jpg"],
+    "videoUrl": "https://example.com/video.mp4"
+  }'
+
+================================================================================
+API #8: Update Media
+Method & Route: PUT /api/v1/media/updateMedia/{prod_id}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X PUT http://localhost:8080/api/v1/media/updateMedia/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "primaryImage": "https://example.com/updated-image.jpg",
+    "imageGallery": ["https://example.com/new1.jpg"],
+    "altText": "Updated product image"
+  }'
+
+================================================================================
+API #9: Delete Media
+Method & Route: DELETE /api/v1/media/deleteMedia/{prod_id}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X DELETE http://localhost:8080/api/v1/media/deleteMedia/1 \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+================================================================================
+API #10: Create SEO
+Method & Route: POST /api/v1/seo/create
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/seo/create \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "productId": 1,
+    "metaTitle": "Premium Sofa - Buy Online",
+    "metaDescription": "Best quality sofas available online",
+    "keywords": ["sofa", "furniture", "home"],
+    "canonicalUrl": "https://site.com/sofa-1"
+  }'
+
+================================================================================
+API #11: Update SEO
+Method & Route: PUT /api/v1/seo/updateSEO/{prod_id}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X PUT http://localhost:8080/api/v1/seo/updateSEO/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "metaTitle": "Updated Premium Sofa Title",
+    "metaDescription": "Updated description for SEO",
+    "keywords": ["premium", "sofa", "luxury"]
+  }'
+
+================================================================================
+API #12: Delete SEO
+Method & Route: DELETE /api/v1/seo/deleteSEO/{prod_id}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X DELETE http://localhost:8080/api/v1/seo/deleteSEO/1 \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+================================================================================
+API #13: Create Specifications
+Method & Route: POST /api/v1/specifications/create
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/specifications/create \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "productId": 1,
+    "dimensions": {"length": 200, "width": 100, "height": 80},
+    "weight": 50.5,
+    "material": "Premium Wood",
+    "color": "Brown",
+    "warranty": "2 years"
+  }'
+
+================================================================================
+API #14: Update Specifications
+Method & Route: PUT /api/v1/specifications/updateSpecifications/{prod_id}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X PUT http://localhost:8080/api/v1/specifications/updateSpecifications/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "dimensions": {"length": 220, "width": 110, "height": 85},
+    "weight": 55.0,
+    "material": "Updated Premium Wood"
+  }'
+
+================================================================================
+API #15: Delete Specifications
+Method & Route: DELETE /api/v1/specifications/deleteSpecifications/{prod_id}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X DELETE http://localhost:8080/api/v1/specifications/deleteSpecifications/1 \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+================================================================================
+API #16: Create Internal
+Method & Route: POST /api/v1/internal/create
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/internal/create \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "productId": 1,
+    "internalSku": "SKU-001",
+    "supplierCode": "SUP-001",
+    "costPrice": 30000.00,
+    "profitMargin": 25.0,
+    "internalNotes": "High quality product"
+  }'
+
+================================================================================
+API #17: Update Internal
+Method & Route: PUT /api/v1/internal/updateInternal/{prod_id}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X PUT http://localhost:8080/api/v1/internal/updateInternal/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "internalSku": "SKU-001-UPDATED",
+    "costPrice": 32000.00,
+    "profitMargin": 28.0,
+    "internalNotes": "Updated high quality product"
+  }'
+
+================================================================================
+API #18: Delete Internal
+Method & Route: DELETE /api/v1/internal/deleteInternal/{prod_id}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X DELETE http://localhost:8080/api/v1/internal/deleteInternal/1 \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+================================================================================
+API #19: Create Product
+Method & Route: POST /api/v1/products/createProduct
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/products/createProduct \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "productName": "Premium Sofa",
+    "productDescription": "Comfortable premium sofa",
+    "primaryCategoryId": 1,
+    "secondaryCategoryId": 1,
+    "basePrice": 45000.00,
+    "isPublished": true
+  }'
+
+================================================================================
+API #20: Update Product by ID
+Method & Route: PUT /api/v1/products/updateProduct/{prod_id}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X PUT http://localhost:8080/api/v1/products/updateProduct/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "productName": "Updated Premium Sofa",
+    "productDescription": "Updated comfortable premium sofa",
+    "basePrice": 48000.00
+  }'
+
+================================================================================
+API #21: Update All Products
+Method & Route: PUT /api/v1/products/updateAllProducts
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X PUT http://localhost:8080/api/v1/products/updateAllProducts \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "isPublished": true,
+    "discountPercentage": 15
+  }'
+
+================================================================================
+API #22: Delete Product
+Method & Route: DELETE /api/v1/products/deleteProduct/{prod_id}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X DELETE http://localhost:8080/api/v1/products/deleteProduct/1 \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+================================================================================
+API #23: Create Primary Category
+Method & Route: POST /api/v1/categories/createCategory
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/categories/createCategory \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "primaryCategoryName": "FURNITURE",
+    "primaryCategoryDescription": "All furniture items",
+    "imageUrl": "https://example.com/furniture.jpg",
+    "internalTags": ["furniture", "home"]
+  }'
+
+================================================================================
+API #24: Update Primary Category
+Method & Route: PUT /api/v1/categories/updateCategory/{primaryCategoryId}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X PUT http://localhost:8080/api/v1/categories/updateCategory/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "primaryCategoryName": "PREMIUM FURNITURE",
+    "primaryCategoryDescription": "Premium furniture collection",
+    "imageUrl": "https://example.com/premium-furniture.jpg"
+  }'
+
+================================================================================
+API #25: Delete Primary Category
+Method & Route: DELETE /api/v1/categories/deleteCategory/{primaryCategoryId}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X DELETE http://localhost:8080/api/v1/categories/deleteCategory/1 \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+================================================================================
+API #26: Create Secondary Category
+Method & Route: POST /api/v1/secondary-categories/createCategory/{primaryCategoryId}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/secondary-categories/createCategory/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "secondaryCategoryName": "SOFAS",
+    "secondaryCategoryDescription": "All types of sofas",
+    "imageUrl": "https://example.com/sofas.jpg",
+    "internalTags": ["sofas", "seating"]
+  }'
+
+================================================================================
+API #27: Update Secondary Category
+Method & Route: PUT /api/v1/secondary-categories/updateCategory/{secondaryCategoryId}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X PUT http://localhost:8080/api/v1/secondary-categories/updateCategory/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "secondaryCategoryName": "PREMIUM SOFAS",
+    "secondaryCategoryDescription": "Premium sofa collection",
+    "imageUrl": "https://example.com/premium-sofas.jpg"
+  }'
+
+================================================================================
+API #28: Delete Secondary Category
+Method & Route: DELETE /api/v1/secondary-categories/deleteCategory/{secondaryCategoryId}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X DELETE http://localhost:8080/api/v1/secondary-categories/deleteCategory/1 \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+================================================================================
+API #29: Create Brand
+Method & Route: POST /api/v1/brands/create
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/brands/create \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "brandName": "Premium Furniture Co",
+    "brandDescription": "Leading furniture manufacturer",
+    "logoUrl": "https://example.com/logo.jpg",
+    "website": "https://premiumfurniture.com",
+    "isActive": true
+  }'
+
+================================================================================
+API #30: Update Brand
+Method & Route: PUT /api/v1/brands/update/{brandId}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X PUT http://localhost:8080/api/v1/brands/update/1 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "brandName": "Updated Premium Furniture Co",
+    "brandDescription": "Updated leading furniture manufacturer",
+    "isActive": true
+  }'
+
+================================================================================
+API #31: Delete Brand
+Method & Route: DELETE /api/v1/brands/delete/{brandId}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X DELETE http://localhost:8080/api/v1/brands/delete/1 \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+================================================================================
+API #32: CRM Login
+Method & Route: POST /api/crm/login
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/crm/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "crm_user",
+    "password": "password123",
+    "role": "SALES_EXECUTIVE"
+  }'
+
+================================================================================
+API #33: Design Module Login
+Method & Route: POST /api/design/login
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/design/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "designer",
+    "password": "password123",
+    "role": "DESIGNERS"
+  }'
+
+================================================================================
+API #34: Prolance Login
+Method & Route: POST /api/prolance/login
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/prolance/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "prolance_user",
+    "password": "password123",
+    "companyCode": "PROLANCE001"
+  }'
+
+================================================================================
+API #35: Prolance Partner Login
+Method & Route: POST /api/prolance/partner/login
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/prolance/partner/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "partnerId": "PARTNER001",
+    "apiKey": "prolance_api_key_here",
+    "partnerName": "Partner Company Ltd"
+  }'
+
+================================================================================
+API #36: Lead Assignment (Additional API)
+Method & Route: POST /api/leads/assign
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/leads/assign \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "leadId": 123,
+    "assignedTo": "designer_001",
+    "priority": "HIGH",
+    "notes": "Urgent lead assignment"
+  }'
+
+================================================================================
+API #37: Add to Cart
+Method & Route: POST /api/v1/cart/add
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/cart/add \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "productId": 1,
+    "quantity": 2,
+    "selectedVariations": {
+      "color": "Blue",
+      "size": "Large"
+    }
+  }'
+
+================================================================================
+API #38: Update Cart Items
+Method & Route: PUT /api/v1/cart/update
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X PUT http://localhost:8080/api/v1/cart/update \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "cartItemId": 1,
+    "quantity": 3
+  }'
+
+================================================================================
+API #39: Apply Coupon Code
+Method & Route: POST /api/v1/cart/coupon
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/cart/coupon \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "couponCode": "SAVE20",
+    "cartId": 1
+  }'
+
+================================================================================
+API #40: Remove Coupon
+Method & Route: DELETE /api/v1/cart/coupon/{couponId}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X DELETE http://localhost:8080/api/v1/cart/coupon/1 \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+================================================================================
+API #41: Cart to Wishlist
+Method & Route: POST /api/v1/cart/wishlist
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/cart/wishlist \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "cartItemIds": [1, 2, 3]
+  }'
+
+================================================================================
+API #42: Remove Single Item
+Method & Route: DELETE /api/v1/cart/item/{itemId}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X DELETE http://localhost:8080/api/v1/cart/item/1 \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+================================================================================
+API #43: Clear Cart
+Method & Route: DELETE /api/v1/cart/clear
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X DELETE http://localhost:8080/api/v1/cart/clear \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+================================================================================
+API #44: Wishlist to Cart
+Method & Route: POST /api/v1/wishlist/cart
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/wishlist/cart \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "wishlistItemIds": [1, 2, 3]
+  }'
+
+================================================================================
+API #45: Delete Wishlist Item
+Method & Route: DELETE /api/v1/wishlist/item/{itemId}
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X DELETE http://localhost:8080/api/v1/wishlist/item/1 \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+
+================================================================================
+API #46: Initiate Checkout
+Method & Route: POST /api/v1/checkout/initiate
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/checkout/initiate \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "cartId": 1,
+    "shippingAddress": {
+      "street": "123 Main St",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "pincode": "560001"
+    },
+    "paymentMethod": "UPI"
+  }'
+
+================================================================================
+API #47: Confirm Payment
+Method & Route: POST /api/v1/checkout/confirm
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/checkout/confirm \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "checkoutId": 1,
+    "paymentTransactionId": "TXN123456789",
+    "paymentStatus": "SUCCESS",
+    "paymentMethod": "UPI",
+    "paymentAmount": 45000.00
+  }'
+
+================================================================================
+API #48: Payment Failed
+Method & Route: POST /api/v1/checkout/payment-failed
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/checkout/payment-failed \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "checkoutId": 1,
+    "paymentTransactionId": "TXN123456789",
+    "failureReason": "Insufficient funds",
+    "errorCode": "PAYMENT_FAILED"
+  }'
+
+================================================================================
+API #49: Cancel Checkout
+Method & Route: POST /api/v1/checkout/cancel
+Response DTO: MessageResponse<T>
+--------------------------------------------------------------------------------
+curl -X POST http://localhost:8080/api/v1/checkout/cancel \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -d '{
+    "checkoutId": 1,
+    "cancellationReason": "User cancelled",
+    "refundRequired": true
+  }'
+
